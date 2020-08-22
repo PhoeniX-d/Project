@@ -1,2 +1,2 @@
-C:\Users\Pranav\Desktop\CurlProjects\CurlApplication3\x64\Debug\CurlApplication3.exe
-C:\Users\Pranav\Desktop\CurlProjects\CurlApplication3\x64\Debug\CurlApplication3.pdb
+C:\Users\Pranav\Desktop\CurlProjects\CurlApplication\thecurlproject\x64\Debug\CurlApplication.exe
+C:\Users\Pranav\Desktop\CurlProjects\CurlApplication\thecurlproject\x64\Debug\CurlApplication.pdb
