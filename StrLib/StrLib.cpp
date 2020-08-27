@@ -621,7 +621,7 @@ void Strings::StrCpyRev(const char* cSrc, char* cDest)
 
 ////////////////////////////////////////////////////////////
 //
-//  Name        :StrCpySpace
+//  Name        :StrTrimCpy
 //  Input       :const char*, char*
 //  Returns     :void
 //  Description :copy source string into destination string
@@ -629,7 +629,7 @@ void Strings::StrCpyRev(const char* cSrc, char* cDest)
 //  Date        :24 August 2020
 //
 ////////////////////////////////////////////////////////////
-void Strings::StrCpySpace(const char* cSrc, char* cDest)
+void Strings::StrTrimCpy(const char* cSrc, char* cDest)
 {
     if(cSrc == NULL || cDest == NULL)
     {
@@ -647,7 +647,7 @@ void Strings::StrCpySpace(const char* cSrc, char* cDest)
         cSrc++;
     }
     *cDest = '\0';
-}// end of StrCpySpace
+}// end of StrTrimCpy
 
 ////////////////////////////////////////////////////////////////////////////
 //

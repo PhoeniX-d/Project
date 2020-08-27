@@ -161,10 +161,10 @@ int main()
                 sObj.StrCpyRev(cInput[1], cArr);
                 cout << cArr;
             }
-            else if(sObj.StriCmp(cInput[0], "strcpyspace") == 0)
+            else if(sObj.StriCmp(cInput[0], "StrTrimCpy") == 0)
             {
                 char cArr[MAXLEN * 2] = {'\0'};
-                sObj.StrCpySpace(cInput[1], cArr);
+                sObj.StrTrimCpy(cInput[1], cArr);
                 cout << cArr;
             }            
         }

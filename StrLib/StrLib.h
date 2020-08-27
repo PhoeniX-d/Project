@@ -31,7 +31,7 @@ class Strings
         void StrCpyCapX(const char*, char*);
         void StrCpyLwr(const char*, char*);
         void StrCpyLwrX(const char*, char*);
-        void StrCpySpace(const char*, char*);
+        void StrTrimCpy(const char*, char*);
         void StrCpyRev(const char*, char*);
         void StrCpyTgl(const char*, char*);
         void StrRev(char*);
