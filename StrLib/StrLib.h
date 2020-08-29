@@ -1,4 +1,4 @@
-
+// Header File
 #include<iostream>
 #include<stdio.h>
 
@@ -16,6 +16,8 @@ using namespace std;
 class Strings
 {
     public:
+        void ManPage(const char*);
+        void Help();
         int  StrLen(const char*);
         void StrLwr(char*);
         void StrNLwr(char*, int, char);
@@ -23,7 +25,10 @@ class Strings
         void StrNUpr(char*, int, char);
         void StrTgl(char*);
         void StrNTgl(char*, int, char);
+        void StrTglRev(char*);
         void StrCat(char*, const char*);
+        void StrCatAltr(const char*, char*);
+        void StrCatRev(char*, const char*);
         void StrNCat(char*, const char*, int, char);
         void StrCpy(const char*, char*);
         void StrNCpy(const char*, char*, int, char);
@@ -32,9 +37,11 @@ class Strings
         void StrCpyLwr(const char*, char*);
         void StrCpyLwrX(const char*, char*);
         void StrTrimCpy(const char*, char*);
+        void StrTrimCpyX(const char*, char*);
         void StrCpyRev(const char*, char*);
         void StrCpyTgl(const char*, char*);
         void StrRev(char*);
+        void StrFirstCap(char*);
         void StrNRev(char*, int, char);
         void StrRangeRev(char*, int, int);
         int  StrCmp(const char*, const char*);
@@ -56,4 +63,5 @@ class Strings
         int  CountUpr(const char *);
         int  CountSpace(const char *);
         int  CountSpecials(const char *);
+        int  LargestWord(const char *);
 };
