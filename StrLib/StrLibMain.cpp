@@ -1,4 +1,5 @@
 
+// Entry Point Function File
 #include "StrLib.cpp"
 
 int main()
@@ -25,9 +26,13 @@ int main()
             {
                 system("cls");
             }
-            if(sObj.StriCmp(cInput[0], "exit") == 0)
+            else if(sObj.StriCmp(cInput[0], "exit") == 0)
             {
                 bRunning = false;
+            }
+            else if(sObj.StriCmp(cInput[0], "help") == 0)
+            {
+                sObj.Help();
             }
         }
         else if(iCount == 2)
@@ -52,9 +57,20 @@ int main()
                 sObj.StrTgl(cInput[1]);
                 cout << cInput[1];
             }
+            else if(sObj.StriCmp(cInput[0], "strtglrev") == 0)
+            {
+                sObj.StrTglRev(cInput[1]);
+                cout << cInput[1];
+            }
             else if(sObj.StriCmp(cInput[0], "strrev") == 0)
             {
                 sObj.StrRev(cInput[1]);
+                cout << cInput[1];
+            }
+             else if(sObj.StriCmp(cInput[0], "strfirstcap") == 0)
+            {
+                char cArr[MAXLEN * 2] = {'\0'};
+                sObj.StrFirstCap(cInput[1]);
                 cout << cInput[1];
             }
             else if(sObj.StriCmp(cInput[0], "ispldrm") == 0)
@@ -161,18 +177,39 @@ int main()
                 sObj.StrCpyRev(cInput[1], cArr);
                 cout << cArr;
             }
-            else if(sObj.StriCmp(cInput[0], "StrTrimCpy") == 0)
+            else if(sObj.StriCmp(cInput[0], "strtrimcpy") == 0)
             {
                 char cArr[MAXLEN * 2] = {'\0'};
                 sObj.StrTrimCpy(cInput[1], cArr);
                 cout << cArr;
-            }            
+            }
+            else if(sObj.StriCmp(cInput[0], "strtrimcpyx") == 0)
+            {
+                char cArr[MAXLEN * 2] = {'\0'};
+                sObj.StrTrimCpyX(cInput[1], cArr);
+                cout << cArr;
+            }
+            else if(sObj.StriCmp(cInput[0], "largestw") == 0)
+            {
+                iRet = sObj.LargestWord(cInput[1]);
+                cout << "Length of Largest word is:\t" << iRet;
+            }
+            else if(sObj.StriCmp(cInput[0], "man") == 0)
+            {
+                sObj.StrNSet(cInput[1], '\0', 1, 1);
+                sObj.ManPage(cInput[1]);
+            }
         }
         else if(iCount == 3)
         {
             if(sObj.StriCmp(cInput[0], "strcat") == 0)
             {
                 sObj.StrCat(cInput[1], cInput[2]);
+                cout << cInput[1];
+            }
+            else if(sObj.StriCmp(cInput[0], "strcataltr") == 0)
+            {
+                sObj.StrCatAltr(cInput[1], cInput[2]);
                 cout << cInput[1];
             }
             else if(sObj.StriCmp(cInput[0], "strcmp") == 0)

@@ -1,10 +1,9 @@
-
+// Library File
 /*
 *   Program containing all string library functions
 */
 
 #include "StrLib.h"
-
 
 //////////////////////////////////////////////////////////////////////
 //
@@ -219,9 +218,54 @@ void Strings::StrTgl(char* cSrc)
 
 }// end of StrTgl
 
+////////////////////////////////////////////////////////////////////////////
+//
+//  Name        :StrTglRev
+//  Input       :char*
+//  Returns     :void
+//  Description :reverse the contents of that string by toggling the case
+//  Author      :Pranav Choudhary
+//  Date        :28 August 2020
+//
+/////////////////////////////////////////////////////////////////////////////
+void Strings::StrTglRev(char* cSrc)
+{
+    if(cSrc == NULL)
+    {
+        printf("Invalid Input\n");
+        return;
+    }
+
+    char *cStart = cSrc;
+    char *cEnd = cSrc;
+    char cTemp = '\0';
+
+    while(*cEnd != '\0' && *cEnd != '\n')
+    {
+        if(*cEnd >= 'a' && *cEnd <= 'z')
+        {
+            *cEnd = *cEnd - 32;
+        }
+        else if(*cEnd >= 'A' && *cEnd <= 'Z')
+        {
+            *cEnd = *cEnd + 32;
+        }
+        cEnd++;
+    }
+    cEnd--;
+    while(cStart < cEnd)
+    {
+        cTemp = *cStart;
+        *cStart = *cEnd;
+        *cEnd = cTemp;
+        cStart++;
+        cEnd--;
+    }
+}// end of StrTglRev
+
 //////////////////////////////////////////////////////////////////////
 //
-//  Name        :StrTgl
+//  Name        :StrNTgl
 //  Input       :const char*
 //  Returns     :void
 //  Description :Toggle case of entered string
@@ -311,6 +355,78 @@ void Strings::StrCat(char* cStr1, const char* cStr2)
     }
     *cStr1 = '\0';
 }
+
+////////////////////////////////////////////////////////////
+//
+//  Name        :StrCatRev
+//  Input       :char*, const char*
+//  Returns     :void
+//  Description :concate 2nd string to first in reverse
+//  Author      :Pranav Choudhary
+//  Date        :22 August 2020
+//
+////////////////////////////////////////////////////////////
+void Strings::StrCatRev(char* cDest, const char* cSrc)
+{
+    if(cDest == NULL || cSrc == NULL)
+    {
+        printf("Invalid Input\n");
+        return;
+    }
+    const char *cEnd = cSrc;
+
+    while(*cDest != '\0' && *cDest != '\n')
+    {
+        cDest++;
+    }
+    while(*(cEnd + 1) != '\0' && *(cEnd + 1) != '\n')
+    {
+        cEnd++;
+    }
+
+    while(cEnd != (cSrc - 1))
+    {
+        *cDest = *cEnd;
+        cEnd--;
+        cDest++;
+    }
+    *cDest = '\0';
+}// end of StrCatRev
+
+////////////////////////////////////////////////////////////
+//
+//  Name        :StrCatAltr
+//  Input       :char*, const char*
+//  Returns     :void
+//  Description :concate two strings
+//  Author      :Pranav Choudhary
+//  Date        :22 August 2020
+//
+////////////////////////////////////////////////////////////
+void Strings::StrCatAltr(const char* cSrc, char* cDest)
+{
+    if(cDest == NULL || cSrc == NULL)
+    {
+        printf("Invalid Input\n");
+        return;
+    }
+    while(*cDest != '\0' && *cDest != '\n')
+    {
+        cDest++;
+    }
+    while(*cSrc != '\0' && *cSrc != '\n')
+    {
+        *cDest = *cSrc;
+        if (*(cSrc + 1) == '\0' && *(cSrc + 1) != '\n')
+        {
+            cDest++;
+            break;
+        }
+        cSrc = cSrc + 2;           
+        cDest++;
+    }
+    *cDest = '\0';
+}// end of StrCatAltr
 
 ////////////////////////////////////////////////////////////
 //
@@ -649,6 +765,46 @@ void Strings::StrTrimCpy(const char* cSrc, char* cDest)
     *cDest = '\0';
 }// end of StrTrimCpy
 
+////////////////////////////////////////////////////////////
+//
+//  Name        :StrTrimCpyX
+//  Input       :const char*, char*
+//  Returns     :void
+//  Description :function that removes extra spaces
+//  Author      :Pranav Choudhary
+//  Date        :27 August 2020
+//
+////////////////////////////////////////////////////////////
+void Strings::StrTrimCpyX(const char* cSrc, char* cDest)
+{
+    if(cSrc == NULL || cDest == NULL)
+    {
+        printf("Invalid Input\n");
+        return;
+    }
+    while(*cSrc != '\0' && *cSrc != '\n')
+    {
+        if(*cSrc == ' ')
+		{
+			while((*cSrc == ' ' || *cSrc == '\t') && (*cSrc != '\0') && *cSrc != '\n')
+			{
+				cSrc++;
+			}
+		}
+		else
+		{
+			while(*cSrc != ' ' && *cSrc != '\0' && *cSrc != '\n')
+			{
+				*cDest=*cSrc;
+				cSrc++;
+				cDest++;
+			}
+			*cDest=*cSrc;
+			cDest++;		
+		}
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////
 //
 //  Name        :StrCpyTgl
@@ -724,6 +880,49 @@ void Strings::StrRev(char* cSrc)
         cStart++;
     }
 }// end of StrRev
+
+//////////////////////////////////////////////////////////////////////
+//
+//  Name        :FirstCharCap
+//  Input       :char *
+//  Returns     :void
+//  Description :replace each occurrence of first character of 
+//               each word into capital case
+//  Author      :Pranav Choudhary
+//  Date        :29 August 2020
+//
+//////////////////////////////////////////////////////////////////////
+void Strings::StrFirstCap(char *cStr)
+{
+    if(NULL == cStr)
+    {
+        printf("Invalid Input\n");
+        return;
+    }
+
+    while(*cStr != '\0' && *cStr != '\0')
+    {
+        if(*cStr == ' ')
+		{
+			while((*cStr == ' ' || *cStr == '\t') && (*cStr != '\0') && (*cStr != '\0'))
+			{
+				cStr++;
+			}
+		}
+		else
+		{
+            if(*cStr >= 'a' && *cStr <= 'z')
+            {
+                *cStr = *cStr - 32;
+            }
+			while(*cStr != ' ' && *cStr != '\0' && (*cStr != '\0'))
+			{
+                cStr++;
+            }
+        }
+        cStr++; 
+    }
+}// end of StrFirstCap
 
 //////////////////////////////////////////////////////////////////////
 //
@@ -901,8 +1100,8 @@ int Strings::StriCmp(const char* cStr1, const char* cStr2)
         cout << "Invalid Input\n" ;
         return ERROR;
     }
-
-    while(*cStr1 != '\0' && *cStr2 != '\0' && *cStr1 != '\n' && *cStr2 != '\n')
+   
+    while(*cStr1 != '\0' && *cStr2 != '\0')
     {
         if((*cStr1 != *cStr2) && (*cStr1 != *cStr2 + 32) && (*cStr1 != *cStr2 - 32))
         {
@@ -934,32 +1133,29 @@ int Strings::StrNCmp(const char* cStr1, const char* cStr2, int iN, char cFlag)
         cout << "Invalid Input\n" ;
         return ERROR;
     }
+    
+    const char *cEnd1 = cStr1;
+    const char *cEnd2 = cStr2;
+
     if(iN < 0)
     {
         iN = -iN;
     }
     if(cFlag == FIRST)
     {
-        while(*cStr1 == *cStr2 && iN != 0)
+        while(*cEnd1 == *cEnd2 && iN != 0)
         {
-            if((*cStr1 == '\0' || *cStr1 == '\n') && iN != 0)
+            if((*cEnd1 == '\0' || *cEnd1 == '\n') && iN != 0)
             {
                 break;
             }
-            cStr1++;
-            cStr2++;
+            cEnd1++;
+            cEnd2++;
             iN--;
         }
-        if(*cStr1 == *cStr2)
-            return 0;
-        else
-            return *cStr1 - *cStr2;
     }
     else if(cFlag == LAST)
     {
-        const char *cEnd1 = cStr1;
-        const char *cEnd2 = cStr2;
-
         while(*(cEnd1 + 1) != '\0' && *(cEnd1 + 1) != '\n')
         {
             cEnd1++;
@@ -979,11 +1175,12 @@ int Strings::StrNCmp(const char* cStr1, const char* cStr2, int iN, char cFlag)
             cEnd2--;
             iN--;
         }
-        if (*cEnd1 == *cEnd2)
-            return 0;
-        else
-            return *cEnd1- *cEnd2;
     }
+    if (*cEnd1 == *cEnd2)
+        return 0;
+    else
+        return *cEnd1 - *cEnd2;
+
 }// end of StrNCmp()
 
 ////////////////////////////////////////////////////////////
@@ -1003,32 +1200,30 @@ int Strings::StriNCmp(const char* cStr1, const char* cStr2, int iN, char cFlag)
         cout << "Invalid Input\n" ;
         return ERROR;
     }
+
+    const char *cEnd1 = cStr1;
+    const char *cEnd2 = cStr2;
+
     if(iN < 0)
     {
         iN = -iN;
     }
+
     if(cFlag == FIRST)
     {
-        while(*cStr1 != '\0' && *cStr2 != '\0' && *cStr1 != '\n' && *cStr2 != '\n' && iN != 0)
+        while(*cEnd1 != '\0' && *cEnd2 != '\0' && *cEnd1 != '\n' && *cEnd2 != '\n' && iN != 0)
         {
-            if((*cStr1 != *cStr2) && (*cStr1 != *cStr2 + 32) && (*cStr1 != *cStr2 - 32) && iN != 0)
+            if((*cEnd1 != *cEnd2) && (*cEnd1 != *cEnd2 + 32) && (*cEnd1 != *cEnd2 - 32) && iN != 0)
             {
                 break;
             }
-            cStr1++;
-            cStr2++;
+            cEnd1++;
+            cEnd2++;
             iN--;
         }
-        if(*cStr1 == *cStr2)
-            return 0;
-        else
-            return *cStr1 - *cStr2;
     }
     else if(cFlag == LAST)
     {
-        const char *cEnd1 = cStr1;
-        const char *cEnd2 = cStr2;
-
         while(*(cEnd1 + 1) != '\0' && *(cEnd1 + 1) != '\n')
         {
             cEnd1++;
@@ -1048,11 +1243,12 @@ int Strings::StriNCmp(const char* cStr1, const char* cStr2, int iN, char cFlag)
             cEnd2--;
             iN--;
         }
-        if (*cEnd1 == *cEnd2)
-            return 0;
-        else
-            return *cEnd1- *cEnd2;
     }
+    if (*cEnd1 == *cEnd2)
+        return 0;
+    else
+        return *cEnd1- *cEnd2;
+
 }// end of StrNCmp()
 
 //////////////////////////////////////////////////////////////////////
@@ -1128,38 +1324,43 @@ void Strings::StrNSet(char *cSrc, char ch, int iN, char cFlag)
 
 }// end of StrNSet
 
-
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :WordCnt
-//  Input       :char *
+//  Input       :const char *
 //  Returns     :int
 //  Description :count words in given string
 //  Author      :Pranav Choudhary
-//  Date        :24 August 2020
+//  Date        :22 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-int Strings::WordCnt(const char *cSrc)
+int Strings::WordCnt(const char *cStr)
 {
     int iCnt = 0;
-    int iState = OUT;
-    if(NULL == cSrc)
+    if(NULL == cStr)
     {
-        cout << "Invalid Input\n" ;
+        printf("Invalid Input\n");
         return ERROR;
     }
-    while (*cSrc != '\0' && *cSrc != '\n')
+       
+    while(*cStr != '\0' && *cStr != '\n')
     {
-        if(*cSrc == ' ')
-        {
-            iState = OUT;
-        }
-        else if(iState == OUT)
-        {   
-            iState = IN;
+        if(*cStr == ' ')
+		{
+			while((*cStr == ' ' || *cStr == '\t') && (*cStr != '\0') && (*cStr != '\n'))
+			{
+				cStr++;
+			}
+		}
+		else
+		{
+			while(*cStr != ' ' && *cStr != '\0' && *cStr != '\n' )
+			{
+                cStr++;
+            }
             iCnt++;
         }
-        cSrc++;
+        cStr++; 
     }
     return iCnt;
 }
@@ -1628,3 +1829,381 @@ int Strings::CountSpace(const char *cSrc)
     }
     return iCnt;
 }// end of CountSpace
+
+//////////////////////////////////////////////////////////////////////
+//
+//  Name        :LargestWord
+//  Input       :const char *
+//  Returns     :int
+//  Description :program which accept string from user and return 
+//               length of largest word
+//  Author      :Pranav Choudhary
+//  Date        :27 August 2020
+//
+//////////////////////////////////////////////////////////////////////
+int Strings::LargestWord(const char *cStr)
+{
+    int iMax = 0 ,i = 0 ,iCnt = 0;
+
+    if(cStr == NULL)
+    {
+        printf("Invalid Input\n");
+        return -1;
+    }
+
+    while(*cStr != '\0' && *cStr != '\n')
+    {
+        if(*cStr == ' ')
+		{
+			while((*cStr == ' ' || *cStr == '\t') && *cStr != '\0' && *cStr != '\n')
+			{
+				cStr++;
+			}
+		}
+		else
+		{
+			while(*cStr != ' ' && *cStr != '\0' && *cStr != '\n')
+			{
+                iCnt++;
+                cStr++;
+            }					
+		}
+        if(iCnt > iMax)
+        {
+            iMax = iCnt;
+        }
+        iCnt = 0;
+        cStr++; 
+    }
+    return iMax;
+}
+
+////////////////////////////////////////////////////////////////////
+//
+//  Name        :ManPage
+//  Input       :const char*, const char*
+//  Returns     :void
+//  Description :Man Page for commands
+//  Author      :Pranav Choudhary
+//  Date        :29 Aug 2020
+//
+////////////////////////////////////////////////////////////////////
+void Strings::ManPage(const char* cCmd)
+{
+    if(StriCmp(cCmd, "strlen") == 0)
+    {
+        cout << "Description     :Computes length of enterd string\n";
+        cout << "Usage           :strlen Input_String\n";
+    }
+    else if(StriCmp(cCmd, "man") == 0)
+    {
+        cout << "Description     :Displays how to use command\n";
+        cout << "Usage           :man Input_Command\n";
+    }
+    else if(StriCmp(cCmd, "strlwr") == 0)
+    {
+        cout << "Description     :converts entire string into lower case\n";
+        cout << "Usage           :strlwr Input_String\n";
+    }
+    else if(StriCmp(cCmd, "strupr") == 0)
+    {
+        cout << "Description     :converts entire string into upper case\n";
+        cout << "Usage           :strupr Input_String\n";
+    }
+    else if(StriCmp(cCmd, "strnlwr") == 0)
+    {
+        cout << "Description     :converts string into lower case\n";
+        cout << "                 if Flag = 0, then first N characters are converted\n";
+        cout << "                 if Flag = 1, then last N characters are converted\n";
+        cout << "Usage           :strnlwr Input_String  N   Flag\n";
+    }
+    else if(StriCmp(cCmd, "strnupr") == 0)
+    {
+        cout << "Description     :converts string into upper case\n";
+        cout << "                 if Flag = 0, then first N characters are converted\n";
+        cout << "                 if Flag = 1, then last N characters are converted\n";
+        cout << "Usage           :strnupr Input_String  N    Flag\n";
+    }
+    else if(StriCmp(cCmd, "strtgl") == 0)
+    {
+        cout << "Description     :toggles characters in string\n";
+        cout << "Usage           :strtgl Input_String\n";
+    }
+    else if(StriCmp(cCmd, "strntgl") == 0)
+    {
+        cout << "Description     :toggles characters in string\n";
+        cout << "                 if Flag = 0, then first N characters are toggled\n";
+        cout << "                 if Flag = 1, then last N characters are toggled\n";
+        cout << "Usage           :strntgl Input_String  N    Flag\n";
+    }
+    else if(StriCmp(cCmd, "strtglrev") == 0)
+    {
+        cout << "Description     :toggles characters in string in reverse\n";
+        cout << "Usage           :strtglrev Input_String\n";
+    }
+    else if(StriCmp(cCmd, "strcat") == 0)
+    {
+        cout << "Description     :concatinates src string into destination\n";
+        cout << "Usage           :strcat Input_String1  Input_String2\n";
+    }
+    else if(StriCmp(cCmd, "strcataltr") == 0)
+    {
+        cout << "Description     :concatinates alternative chars from src string into destination\n";
+        cout << "Usage           :strcataltr Input_String1  Input_String2\n";
+    }
+    else if(StriCmp(cCmd, "strcatrev") == 0)
+    {
+        cout << "Description     :concatinates src string into destination in reverse\n";
+        cout << "Usage           :strcatrev Input_String1  Input_String2\n";
+    }
+    else if(StriCmp(cCmd, "strncat") == 0)
+    {
+        cout << "Description     :concatinates src string into destination\n";
+        cout << "                 if Flag = 0, then first N characters are concatinated\n";
+        cout << "                 if Flag = 1, then last N characters are concatinated\n";
+        cout << "Usage           :strncat Input_String1  Input_String2  N   Flag\n";
+    }
+    else if(StriCmp(cCmd, "strcpy") == 0)
+    {
+        cout << "Description     :copies src string into destination\n";
+        cout << "Usage           :strcpy Input_String\n";
+    }
+    else if(StriCmp(cCmd, "strfirstcap") == 0)
+    {
+        cout << "Description     :capitalize each words first character\n";
+        cout << "Usage           :strfirstcap Input_String\n";
+    }
+    else if(StriCmp(cCmd, "strncpy") == 0)
+    {
+        cout << "Description     :copies src string into destination\n";
+        cout << "                 if Flag = 0, then first N characters are copied\n";
+        cout << "                 if Flag = 1, then last N characters are copied\n";
+        cout << "Usage           :strncpy Input_String  N   Flag\n";
+    }
+    else if(StriCmp(cCmd, "strcpycap") == 0)
+    {
+        cout << "Description     :copies capitals chars from src string into destination\n";
+        cout << "Usage           :strcpycap Input_String\n";
+    }
+    else if(StriCmp(cCmd, "strcpycapx") == 0)
+    {
+        cout << "Description     :copies capitals chars from src string into destination by toggling case\n";
+        cout << "Usage           :strcpycapx Input_String\n";
+    }
+    else if(StriCmp(cCmd, "strcpylwr") == 0)
+    {
+        cout << "Description     :copies lower chars from src string into destination\n";
+        cout << "Usage           :strcpylwr Input_String\n";
+    }
+    else if(StriCmp(cCmd, "strcpylwrx") == 0)
+    {
+        cout << "Description     :copies lower chars from src string into destination by toggling case\n";
+        cout << "Usage           :strcpylwrx Input_String\n";
+    }
+    else if(StriCmp(cCmd, "strtrimcpy") == 0)
+    {
+        cout << "Description     :copies src string into destination without spaces\n";
+        cout << "Usage           :strtrimcpy Input_String\n";
+    }
+    else if(StriCmp(cCmd, "strtrimcpyx") == 0)
+    {
+        cout << "Description     :copies src string into destination by removing extra spaces\n";
+        cout << "Usage           :strtrimcpyx Input_String\n";
+    }
+    else if(StriCmp(cCmd, "strcpytgl") == 0)
+    {
+        cout << "Description     :copies src string into destination by toggling case\n";
+        cout << "Usage           :strcpytgl Input_String\n";
+    }
+    else if(StriCmp(cCmd, "strcpyrev") == 0)
+    {
+        cout << "Description     :copies src string into destination in reverse\n";
+        cout << "Usage           :strcpyrev Input_String\n";
+    }
+    else if(StriCmp(cCmd, "strrev") == 0)
+    {
+        cout << "Description     :reverses string\n";
+        cout << "Usage           :strrev Input_String\n";
+    }
+    else if(StriCmp(cCmd, "strnrev") == 0)
+    {
+        cout << "Description     :reverses string\n";
+        cout << "                 if Flag = 0, then first N characters are reversed\n";
+        cout << "                 if Flag = 1, then last N characters are reversed\n";
+        cout << "Usage           :strnrev Input_String   N  Flag\n";
+    }
+    else if(StriCmp(cCmd, "strrangerev") == 0)
+    {
+        cout << "Description     :reverses string in given range\n";
+        cout << "Usage           :strrangerev Input_String   start  end\n";
+    }
+    else if(StriCmp(cCmd, "strcmp") == 0)
+    {
+        cout << "Description     :compares two strings\n";
+        cout << "Usage           :strcmp Input_String1  Input_String2\n";
+    }
+    else if(StriCmp(cCmd, "stricmp") == 0)
+    {
+        cout << "Description     :compares two strings witout considering case\n";
+        cout << "Usage           :stricmp Input_String1  Input_String2\n";
+    }
+    else if(StriCmp(cCmd, "strncmp") == 0)
+    {
+        cout << "Description     :compares two strings\n";
+        cout << "                 if Flag = 0, then first N characters are compared\n";
+        cout << "                 if Flag = 1, then last N characters are compared\n";
+        cout << "Usage           :strncmp Input_String1 Input_String2   N\n";
+    }
+    else if(StriCmp(cCmd, "strincmp") == 0)
+    {
+        cout << "Description     :compares two strings witout considering case\n";
+        cout << "                 if Flag = 0, then first N characters are compared\n";
+        cout << "                 if Flag = 1, then last N characters are compared\n";
+        cout << "Usage           :strincmp Input_String1 Input_String2   N  Flag\n";
+    }
+    else if(StriCmp(cCmd, "strset") == 0)
+    {
+        cout << "Description     :set characters in string with specified character\n";
+        cout << "Usage           :strset Input_String1  char\n";
+    }
+    else if(StriCmp(cCmd, "strnset") == 0)
+    {
+        cout << "Description     :set N characters in string with specified character\n";
+        cout << "                 if Flag = 0, then first N characters are set\n";
+        cout << "                 if Flag = 1, then last N characters are set\n";
+        cout << "Usage           :strnset Input_String1  char   N   Flag\n";
+    }
+    else if(StriCmp(cCmd, "ispldrm") == 0)
+    {
+        cout << "Description     :checks string is Palindrome or not\n";
+        cout << "Usage           :ispldrm Input_String\n";
+    }
+    else if(StriCmp(cCmd, "isipldrm") == 0)
+    {
+        cout << "Description     :checks string is Palindrome or not witout considering case\n";
+        cout << "Usage           :isipldrm Input_String\n";
+    }
+    else if(StriCmp(cCmd, "isagrm") == 0)
+    {
+        cout << "Description     :checks strings are Anagram or not\n";
+        cout << "Usage           :isagrm Input_String1 Input_String2\n";
+    }
+    else if(StriCmp(cCmd, "wordcnt") == 0)
+    {
+        cout << "Description     :counts words in string\n";
+        cout << "Usage           :wordcnt Input_String\n";
+    }
+    else if(StriCmp(cCmd, "wordrev") == 0)
+    {
+        cout << "Description     :reverse each word in string\n";
+        cout << "Usage           :wordrev Input_String\n";
+    }
+    else if(StriCmp(cCmd, "maxoccur") == 0)
+    {
+        cout << "Description     :counts maximum occuring character in string\n";
+        cout << "Usage           :maxoccur Input_String\n";
+    }
+    else if(StriCmp(cCmd, "firstoccur") == 0)
+    {
+        cout << "Description     :find first position of character in string\n";
+        cout << "Usage           :firstoccur Input_String   char\n";
+    }
+    else if(StriCmp(cCmd, "lastoccur") == 0)
+    {
+        cout << "Description     :find last position of character in string\n";
+        cout << "Usage           :lastoccur Input_String   char\n";
+    }
+    else if(StriCmp(cCmd, "charscnt") == 0)
+    {
+        cout << "Description     :counts total alphabets, digits, special characters, words in string\n";
+        cout << "Usage           :charscnt Input_String\n";
+    }
+    else if(StriCmp(cCmd, "countlwr") == 0)
+    {
+        cout << "Description     :counts lower characters in string\n";
+        cout << "Usage           :countlwr Input_String\n";
+    }
+    else if(StriCmp(cCmd, "countupr") == 0)
+    {
+        cout << "Description     :counts upper characters in string\n";
+        cout << "Usage           :countupr Input_String\n";
+    }
+    else if(StriCmp(cCmd, "countspace") == 0)
+    {
+        cout << "Description     :counts spaces characters in string\n";
+        cout << "Usage           :countspace Input_String\n";
+    }
+    else if(StriCmp(cCmd, "countspecial") == 0)
+    {
+        cout << "Description     :counts special characters in string\n";
+        cout << "Usage           :countspecial Input_String\n";
+    }
+    else if(StriCmp(cCmd, "largestw") == 0)
+    {
+        cout << "Description     :computes legth of largest word in string\n";
+        cout << "Usage           :largestw Input_String\n";
+    } 
+}// end of ManPage
+
+////////////////////////////////////////////////////////////////////
+//
+//  Name        :ManPage
+//  Input       :const char*, const char*
+//  Returns     :void
+//  Description :Man Page for commands
+//  Author      :Pranav Choudhary
+//  Date        :29 Aug 2020
+//
+////////////////////////////////////////////////////////////////////
+void Strings::Help()
+{
+    cout << "help\n" <<endl;
+    cout << "To Use        :type \'command<space>InP1<tab>InP2<tab>InP3<tab>InP4<Enter key>\'\n\n";
+    cout << "ManPage       :type \'man man\' - to see more" << endl;
+    cout << "StrLen        :type \'man strlen\' - to see more" << endl;
+    cout << "StrLwr        :type \'man strlwr\' - to see more" << endl;
+    cout << "StrNLwr       :type \'man strnlwr\' - to see more" << endl;
+    cout << "StrUpr        :type \'man strupr\' - to see more" << endl;
+    cout << "StrNUpr       :type \'man strnupr\' - to see more" << endl;
+    cout << "StrTgl        :type \'man strtgl\' - to see more" << endl;
+    cout << "StrNTgl       :type \'man strntgl\' - to see more" << endl;
+    cout << "StrTglRev     :type \'man strtglrev\' - to see more" << endl;
+    cout << "StrCat        :type \'man strcat\' - to see more" << endl;
+    cout << "StrNCat       :type \'man strncat\' - to see more" << endl;
+    cout << "StrCatAltr    :type \'man strcataltr\' - to see more" << endl;
+    cout << "StrCatRev     :type \'man strcatrev\' - to see more" << endl;
+    cout << "StrCpy        :type \'man strcpy\' - to see more" << endl;
+    cout << "StrCpyRev     :type \'man strcpyrev\' - to see more" << endl;
+    cout << "StrCpyTgl     :type \'man strcpytgl\' - to see more" << endl;
+    cout << "StrTrimCpy    :type \'man strtrimcpy\' - to see more" << endl;
+    cout << "StrTrimCpyX   :type \'man strtrimcpyx\' - to see more" << endl;
+    cout << "StrNCpy       :type \'man strncpy\' - to see more" << endl;
+    cout << "StrCpyCap     :type \'man strcpycap\' - to see more" << endl;
+    cout << "StrCpyCapX    :type \'man strcpycapx\' - to see more" << endl;
+    cout << "StrCpyLwr     :type \'man strcpylwr\' - to see more" << endl;
+    cout << "StrCpyLwrX    :type \'man strcpylwrx\' - to see more" << endl;
+    cout << "StrRev        :type \'man strrev\' - to see more" << endl;
+    cout << "StrNRev       :type \'man strnrev\' - to see more" << endl;
+    cout << "StrRangeRev   :type \'man strrangerev\' - to see more" << endl;
+    cout << "StrFirstCap   :type \'man strfirstcap\' - to see more" << endl;
+    cout << "StrCmp        :type \'man strcmp\' - to see more" << endl;
+    cout << "StriCmp       :type \'man stricmp\' - to see more" << endl;
+    cout << "StrNCmp       :type \'man strncmp\' - to see more" << endl;
+    cout << "StriNCmp      :type \'man strincmp\' - to see more" << endl;
+    cout << "StrSet        :type \'man strset\' - to see more" << endl;
+    cout << "StrNSet       :type \'man strnset\' - to see more" << endl;
+    cout << "IsPldrm       :type \'man ispldrm\' - to see more" << endl;
+    cout << "IsiPldrm      :type \'man isipldrm\' - to see more" << endl;
+    cout << "IsAgrm        :type \'man isagrm\' - to see more" << endl;
+    cout << "WordCnt       :type \'man wordcnt\' - to see more" << endl;
+    cout << "WordRev       :type \'man wordrev\' - to see more" << endl;
+    cout << "MaxOccur      :type \'man maxoccur\' - to see more" << endl;
+    cout << "FirstOccur    :type \'man firstoccur\' - to see more" << endl;
+    cout << "LastOccur     :type \'man lastoccur\' - to see more" << endl;
+    cout << "CharsCnt      :type \'man charscount\' - to see more" << endl;
+    cout << "CountLwr      :type \'man countlwr\' - to see more" << endl;
+    cout << "CountUpr      :type \'man countupr\' - to see more" << endl;
+    cout << "CountSpace    :type \'man countspace\' - to see more" << endl;
+    cout << "CountSpecials :type \'man countspecial\' - to see more" << endl;
+    cout << "LargestWord   :type \'man largestw\' - to see more" << endl;
+}
