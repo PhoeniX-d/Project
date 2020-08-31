@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CurlApplication3.cpp">
+    <ClCompile Include="CurlAppliation3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
