@@ -9,7 +9,10 @@
 #define MAX_CHAR       127
 #define FIRST            0
 #define LAST             1
+#define TRUE             1
+#define FALSE            0
 
+typedef char BOOL;
 using namespace std;
 
 // Strings class
@@ -50,14 +53,14 @@ class Strings
         int  StriNCmp(const char*, const char*, int, char);
         void StrSet(char*, char);
         void StrNSet(char*, char, int, char);
-        bool IsPldrm(const char *);
-        bool IsiPldrm(const char *);
-        bool IsAgrm(const char *, const char *);
+        BOOL IsPldrm(const char *);
+        BOOL IsiPldrm(const char *);
+        BOOL IsAgrm(const char *, const char *);
         int  WordCnt(const char*);
         void WordRev(char*);
         void MaxOccur(const char*);
-        int  FirstOccur(const char *, char);
-        int  LastOccur(const char *, char);
+        int  StrChr(const char *, char);
+        int  StrrChr(const char *, char);
         void CharsCnt(const char *);
         int  CountLwr(const char *);
         int  CountUpr(const char *);

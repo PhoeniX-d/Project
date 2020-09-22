@@ -23,7 +23,7 @@ int Strings::StrLen(const char *cSrc)
         return -1;
     }
     int iLen = 0;
-    while(*cSrc != '\0' && *cSrc != '\n')
+    while(*cSrc != '\0')
     {
         iLen++;
         cSrc++;
@@ -47,7 +47,7 @@ void Strings::StrLwr(char* cSrc)
 	{
 		printf("Invalid Input\n");
 	}
-	while(*cSrc !='\0'  && *cSrc != '\n')
+	while(*cSrc !='\0')
 	{
 		if((*cSrc >= 'A') && (*cSrc <= 'Z'))
 		{
@@ -81,7 +81,7 @@ void Strings::StrNLwr(char* cSrc, int iN, char cFlag)
     
     if (cFlag == FIRST)
     {
-        while(*cSrc !='\0'  && *cSrc != '\n' && iN != 0)
+        while(*cSrc !='\0' && iN != 0)
         {
             if((*cSrc >= 'A') && (*cSrc <= 'Z'))
             {
@@ -94,7 +94,7 @@ void Strings::StrNLwr(char* cSrc, int iN, char cFlag)
     else if(cFlag == LAST)
     {
         char *cEnd = cSrc;
-        while(*(cEnd + 1) != '\0'  && *(cEnd + 1) != '\n')
+        while(*(cEnd + 1) != '\0')
         {
             cEnd++;
         }
@@ -126,7 +126,7 @@ void Strings::StrUpr(char* cSrc)
     {
        cout << "Invalid Input\n" ;
     }
-    while(*cSrc !='\0'  && *cSrc != '\n')
+    while(*cSrc !='\0')
     {
         if((*cSrc >= 'a') && (*cSrc <= 'z'))
         {
@@ -158,7 +158,7 @@ void Strings::StrNUpr(char* cSrc, int iN, char cFlag)
     }
     if(cFlag == FIRST)
     {
-        while(*cSrc !='\0' && iN != 0  && *cSrc != '\n')
+        while(*cSrc !='\0' && iN != 0)
         {
             if((*cSrc >= 'a') && (*cSrc <= 'z'))
             {
@@ -171,7 +171,7 @@ void Strings::StrNUpr(char* cSrc, int iN, char cFlag)
     else if(cFlag == LAST)
     {
         char *cEnd = cSrc;
-        while(*(cEnd + 1) != '\0'  && *(cEnd + 1) != '\n')
+        while(*(cEnd + 1) != '\0')
         {
             cEnd++;
         }
@@ -203,7 +203,7 @@ void Strings::StrTgl(char* cSrc)
     {
         cout << "Invalid Input\n" ;
     }
-    while(*cSrc !='\0'  && *cSrc != '\n')
+    while(*cSrc !='\0')
     {
         if((*cSrc >= 'A') && (*cSrc <= 'Z'))
         {
@@ -240,7 +240,7 @@ void Strings::StrTglRev(char* cSrc)
     char *cEnd = cSrc;
     char cTemp = '\0';
 
-    while(*cEnd != '\0' && *cEnd != '\n')
+    while(*cEnd != '\0')
     {
         if(*cEnd >= 'a' && *cEnd <= 'z')
         {
@@ -287,7 +287,7 @@ void Strings::StrNTgl(char* cSrc, int iN, char cFlag)
 
     if(cFlag == FIRST)
     {
-        while(*cSrc !='\0'  && *cSrc != '\n' && iN != 0)
+        while(*cSrc !='\0' && iN != 0)
         {
             if((*cSrc >= 'A') && (*cSrc <= 'Z'))
             {
@@ -304,7 +304,7 @@ void Strings::StrNTgl(char* cSrc, int iN, char cFlag)
     else if(cFlag == LAST)
     {
         char *cEnd = cSrc;
-        while(*(cEnd + 1) != '\0'  && *(cEnd + 1) != '\n')
+        while(*(cEnd + 1) != '\0')
         {
             cEnd++;
         }
@@ -343,11 +343,11 @@ void Strings::StrCat(char* cStr1, const char* cStr2)
         cout << "Invalid Input\n" ;
         return;
     }
-    while(*cStr1 != '\0'  && *cStr1 != '\n')
+    while(*cStr1 != '\0')
     {
         cStr1++;
     }
-    while(*cStr2 != '\0'  && *cStr2 != '\n')
+    while(*cStr2 != '\0')
     {
         *cStr1 = *cStr2;
         cStr2++;
@@ -375,11 +375,11 @@ void Strings::StrCatRev(char* cDest, const char* cSrc)
     }
     const char *cEnd = cSrc;
 
-    while(*cDest != '\0' && *cDest != '\n')
+    while(*cDest != '\0')
     {
         cDest++;
     }
-    while(*(cEnd + 1) != '\0' && *(cEnd + 1) != '\n')
+    while(*(cEnd + 1) != '\0')
     {
         cEnd++;
     }
@@ -410,14 +410,14 @@ void Strings::StrCatAltr(const char* cSrc, char* cDest)
         printf("Invalid Input\n");
         return;
     }
-    while(*cDest != '\0' && *cDest != '\n')
+    while(*cDest != '\0')
     {
         cDest++;
     }
-    while(*cSrc != '\0' && *cSrc != '\n')
+    while(*cSrc != '\0')
     {
         *cDest = *cSrc;
-        if (*(cSrc + 1) == '\0' && *(cSrc + 1) != '\n')
+        if (*(cSrc + 1) == '\0')
         {
             cDest++;
             break;
@@ -450,13 +450,13 @@ void Strings::StrNCat(char* cStr1, const char* cStr2, int iN, char cFlag)
     {
         iN = -iN;
     }
-    while(*cStr1 != '\0'  && *cStr1 != '\n')
+    while(*cStr1 != '\0')
     {
         cStr1++;
     }
     if(cFlag == FIRST)
     {
-        while(*cStr2 != '\0' && iN != 0  && *cStr2 != '\n')
+        while(*cStr2 != '\0' && iN != 0)
         {
             *cStr1 = *cStr2;
             cStr2++;
@@ -468,7 +468,7 @@ void Strings::StrNCat(char* cStr1, const char* cStr2, int iN, char cFlag)
     else if(cFlag == LAST)
     {
         const char *cEnd = cStr2;        
-        while(*(cEnd + 1) != '\0'  && *(cEnd + 1) != '\n')
+        while(*(cEnd + 1) != '\0')
         {
             cEnd++;
         }
@@ -503,7 +503,7 @@ void Strings::StrCpy(const char* cSrc, char* cDest)
         return;
     }
 
-    while(*cSrc != '\0' && *cSrc != '\n')
+    while(*cSrc != '\0')
     {
         *cDest = *cSrc;
         cSrc++;
@@ -534,7 +534,7 @@ void Strings::StrNCpy(const char* cSrc, char* cDest, int iN, char cFlag)
 
     if(cFlag == FIRST)
     {
-        while(*cSrc != '\0' && iN != 0 && *cSrc != '\n')
+        while(*cSrc != '\0' && iN != 0)
         {
             *cDest = *cSrc;
             cSrc++;
@@ -546,7 +546,7 @@ void Strings::StrNCpy(const char* cSrc, char* cDest, int iN, char cFlag)
     else if(cFlag == LAST)
     {
         const char *cEnd = cSrc;
-        while(*(cEnd + 1) != '\0' && *(cEnd + 1 ) != '\n')
+        while(*(cEnd + 1) != '\0')
         {
             cEnd++;
         }
@@ -555,7 +555,7 @@ void Strings::StrNCpy(const char* cSrc, char* cDest, int iN, char cFlag)
             cEnd--;
             iN--;
         }
-        while (*cEnd != '\0' && *cEnd != '\n')
+        while (*cEnd != '\0')
         {
             *cDest = *cEnd;
             cEnd++;
@@ -585,7 +585,7 @@ void Strings::StrCpyCap(const char* cSrc, char* cDest)
         return;
     }
 
-    while(*cSrc != '\0' && *cSrc != '\n')
+    while(*cSrc != '\0')
     {
         if(*cSrc >= 'A' && *cSrc <= 'Z')
         {
@@ -616,7 +616,7 @@ void Strings::StrCpyCapX(const char* cSrc, char* cDest)
         return;
     }
 
-    while(*cSrc != '\0' && *cSrc != '\n')
+    while(*cSrc != '\0')
     {
         if(*cSrc >= 'a' && *cSrc <= 'z')
         {
@@ -652,7 +652,7 @@ void Strings::StrCpyLwr(const char* cSrc, char* cDest)
         return;
     }
 
-    while(*cSrc != '\0' && *cSrc != '\n')
+    while(*cSrc != '\0')
     {
         if(*cSrc >= 'a' && *cSrc <= 'z')
         {
@@ -683,7 +683,7 @@ void Strings::StrCpyLwrX(const char* cSrc, char* cDest)
         return;
     }
 
-    while(*cSrc != '\0' && *cSrc != '\n')
+    while(*cSrc != '\0')
     {
         if(*cSrc >= 'A' && *cSrc <= 'Z')
         {
@@ -719,7 +719,7 @@ void Strings::StrCpyRev(const char* cSrc, char* cDest)
         return;
     }
     int iCnt = 0;
-    while(*cSrc != '\0' && *cSrc != '\n')
+    while(*cSrc != '\0')
     {
         iCnt++;
         cSrc++;
@@ -753,7 +753,7 @@ void Strings::StrTrimCpy(const char* cSrc, char* cDest)
         return;
     }
 
-    while(*cSrc != '\0' && *cSrc != '\n')
+    while(*cSrc != '\0')
     {
         if(*cSrc != ' ')
         {
@@ -782,18 +782,18 @@ void Strings::StrTrimCpyX(const char* cSrc, char* cDest)
         printf("Invalid Input\n");
         return;
     }
-    while(*cSrc != '\0' && *cSrc != '\n')
+    while(*cSrc != '\0')
     {
         if(*cSrc == ' ')
 		{
-			while((*cSrc == ' ' || *cSrc == '\t') && (*cSrc != '\0') && *cSrc != '\n')
+			while((*cSrc == ' ' || *cSrc == '\t') && (*cSrc != '\0'))
 			{
 				cSrc++;
 			}
 		}
 		else
 		{
-			while(*cSrc != ' ' && *cSrc != '\0' && *cSrc != '\n')
+			while(*cSrc != ' ' && *cSrc != '\0')
 			{
 				*cDest=*cSrc;
 				cSrc++;
@@ -823,7 +823,7 @@ void Strings::StrCpyTgl(const char* cSrc, char* cDest)
         return;
     }
 
-    while(*cSrc != '\0' && *cSrc != '\n')
+    while(*cSrc != '\0')
     {
         if(*cSrc >= 'a' && *cSrc <= 'z')
         {
@@ -866,7 +866,7 @@ void Strings::StrRev(char* cSrc)
     char *cStart = cSrc;
     char *cEnd = cSrc;
 
-    while(*(cEnd + 1) != '\0' && *(cEnd + 1) != '\n')
+    while(*(cEnd + 1) != '\0' )
     {
         cEnd++;
     }
@@ -953,7 +953,7 @@ void Strings::StrNRev(char* cSrc, int iN, char cFlag)
     
     if(cFlag == FIRST)
     {
-        while(*cEnd != '\0' && iN != 1 && *cEnd != '\n')
+        while(*cEnd != '\0' && iN != 1)
         {
             iN--;
             cEnd++;
@@ -976,7 +976,7 @@ void Strings::StrNRev(char* cSrc, int iN, char cFlag)
         cStart = cSrc;
         cEnd = NULL;
 
-        while(*(cStart + 1) != '\0' && *(cStart + 1) != '\n')
+        while(*(cStart + 1) != '\0')
         {
             cStart++;
         }
@@ -1070,7 +1070,7 @@ int Strings::StrCmp(const char* cStr1, const char* cStr2)
 
     while(*cStr1 == *cStr2)
     {
-        if(*cStr1 == '\0' || *cStr1 == '\n')
+        if(*cStr1 == '\0')
         {
             break;
         }
@@ -1145,7 +1145,7 @@ int Strings::StrNCmp(const char* cStr1, const char* cStr2, int iN, char cFlag)
     {
         while(*cEnd1 == *cEnd2 && iN != 0)
         {
-            if((*cEnd1 == '\0' || *cEnd1 == '\n') && iN != 0)
+            if(*cEnd1 == '\0' && iN != 0)
             {
                 break;
             }
@@ -1156,7 +1156,7 @@ int Strings::StrNCmp(const char* cStr1, const char* cStr2, int iN, char cFlag)
     }
     else if(cFlag == LAST)
     {
-        while(*(cEnd1 + 1) != '\0' && *(cEnd1 + 1) != '\n')
+        while(*(cEnd1 + 1) != '\0' )
         {
             cEnd1++;
         }
@@ -1224,11 +1224,11 @@ int Strings::StriNCmp(const char* cStr1, const char* cStr2, int iN, char cFlag)
     }
     else if(cFlag == LAST)
     {
-        while(*(cEnd1 + 1) != '\0' && *(cEnd1 + 1) != '\n')
+        while(*(cEnd1 + 1) != '\0' )
         {
             cEnd1++;
         }
-        while(*(cEnd2 + 1) != '\0' && *(cEnd2 + 1) != '\n')
+        while(*(cEnd2 + 1) != '\0')
         {
             cEnd2++;
         }
@@ -1269,7 +1269,7 @@ void Strings::StrSet(char *cSrc, char ch)
         cout << "Invalid Input\n" ;
         return;
     }
-    while(*cSrc != '\0' && *cSrc != '\n')
+    while(*cSrc != '\0')
     {
         *cSrc = ch;
         cSrc++;
@@ -1300,7 +1300,7 @@ void Strings::StrNSet(char *cSrc, char ch, int iN, char cFlag)
     }
     if(cFlag == FIRST)
     {
-        while(*cSrc != '\0' && *cSrc != '\n'  && iN != 0)
+        while(*cSrc != '\0'  && iN != 0)
         {
             *cSrc = ch;
             cSrc++;
@@ -1343,18 +1343,18 @@ int Strings::WordCnt(const char *cStr)
         return ERROR;
     }
        
-    while(*cStr != '\0' && *cStr != '\n')
+    while(*cStr != '\0')
     {
         if(*cStr == ' ')
 		{
-			while((*cStr == ' ' || *cStr == '\t') && (*cStr != '\0') && (*cStr != '\n'))
+			while((*cStr == ' ' || *cStr == '\t') && (*cStr != '\0'))
 			{
 				cStr++;
 			}
 		}
 		else
 		{
-			while(*cStr != ' ' && *cStr != '\0' && *cStr != '\n' )
+			while(*cStr != ' ' && *cStr != '\0')
 			{
                 cStr++;
             }
@@ -1386,7 +1386,7 @@ void Strings::WordRev(char* cSrc)
     char *cStart = cSrc;
     char *cEnd = cSrc;
 
-    while(*cSrc != '\0'  && *cSrc != '\n')
+    while(*cSrc != '\0')
     {
         cEnd = cStart;
         while(*cEnd != ' ' && *cEnd != '\0')
@@ -1428,7 +1428,7 @@ void Strings::MaxOccur(const char *cSrc)
         cout << "Invalid Input\n" ;
         return;
     }
-    while (*cSrc != '\0'  && *cSrc != '\n')
+    while (*cSrc != '\0')
     {
         iChars[*cSrc]++;
         cSrc++;
@@ -1451,7 +1451,7 @@ void Strings::MaxOccur(const char *cSrc)
 
 //////////////////////////////////////////////////////////////////////
 //
-//  Name        :FirstOccur
+//  Name        :strchr
 //  Input       :const char*, char
 //  Returns     :int
 //  Description :return position of first occurance of entered 
@@ -1460,10 +1460,10 @@ void Strings::MaxOccur(const char *cSrc)
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-int Strings::FirstOccur(const char *cSrc, char ch)
+int Strings::StrChr(const char *cSrc, char ch)
 {
     int iCnt = -1;
-    while(*cSrc != '\0'  && *cSrc != '\n')
+    while(*cSrc != '\0')
     {
         if(*cSrc == ch)
         {
@@ -1473,7 +1473,7 @@ int Strings::FirstOccur(const char *cSrc, char ch)
         iCnt++;
         cSrc++;
     }
-    if(*cSrc == '\0'  && *cSrc != '\n')
+    if(*cSrc == '\0')
         return -1;
     else
         return iCnt;
@@ -1481,7 +1481,7 @@ int Strings::FirstOccur(const char *cSrc, char ch)
 
 //////////////////////////////////////////////////////////////////////
 //
-//  Name        :LastOccur
+//  Name        :StrrChr
 //  Input       :const char*, char
 //  Returns     :int
 //  Description :return position of last occurance of entered 
@@ -1490,7 +1490,7 @@ int Strings::FirstOccur(const char *cSrc, char ch)
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-int Strings::LastOccur(const char *cSrc, char ch)
+int Strings::StrrChr(const char *cSrc, char ch)
 {
     if(cSrc == NULL)
     {
@@ -1498,7 +1498,7 @@ int Strings::LastOccur(const char *cSrc, char ch)
         return -1;
     }
     int iCnt = 0;
-    while(*cSrc != '\0'  && *cSrc != '\n')
+    while(*cSrc != '\0')
     {
         iCnt++;
         cSrc++;
@@ -1530,7 +1530,7 @@ int Strings::LastOccur(const char *cSrc, char ch)
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-bool Strings::IsPldrm(const char* cSrc)
+BOOL Strings::IsPldrm(const char* cSrc)
 {
     const char *cStart = NULL;
     const char *cEnd = NULL;
@@ -1538,13 +1538,13 @@ bool Strings::IsPldrm(const char* cSrc)
     if(cSrc == NULL)
     {
         cout << "Invalid Input\n" ;
-        return false;
+        return FALSE;
     }
 
     cStart = cSrc;
     cEnd = cSrc;
     
-    while(*(cEnd + 1) != '\0'  && *(cEnd + 1) != '\n')
+    while(*(cEnd + 1) != '\0')
     {
         cEnd++;
     }
@@ -1559,11 +1559,11 @@ bool Strings::IsPldrm(const char* cSrc)
     }
     if(cStart >= cEnd)
     {
-        return true;
+        return TRUE;
     }
     else
     {
-        return false;
+        return FALSE;
     }
 }
 
@@ -1577,7 +1577,7 @@ bool Strings::IsPldrm(const char* cSrc)
 //  Date        :24 August 2020
 //
 ///////////////////////////////////////////////////////////////////////////
-bool Strings::IsiPldrm(const char* cSrc)
+BOOL Strings::IsiPldrm(const char* cSrc)
 {
     const char *cStart = NULL;
     const char *cEnd = NULL;
@@ -1585,13 +1585,13 @@ bool Strings::IsiPldrm(const char* cSrc)
     if(cSrc == NULL)
     {
         cout << "Invalid Input\n" ;
-        return false;
+        return FALSE;
     }
 
     cStart = cSrc;
     cEnd = cSrc;
     
-    while(*(cEnd + 1) != '\0'  && *(cEnd + 1) != '\n')
+    while(*(cEnd + 1) != '\0')
     {
         cEnd++;
     }
@@ -1606,11 +1606,11 @@ bool Strings::IsiPldrm(const char* cSrc)
     }
     if(cStart >= cEnd)
     {
-        return true;
+        return TRUE;
     }
     else
     {
-        return false;
+        return FALSE;
     }
 }
 
@@ -1633,7 +1633,7 @@ void Strings::CharsCnt(const char *cSrc)
         cout << "Invalid Input\n" ;
         return;
     }
-    while (*cSrc != '\0'  && *cSrc != '\n')
+    while (*cSrc != '\0')
     {
         if(*cSrc == ' ')
         {
@@ -1683,7 +1683,7 @@ int Strings::CountUpr(const char *cSrc)
         return ERROR;
     }
     
-    while(*cSrc != '\0'  && *cSrc != '\n')
+    while(*cSrc != '\0')
     {
         if (*cSrc >= 'A' && *cSrc <= 'Z')
         {
@@ -1714,7 +1714,7 @@ int Strings::CountLwr(const char *cSrc)
         return ERROR;
     }
     
-    while(*cSrc != '\0'  && *cSrc != '\n')
+    while(*cSrc != '\0')
     {
         if (*cSrc >= 'a' && *cSrc <= 'z')
         {
@@ -1736,24 +1736,24 @@ int Strings::CountLwr(const char *cSrc)
 //  Date        :24 August 2020
 //
 /////////////////////////////////////////////////////////////////////////
-bool Strings::IsAgrm(const char* cStr1, const char* cStr2)
+BOOL Strings::IsAgrm(const char* cStr1, const char* cStr2)
 {
     char cChars[MAX_CHAR] = {0};
     int i = 0;
     if(cStr1 == NULL || cStr2 == NULL)
     {
         cout << "Invalid Input\n" ;
-        return false;
+        return FALSE;
     }
 
-    while(*cStr1 != '\0'  && *cStr1 != '\n' && *cStr2 != '\0'  && *cStr2 != '\n')
+    while(*cStr1 != '\0' && *cStr2 != '\0')
     {
         cChars[*cStr1]++;
         cChars[*cStr2]--;
         cStr1++;
         cStr2++;
     }
-    if((*cStr1 == '\0'  && *cStr2 == '\0') || (*cStr2 != '\n'  && *cStr2 != '\n' ))
+    if((*cStr1 == '\0'  && *cStr2 == '\0'))
     {
        for (i = 0; i < MAX_CHAR; i++)
         {
@@ -1765,11 +1765,11 @@ bool Strings::IsAgrm(const char* cStr1, const char* cStr2)
     }
     if(i == MAX_CHAR)
     {
-        return true;
+        return TRUE;
     }
     else
     {
-        return false;
+        return FALSE;
     }    
 }// end of IsAgrm
 
@@ -1792,7 +1792,7 @@ int Strings::CountSpecials(const char *cSrc)
         return ERROR;
     }
     
-    while(*cSrc != '\0'  && *cSrc != '\n')
+    while(*cSrc != '\0')
     {
         if ( !(*cSrc >= 'a' && *cSrc <= 'z') && 
              !(*cSrc >= 'A' && *cSrc <= 'Z') && 
@@ -1819,7 +1819,7 @@ int Strings::CountSpecials(const char *cSrc)
 int Strings::CountSpace(const char *cSrc)
 {
     int iCnt = 0;
-    while(*cSrc != '\0'  && *cSrc != '\n')
+    while(*cSrc != '\0')
     {
         if(*cSrc == 32)
         {
@@ -1851,18 +1851,18 @@ int Strings::LargestWord(const char *cStr)
         return -1;
     }
 
-    while(*cStr != '\0' && *cStr != '\n')
+    while(*cStr != '\0')
     {
         if(*cStr == ' ')
 		{
-			while((*cStr == ' ' || *cStr == '\t') && *cStr != '\0' && *cStr != '\n')
+			while((*cStr == ' ' || *cStr == '\t') && *cStr != '\0')
 			{
 				cStr++;
 			}
 		}
 		else
 		{
-			while(*cStr != ' ' && *cStr != '\0' && *cStr != '\n')
+			while(*cStr != ' ' && *cStr != '\0')
 			{
                 iCnt++;
                 cStr++;
@@ -1893,255 +1893,260 @@ void Strings::ManPage(const char* cCmd)
     if(StriCmp(cCmd, "strlen") == 0)
     {
         cout << "Description     :Computes length of enterd string\n";
-        cout << "Usage           :strlen Input_String\n";
+        cout << "Usage           :strlen\n";
+    }
+    else if(StriCmp(cCmd, "help") == 0)
+    {
+        cout << "Description     :Displays help menu\n";
+        cout << "Usage           :help\n";
     }
     else if(StriCmp(cCmd, "man") == 0)
     {
         cout << "Description     :Displays how to use command\n";
-        cout << "Usage           :man Input_Command\n";
+        cout << "Usage           :man Name_of_function\n";
     }
     else if(StriCmp(cCmd, "strlwr") == 0)
     {
         cout << "Description     :converts entire string into lower case\n";
-        cout << "Usage           :strlwr Input_String\n";
+        cout << "Usage           :strlwr\n";
     }
     else if(StriCmp(cCmd, "strupr") == 0)
     {
         cout << "Description     :converts entire string into upper case\n";
-        cout << "Usage           :strupr Input_String\n";
+        cout << "Usage           :strupr\n";
     }
     else if(StriCmp(cCmd, "strnlwr") == 0)
     {
         cout << "Description     :converts string into lower case\n";
         cout << "                 if Flag = 0, then first N characters are converted\n";
         cout << "                 if Flag = 1, then last N characters are converted\n";
-        cout << "Usage           :strnlwr Input_String  N   Flag\n";
+        cout << "Usage           :strnlwr\n";
     }
     else if(StriCmp(cCmd, "strnupr") == 0)
     {
         cout << "Description     :converts string into upper case\n";
         cout << "                 if Flag = 0, then first N characters are converted\n";
         cout << "                 if Flag = 1, then last N characters are converted\n";
-        cout << "Usage           :strnupr Input_String  N    Flag\n";
+        cout << "Usage           :strnupr\n";
     }
     else if(StriCmp(cCmd, "strtgl") == 0)
     {
         cout << "Description     :toggles characters in string\n";
-        cout << "Usage           :strtgl Input_String\n";
+        cout << "Usage           :strtgl\n";
     }
     else if(StriCmp(cCmd, "strntgl") == 0)
     {
         cout << "Description     :toggles characters in string\n";
         cout << "                 if Flag = 0, then first N characters are toggled\n";
         cout << "                 if Flag = 1, then last N characters are toggled\n";
-        cout << "Usage           :strntgl Input_String  N    Flag\n";
+        cout << "Usage           :strntgl\n";
     }
     else if(StriCmp(cCmd, "strtglrev") == 0)
     {
         cout << "Description     :toggles characters in string in reverse\n";
-        cout << "Usage           :strtglrev Input_String\n";
+        cout << "Usage           :strtglrev\n";
     }
     else if(StriCmp(cCmd, "strcat") == 0)
     {
         cout << "Description     :concatinates src string into destination\n";
-        cout << "Usage           :strcat Input_String1  Input_String2\n";
+        cout << "Usage           :strcat\n";
     }
     else if(StriCmp(cCmd, "strcataltr") == 0)
     {
         cout << "Description     :concatinates alternative chars from src string into destination\n";
-        cout << "Usage           :strcataltr Input_String1  Input_String2\n";
+        cout << "Usage           :strcataltr\n";
     }
     else if(StriCmp(cCmd, "strcatrev") == 0)
     {
         cout << "Description     :concatinates src string into destination in reverse\n";
-        cout << "Usage           :strcatrev Input_String1  Input_String2\n";
+        cout << "Usage           :strcatrev\n";
     }
     else if(StriCmp(cCmd, "strncat") == 0)
     {
         cout << "Description     :concatinates src string into destination\n";
         cout << "                 if Flag = 0, then first N characters are concatinated\n";
         cout << "                 if Flag = 1, then last N characters are concatinated\n";
-        cout << "Usage           :strncat Input_String1  Input_String2  N   Flag\n";
+        cout << "Usage           :strncat\n";
     }
     else if(StriCmp(cCmd, "strcpy") == 0)
     {
         cout << "Description     :copies src string into destination\n";
-        cout << "Usage           :strcpy Input_String\n";
+        cout << "Usage           :strcpy\n";
     }
     else if(StriCmp(cCmd, "strfirstcap") == 0)
     {
         cout << "Description     :capitalize each words first character\n";
-        cout << "Usage           :strfirstcap Input_String\n";
+        cout << "Usage           :strfirstcap\n";
     }
     else if(StriCmp(cCmd, "strncpy") == 0)
     {
         cout << "Description     :copies src string into destination\n";
         cout << "                 if Flag = 0, then first N characters are copied\n";
         cout << "                 if Flag = 1, then last N characters are copied\n";
-        cout << "Usage           :strncpy Input_String  N   Flag\n";
+        cout << "Usage           :strncpy\n";
     }
     else if(StriCmp(cCmd, "strcpycap") == 0)
     {
         cout << "Description     :copies capitals chars from src string into destination\n";
-        cout << "Usage           :strcpycap Input_String\n";
+        cout << "Usage           :strcpycap\n";
     }
     else if(StriCmp(cCmd, "strcpycapx") == 0)
     {
         cout << "Description     :copies capitals chars from src string into destination by toggling case\n";
-        cout << "Usage           :strcpycapx Input_String\n";
+        cout << "Usage           :strcpycapx\n";
     }
     else if(StriCmp(cCmd, "strcpylwr") == 0)
     {
         cout << "Description     :copies lower chars from src string into destination\n";
-        cout << "Usage           :strcpylwr Input_String\n";
+        cout << "Usage           :strcpylwr\n";
     }
     else if(StriCmp(cCmd, "strcpylwrx") == 0)
     {
         cout << "Description     :copies lower chars from src string into destination by toggling case\n";
-        cout << "Usage           :strcpylwrx Input_String\n";
+        cout << "Usage           :strcpylwrx\n";
     }
     else if(StriCmp(cCmd, "strtrimcpy") == 0)
     {
         cout << "Description     :copies src string into destination without spaces\n";
-        cout << "Usage           :strtrimcpy Input_String\n";
+        cout << "Usage           :strtrimcpy\n";
     }
     else if(StriCmp(cCmd, "strtrimcpyx") == 0)
     {
         cout << "Description     :copies src string into destination by removing extra spaces\n";
-        cout << "Usage           :strtrimcpyx Input_String\n";
+        cout << "Usage           :strtrimcpyx\n";
     }
     else if(StriCmp(cCmd, "strcpytgl") == 0)
     {
         cout << "Description     :copies src string into destination by toggling case\n";
-        cout << "Usage           :strcpytgl Input_String\n";
+        cout << "Usage           :strcpytgl\n";
     }
     else if(StriCmp(cCmd, "strcpyrev") == 0)
     {
         cout << "Description     :copies src string into destination in reverse\n";
-        cout << "Usage           :strcpyrev Input_String\n";
+        cout << "Usage           :strcpyrev\n";
     }
     else if(StriCmp(cCmd, "strrev") == 0)
     {
         cout << "Description     :reverses string\n";
-        cout << "Usage           :strrev Input_String\n";
+        cout << "Usage           :strrev\n";
     }
     else if(StriCmp(cCmd, "strnrev") == 0)
     {
         cout << "Description     :reverses string\n";
         cout << "                 if Flag = 0, then first N characters are reversed\n";
         cout << "                 if Flag = 1, then last N characters are reversed\n";
-        cout << "Usage           :strnrev Input_String   N  Flag\n";
+        cout << "Usage           :strnrev\n";
     }
     else if(StriCmp(cCmd, "strrangerev") == 0)
     {
         cout << "Description     :reverses string in given range\n";
-        cout << "Usage           :strrangerev Input_String   start  end\n";
+        cout << "Usage           :strrangerev\n";
     }
     else if(StriCmp(cCmd, "strcmp") == 0)
     {
         cout << "Description     :compares two strings\n";
-        cout << "Usage           :strcmp Input_String1  Input_String2\n";
+        cout << "Usage           :strcmp\n";
     }
     else if(StriCmp(cCmd, "stricmp") == 0)
     {
         cout << "Description     :compares two strings witout considering case\n";
-        cout << "Usage           :stricmp Input_String1  Input_String2\n";
+        cout << "Usage           :stricmp\n";
     }
     else if(StriCmp(cCmd, "strncmp") == 0)
     {
         cout << "Description     :compares two strings\n";
         cout << "                 if Flag = 0, then first N characters are compared\n";
         cout << "                 if Flag = 1, then last N characters are compared\n";
-        cout << "Usage           :strncmp Input_String1 Input_String2   N\n";
+        cout << "Usage           :strncmp\n";
     }
     else if(StriCmp(cCmd, "strincmp") == 0)
     {
         cout << "Description     :compares two strings witout considering case\n";
         cout << "                 if Flag = 0, then first N characters are compared\n";
         cout << "                 if Flag = 1, then last N characters are compared\n";
-        cout << "Usage           :strincmp Input_String1 Input_String2   N  Flag\n";
+        cout << "Usage           :strincmp\n";
     }
     else if(StriCmp(cCmd, "strset") == 0)
     {
         cout << "Description     :set characters in string with specified character\n";
-        cout << "Usage           :strset Input_String1  char\n";
+        cout << "Usage           :strset\n";
     }
     else if(StriCmp(cCmd, "strnset") == 0)
     {
         cout << "Description     :set N characters in string with specified character\n";
         cout << "                 if Flag = 0, then first N characters are set\n";
         cout << "                 if Flag = 1, then last N characters are set\n";
-        cout << "Usage           :strnset Input_String1  char   N   Flag\n";
+        cout << "Usage           :strnset\n";
     }
     else if(StriCmp(cCmd, "ispldrm") == 0)
     {
         cout << "Description     :checks string is Palindrome or not\n";
-        cout << "Usage           :ispldrm Input_String\n";
+        cout << "Usage           :ispldrm\n";
     }
     else if(StriCmp(cCmd, "isipldrm") == 0)
     {
         cout << "Description     :checks string is Palindrome or not witout considering case\n";
-        cout << "Usage           :isipldrm Input_String\n";
+        cout << "Usage           :isipldrm\n";
     }
     else if(StriCmp(cCmd, "isagrm") == 0)
     {
         cout << "Description     :checks strings are Anagram or not\n";
-        cout << "Usage           :isagrm Input_String1 Input_String2\n";
+        cout << "Usage           :isagrm\n";
     }
     else if(StriCmp(cCmd, "wordcnt") == 0)
     {
         cout << "Description     :counts words in string\n";
-        cout << "Usage           :wordcnt Input_String\n";
+        cout << "Usage           :wordcnt\n";
     }
     else if(StriCmp(cCmd, "wordrev") == 0)
     {
         cout << "Description     :reverse each word in string\n";
-        cout << "Usage           :wordrev Input_String\n";
+        cout << "Usage           :wordrev\n";
     }
     else if(StriCmp(cCmd, "maxoccur") == 0)
     {
         cout << "Description     :counts maximum occuring character in string\n";
-        cout << "Usage           :maxoccur Input_String\n";
+        cout << "Usage           :maxoccur\n";
     }
-    else if(StriCmp(cCmd, "firstoccur") == 0)
+    else if(StriCmp(cCmd, "strchr") == 0)
     {
         cout << "Description     :find first position of character in string\n";
-        cout << "Usage           :firstoccur Input_String   char\n";
+        cout << "Usage           :strchr\n";
     }
-    else if(StriCmp(cCmd, "lastoccur") == 0)
+    else if(StriCmp(cCmd, "strrchr") == 0)
     {
         cout << "Description     :find last position of character in string\n";
-        cout << "Usage           :lastoccur Input_String   char\n";
+        cout << "Usage           :strrchr\n";
     }
     else if(StriCmp(cCmd, "charscnt") == 0)
     {
         cout << "Description     :counts total alphabets, digits, special characters, words in string\n";
-        cout << "Usage           :charscnt Input_String\n";
+        cout << "Usage           :charscnt\n";
     }
     else if(StriCmp(cCmd, "countlwr") == 0)
     {
         cout << "Description     :counts lower characters in string\n";
-        cout << "Usage           :countlwr Input_String\n";
+        cout << "Usage           :countlwr\n";
     }
     else if(StriCmp(cCmd, "countupr") == 0)
     {
         cout << "Description     :counts upper characters in string\n";
-        cout << "Usage           :countupr Input_String\n";
+        cout << "Usage           :countupr\n";
     }
     else if(StriCmp(cCmd, "countspace") == 0)
     {
         cout << "Description     :counts spaces characters in string\n";
-        cout << "Usage           :countspace Input_String\n";
+        cout << "Usage           :countspace\n";
     }
     else if(StriCmp(cCmd, "countspecial") == 0)
     {
         cout << "Description     :counts special characters in string\n";
-        cout << "Usage           :countspecial Input_String\n";
+        cout << "Usage           :countspecial\n";
     }
     else if(StriCmp(cCmd, "largestw") == 0)
     {
         cout << "Description     :computes legth of largest word in string\n";
-        cout << "Usage           :largestw Input_String\n";
+        cout << "Usage           :largestw\n";
     } 
 }// end of ManPage
 
@@ -2158,7 +2163,7 @@ void Strings::ManPage(const char* cCmd)
 void Strings::Help()
 {
     cout << "help\n" <<endl;
-    cout << "To Use        :type \'command<space>InP1<tab>InP2<tab>InP3<tab>InP4<Enter key>\'\n\n";
+    cout << "To Use        :type \'Name of function\'\n\n";
     cout << "ManPage       :type \'man man\' - to see more" << endl;
     cout << "StrLen        :type \'man strlen\' - to see more" << endl;
     cout << "StrLwr        :type \'man strlwr\' - to see more" << endl;
@@ -2198,8 +2203,8 @@ void Strings::Help()
     cout << "WordCnt       :type \'man wordcnt\' - to see more" << endl;
     cout << "WordRev       :type \'man wordrev\' - to see more" << endl;
     cout << "MaxOccur      :type \'man maxoccur\' - to see more" << endl;
-    cout << "FirstOccur    :type \'man firstoccur\' - to see more" << endl;
-    cout << "LastOccur     :type \'man lastoccur\' - to see more" << endl;
+    cout << "strchr        :type \'man strchr\' - to see more" << endl;
+    cout << "strrchr       :type \'man strrchr\' - to see more" << endl;
     cout << "CharsCnt      :type \'man charscount\' - to see more" << endl;
     cout << "CountLwr      :type \'man countlwr\' - to see more" << endl;
     cout << "CountUpr      :type \'man countupr\' - to see more" << endl;

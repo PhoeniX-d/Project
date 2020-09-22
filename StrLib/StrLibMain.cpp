@@ -4,79 +4,95 @@
 
 int main()
 {
-    char cStr[MAXLEN * 5] = {'\0'};
-    char cInput[5][MAXLEN * 5] = {'\0'};
+    char szInput[2][MAXLEN] = {'\0'};
+    char szString1[MAXLEN * 3] = {'\0'};
+    char szString2[MAXLEN * 3] = {'\0'};
+    char command[MAXLEN] = {'\0'};
     Strings sObj;
     int iRet = 0, iN = 0, iCount = 0;
-    char cFlag = 0;
-    bool bRet = false, bRunning = true;
+    char iFlag = 0;
+    BOOL bRet = FALSE, bRunning = TRUE;
 
-    while(bRunning)
+    while (bRunning)
     {
         fflush(stdin);
-        sObj.StrCpy("", cStr);
-        cout << "\nStrLib : >";
-        fgets(cStr, 80, stdin);
-
-        iCount = sscanf(cStr, "%s %[^\t] %[^\t] %s %s",
-                        cInput[0], cInput[1], cInput[2], cInput[3], cInput[4]);
-        if(iCount == 1)
+        sObj.StrCpy("", command);
+        sObj.StrCpy("", szString1);
+        sObj.StrCpy("", szString2);
+        sObj.StrCpy("", szInput[0]);
+        sObj.StrCpy("", szInput[1]);
+        cout << "\n\nStrLib : > ";
+        fgets(command, MAXLEN, stdin);
+        iCount = sscanf(command, "%s %s", szInput[0], szInput[1]);
+        if (iCount == 1)
         {
-            if(sObj.StriCmp(cInput[0], "clear") == 0)
+            if (sObj.StriCmp(szInput[0], "clear") == 0)
             {
-                system("cls");
+                system("clear");
             }
-            else if(sObj.StriCmp(cInput[0], "exit") == 0)
+            else if (sObj.StriCmp(szInput[0], "exit") == 0)
             {
-                bRunning = false;
+                bRunning = FALSE;
             }
-            else if(sObj.StriCmp(cInput[0], "help") == 0)
+            else if (sObj.StriCmp(szInput[0], "help") == 0)
             {
                 sObj.Help();
             }
-        }
-        else if(iCount == 2)
-        {
-            if(sObj.StriCmp(cInput[0], "strlen") == 0)
+            else if (sObj.StriCmp(szInput[0], "strlen") == 0)
             {
-                iRet = sObj.StrLen(cInput[1]);
-                cout << iRet;
+                cout << "Enter string\t\t\t:";
+                scanf("%[^\n]", szString1);
+                iRet = sObj.StrLen(szString1);
+                cout << "Length of string\t:" << iRet;
             }
-            else if(sObj.StriCmp(cInput[0], "strlwr") == 0)
+            else if (sObj.StriCmp(szInput[0], "strlwr") == 0)
             {
-                sObj.StrLwr(cInput[1]);
-                cout << cInput[1];
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                sObj.StrLwr(szString1);
+                cout << "Output\t\t\t\t:" << szString1;
             }
-            else if(sObj.StriCmp(cInput[0], "strupr") == 0)
+            else if (sObj.StriCmp(szInput[0], "strupr") == 0)
             {
-                sObj.StrUpr(cInput[1]);
-                cout << cInput[1];
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                sObj.StrUpr(szString1);
+                cout << "Output\t\t\t\t:" << szString1;
             }
-            else if(sObj.StriCmp(cInput[0], "strtgl") == 0)
+            else if (sObj.StriCmp(szInput[0], "strtgl") == 0)
             {
-                sObj.StrTgl(cInput[1]);
-                cout << cInput[1];
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                sObj.StrTgl(szString1);
+                cout << "Output\t\t\t\t:" << szString1;
             }
-            else if(sObj.StriCmp(cInput[0], "strtglrev") == 0)
+            else if (sObj.StriCmp(szInput[0], "strtglrev") == 0)
             {
-                sObj.StrTglRev(cInput[1]);
-                cout << cInput[1];
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                sObj.StrTglRev(szString1);
+                cout << "Output\t\t\t\t:" << szString1;
             }
-            else if(sObj.StriCmp(cInput[0], "strrev") == 0)
+            else if (sObj.StriCmp(szInput[0], "strrev") == 0)
             {
-                sObj.StrRev(cInput[1]);
-                cout << cInput[1];
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                sObj.StrRev(szString1);
+                cout << "Output\t\t\t\t:" << szString1;
             }
-             else if(sObj.StriCmp(cInput[0], "strfirstcap") == 0)
+            else if (sObj.StriCmp(szInput[0], "strfirstcap") == 0)
             {
-                char cArr[MAXLEN * 2] = {'\0'};
-                sObj.StrFirstCap(cInput[1]);
-                cout << cInput[1];
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                sObj.StrFirstCap(szString1);
+                cout << "Output\t\t\t\t:" << szString1;
             }
-            else if(sObj.StriCmp(cInput[0], "ispldrm") == 0)
+            else if (sObj.StriCmp(szInput[0], "ispldrm") == 0)
             {
-                bRet = sObj.IsPldrm(cInput[1]);
-                if(bRet == true)
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                bRet = sObj.IsPldrm(szString1);
+                if (bRet == TRUE)
                 {
                     cout << "Palidrome String";
                 }
@@ -85,10 +101,12 @@ int main()
                     cout << "Not Palindrome string";
                 }
             }
-            else if(sObj.StriCmp(cInput[0], "isipldrm") == 0)
+            else if (sObj.StriCmp(szInput[0], "isipldrm") == 0)
             {
-                bRet = sObj.IsiPldrm(cInput[1]);
-                if(bRet == true)
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                bRet = sObj.IsiPldrm(szString1);
+                if (bRet == TRUE)
                 {
                     cout << "Palidrome String";
                 }
@@ -97,126 +115,156 @@ int main()
                     cout << "Not Palindrome string";
                 }
             }
-            else if(sObj.StriCmp(cInput[0], "wordcnt") == 0)
+            else if (sObj.StriCmp(szInput[0], "wordcnt") == 0)
             {
-                iRet = sObj.WordCnt(cInput[1]);
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                iRet = sObj.WordCnt(szString1);
                 cout << "Word Count is:\t" << iRet;
             }
-            else if(sObj.StriCmp(cInput[0], "wordrev") == 0)
+            else if (sObj.StriCmp(szInput[0], "wordrev") == 0)
             {
-                sObj.WordRev(cInput[1]);
-                cout << cInput[1];
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                sObj.WordRev(szString1);
+                cout << "Output\t\t\t\t:" << szString1;
             }
-            else if(sObj.StriCmp(cInput[0], "maxoccur") == 0)
+            else if (sObj.StriCmp(szInput[0], "maxoccur") == 0)
             {
-                sObj.MaxOccur(cInput[1]);                
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                sObj.MaxOccur(szString1);
             }
-            else if(sObj.StriCmp(cInput[0], "charscnt") == 0)
+            else if (sObj.StriCmp(szInput[0], "charscnt") == 0)
             {
-                sObj.CharsCnt(cInput[1]);
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                sObj.CharsCnt(szString1);
             }
-            else if(sObj.StriCmp(cInput[0], "countlwr") == 0)
+            else if (sObj.StriCmp(szInput[0], "countlwr") == 0)
             {
-                iRet = sObj.CountLwr(cInput[1]);
-                cout << iRet;
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                iRet = sObj.CountLwr(szString1);
+                cout << "Count of lower letters\t:" << iRet;
             }
-            else if(sObj.StriCmp(cInput[0], "countupr") == 0)
+            else if (sObj.StriCmp(szInput[0], "countupr") == 0)
             {
-                iRet = sObj.CountUpr(cInput[1]);
-                cout << iRet;
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                iRet = sObj.CountUpr(szString1);
+                cout << "Count of upper letters\t:" << iRet;
             }
-            else if(sObj.StriCmp(cInput[0], "countspecial") == 0)
+            else if (sObj.StriCmp(szInput[0], "countspecial") == 0)
             {
-                iRet = sObj.CountSpecials(cInput[1]);
-                cout << iRet;
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                iRet = sObj.CountSpecials(szString1);
+                cout << "Count of special letters\t:" << iRet;
             }
-            else if(sObj.StriCmp(cInput[0], "countspace") == 0)
+            else if (sObj.StriCmp(szInput[0], "countspace") == 0)
             {
-                iRet = sObj.CountSpace(cInput[1]);
-                cout << iRet;
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                iRet = sObj.CountSpace(szString1);
+                cout << "Count of spaces\t:" << iRet;
             }
-            else if(sObj.StriCmp(cInput[0], "strcpy") == 0)
+            else if (sObj.StriCmp(szInput[0], "strcpy") == 0)
             {
-                char cArr[MAXLEN * 2] = {'\0'};
-                sObj.StrCpy(cInput[1], cArr);
-                cout << cArr;
+                cout << "Enter string \t:";
+                scanf(" %[^\n]", szString1);
+                sObj.StrCpy(szString1, szString2);
+                cout << "Output\t\t\t\t:" << szString2;
             }
-            else if(sObj.StriCmp(cInput[0], "strcpycap") == 0)
+            else if (sObj.StriCmp(szInput[0], "strcpycap") == 0)
             {
-                char cArr[MAXLEN * 2] = {'\0'};
-                sObj.StrCpyCap(cInput[1], cArr);
-                cout << cArr;
+                cout << "Enter string \t:";
+                scanf(" %[^\n]", szString1);
+                sObj.StrCpyCap(szString1, szString2);
+                cout << "Output\t\t\t\t:" << szString2;
             }
-            else if(sObj.StriCmp(cInput[0], "strcpycapx") == 0)
+            else if (sObj.StriCmp(szInput[0], "strcpycapx") == 0)
             {
-                char cArr[MAXLEN * 2] = {'\0'};
-                sObj.StrCpyCapX(cInput[1], cArr);
-                cout << cArr;
+                cout << "Enter string \t:";
+                scanf(" %[^\n]", szString1);
+                sObj.StrCpyCapX(szString1, szString2);
+                cout << "Output\t\t\t\t:" << szString2;
             }
-            else if(sObj.StriCmp(cInput[0], "strcpylwr") == 0)
+            else if (sObj.StriCmp(szInput[0], "strcpylwr") == 0)
             {
-                char cArr[MAXLEN * 2] = {'\0'};
-                sObj.StrCpyLwr(cInput[1], cArr);
-                cout << cArr;
+                cout << "Enter string \t:";
+                scanf(" %[^\n]", szString1);
+                sObj.StrCpyLwr(szString1, szString2);
+                cout << "Output\t\t\t\t:" << szString2;
             }
-            else if(sObj.StriCmp(cInput[0], "strcpylwrx") == 0)
+            else if (sObj.StriCmp(szInput[0], "strcpylwrx") == 0)
             {
-                char cArr[MAXLEN * 2] = {'\0'};
-                sObj.StrCpyLwrX(cInput[1], cArr);
-                cout << cArr;
+                cout << "Enter string \t:";
+                scanf(" %[^\n]", szString1);
+                sObj.StrCpyLwrX(szString1, szString2);
+                cout << "Output\t\t\t\t:" << szString2;
             }
-            else if(sObj.StriCmp(cInput[0], "strcpytgl") == 0)
+            else if (sObj.StriCmp(szInput[0], "strcpytgl") == 0)
             {
-                char cArr[MAXLEN * 2] = {'\0'};
-                sObj.StrCpyTgl(cInput[1], cArr);
-                cout << cArr;
+                cout << "Enter string \t:";
+                scanf(" %[^\n]", szString1);
+                sObj.StrCpyTgl(szString1, szString2);
+                cout << "Output\t\t\t\t:" << szString2;
             }
-            else if(sObj.StriCmp(cInput[0], "strcpyrev") == 0)
+            else if (sObj.StriCmp(szInput[0], "strcpyrev") == 0)
             {
-                char cArr[MAXLEN * 2] = {'\0'};
-                sObj.StrCpyRev(cInput[1], cArr);
-                cout << cArr;
+                cout << "Enter string \t:";
+                scanf(" %[^\n]", szString1);
+                sObj.StrCpyRev(szString1, szString2);
+                cout << "Output\t\t\t\t:" << szString2;
             }
-            else if(sObj.StriCmp(cInput[0], "strtrimcpy") == 0)
+            else if (sObj.StriCmp(szInput[0], "strtrimcpy") == 0)
             {
-                char cArr[MAXLEN * 2] = {'\0'};
-                sObj.StrTrimCpy(cInput[1], cArr);
-                cout << cArr;
+                cout << "Enter string \t:";
+                scanf(" %[^\n]", szString1);
+                sObj.StrTrimCpy(szString1, szString2);
+                cout << "Output\t\t\t\t:" << szString2;
             }
-            else if(sObj.StriCmp(cInput[0], "strtrimcpyx") == 0)
+            else if (sObj.StriCmp(szInput[0], "strtrimcpyx") == 0)
             {
-                char cArr[MAXLEN * 2] = {'\0'};
-                sObj.StrTrimCpyX(cInput[1], cArr);
-                cout << cArr;
+                cout << "Enter string \t:";
+                scanf(" %[^\n]", szString1);
+                sObj.StrTrimCpyX(szString1, szString2);
+                cout << "Output\t\t\t\t:" << szString2;
             }
-            else if(sObj.StriCmp(cInput[0], "largestw") == 0)
+            else if (sObj.StriCmp(szInput[0], "largestw") == 0)
             {
-                iRet = sObj.LargestWord(cInput[1]);
+                cout << "Enter string \t:";
+                scanf(" %[^\n]", szString1);
+                iRet = sObj.LargestWord(szString1);
                 cout << "Length of Largest word is:\t" << iRet;
             }
-            else if(sObj.StriCmp(cInput[0], "man") == 0)
+            else if (sObj.StriCmp(szInput[0], "strcat") == 0)
             {
-                sObj.StrNSet(cInput[1], '\0', 1, 1);
-                sObj.ManPage(cInput[1]);
+                cout << "Enter string 1\t:";
+                scanf(" %[^\n]", szString1);
+                cout << "Enter string 2\t:";
+                scanf(" %[^\n]", szString2);
+                sObj.StrCat(szString1, szString2);
+                cout << "Output\t\t\t\t:" << szString1;
             }
-        }
-        else if(iCount == 3)
-        {
-            if(sObj.StriCmp(cInput[0], "strcat") == 0)
+            else if (sObj.StriCmp(szInput[0], "strcataltr") == 0)
             {
-                sObj.StrCat(cInput[1], cInput[2]);
-                cout << cInput[1];
+                cout << "Enter string 1\t:";
+                scanf(" %[^\n]", szString1);
+                cout << "Enter string 2\t:";
+                scanf(" %[^\n]", szString2);
+                sObj.StrCatAltr(szString1, szString2);
+                cout << "Output\t\t\t\t:" << szString1;
             }
-            else if(sObj.StriCmp(cInput[0], "strcataltr") == 0)
+            else if (sObj.StriCmp(szInput[0], "strcmp") == 0)
             {
-                sObj.StrCatAltr(cInput[1], cInput[2]);
-                cout << cInput[1];
-            }
-            else if(sObj.StriCmp(cInput[0], "strcmp") == 0)
-            {
-                sObj.StrNSet(cInput[2], '\0', 1, 1);
-                iRet = sObj.StrCmp(cInput[1], cInput[2]);
-                if(iRet == 0)
+                cout << "Enter string 1\t:";
+                scanf(" %[^\n]", szString1);
+                cout << "Enter string 2\t:";
+                scanf(" %[^\n]", szString2);
+                iRet = sObj.StrCmp(szString1, szString2);
+                if (iRet == 0)
                 {
                     cout << "Equal Strings";
                 }
@@ -225,11 +273,14 @@ int main()
                     cout << "Unequal Strings";
                 }
             }
-            else if(sObj.StriCmp(cInput[0], "stricmp") == 0)
+            else if (sObj.StriCmp(szInput[0], "stricmp") == 0)
             {
-                sObj.StrNSet(cInput[2], '\0', 1, 1);
-                iRet = sObj.StriCmp(cInput[1], cInput[2]);
-                if(iRet == 0)
+                cout << "Enter string 1\t:";
+                scanf(" %[^\n]", szString1);
+                cout << "Enter string 2\t:";
+                scanf(" %[^\n]", szString2);
+                iRet = sObj.StriCmp(szString1, szString2);
+                if (iRet == 0)
                 {
                     cout << "Equal Strings";
                 }
@@ -238,98 +289,150 @@ int main()
                     cout << "Unequal Strings";
                 }
             }
-            else if(sObj.StriCmp(cInput[0], "strset") == 0)
+            else if (sObj.StriCmp(szInput[0], "strset") == 0)
             {
-                char Ch = cInput[2][0];
-                sObj.StrSet(cInput[1], Ch);
-                cout << cInput[1];
+                char ch;
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                cout << "Enter char\t:";
+                scanf(" %c", &ch);
+                sObj.StrSet(szString1, ch);
+                cout << "Output\t\t\t\t:" << szString1;
             }
-            else if(sObj.StriCmp(cInput[0], "isagrm") == 0)
+            else if (sObj.StriCmp(szInput[0], "isagrm") == 0)
             {
-                sObj.StrNSet(cInput[2], '\0', 1, 1);
-                bRet = sObj.IsAgrm(cInput[1], cInput[2]);
-                if(bRet == true)
+                cout << "Enter string 1\t:";
+                scanf(" %[^\n]", szString1);
+                cout << "Enter string 2\t:";
+                scanf(" %[^\n]", szString2);
+                bRet = sObj.IsAgrm(szString1, szString2);
+                if (bRet == TRUE)
                 {
                     cout << "Both Strings are Anagram";
                 }
                 else
                 {
                     cout << "Both Strings are Not Anagram";
-                }                
+                }
             }
-            else if(sObj.StriCmp(cInput[0], "firstoccur") == 0)
+            else if (sObj.StriCmp(szInput[0], "firstoccur") == 0)
             {
-                char Ch = cInput[2][0];
-                iRet = sObj.FirstOccur(cInput[1], Ch);
-                cout << "First Ocuurance at index " << iRet;
+                char ch;
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                cout << "Enter char\t:";
+                scanf(" %c", &ch);
+                sObj.StrChr(szString1, ch);
+                cout << "First Ocuurance at index\t:" << iRet;
             }
-            else if(sObj.StriCmp(cInput[0], "lastoccur") == 0)
+            else if (sObj.StriCmp(szInput[0], "lastoccur") == 0)
             {
-                char Ch = cInput[2][0];
-                iRet = sObj.LastOccur(cInput[1], Ch);
-                cout << "Last Ocuurance at index " << iRet;
-            }                        
-        }
-        else if(iCount == 4)
-        {
-            if(sObj.StriCmp(cInput[0], "strnlwr") == 0)
-            {
-                int iN = atoi(cInput[2]);
-                char cFlag = atoi(cInput[3]);
-                sObj.StrNLwr(cInput[1], iN, cFlag);
-                cout << cInput[1];
+                char ch;
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                cout << "Enter char\t:";
+                scanf(" %c", &ch);
+                iRet = sObj.StrrChr(szString1, ch);
+                cout << "Last Ocuurance at index\t:" << iRet;
             }
-            else if(sObj.StriCmp(cInput[0], "strnupr") == 0)
+
+            else if (sObj.StriCmp(szInput[0], "strnlwr") == 0)
             {
-                int iN = atoi(cInput[2]);
-                char cFlag = atoi(cInput[3]);
-                sObj.StrNUpr(cInput[1], iN, cFlag);
-                cout << cInput[1];
+                int iN = 0, iFlag = 0;
+                cout << "Enter string\t\t\t:";
+                scanf("%[^\n]", szString1);
+                cout << "Enter no. of characters\t:";
+                scanf("%d", &iN);
+                cout << "Enter pos(0 - First, 1 - Last)\t:";
+                scanf("%d", &iFlag);
+                sObj.StrNLwr(szString1, iN, iFlag);
+                cout << "Output\t\t\t\t:" << szString1;
             }
-            else if(sObj.StriCmp(cInput[0], "strntgl") == 0)
+            else if (sObj.StriCmp(szInput[0], "strnupr") == 0)
             {
-                int iN = atoi(cInput[2]);
-                char cFlag = atoi(cInput[3]);
-                sObj.StrNTgl(cInput[1], iN, cFlag);
-                cout << cInput[1];
+                int iN = 0, iFlag = 0;
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                cout << "Enter no. of characters\t:";
+                scanf("%d", &iN);
+                cout << "Enter pos(0 - First, 1 - Last)\t:";
+                scanf("%d", &iFlag);
+                sObj.StrNUpr(szString1, iN, iFlag);
+                cout << "Output\t\t\t\t:" << szString1;
             }
-            else if(sObj.StriCmp(cInput[0], "strnrev") == 0)
+            else if (sObj.StriCmp(szInput[0], "strntgl") == 0)
             {
-                int iN = atoi(cInput[2]);
-                char cFlag = atoi(cInput[3]);
-                sObj.StrNRev(cInput[1], iN, cFlag);
-                cout << cInput[1];
+                int iN = 0, iFlag = 0;
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                cout << "Enter no. of characters\t:";
+                scanf("%d", &iN);
+                cout << "Enter pos(0 - First, 1 - Last)\t:";
+                scanf("%d", &iFlag);
+                sObj.StrNTgl(szString1, iN, iFlag);
+                cout << "Output\t\t\t\t:" << szString1;
             }
-            else if(sObj.StriCmp(cInput[0], "strrangerev") == 0)
+            else if (sObj.StriCmp(szInput[0], "strnrev") == 0)
             {
-                int iS = atoi(cInput[2]), iE = atoi(cInput[3]);
-                sObj.StrRangeRev(cInput[1], iS, iE);
-                cout << cInput[1];
+                int iN = 0, iFlag = 0;
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                cout << "Enter no. of characters \t:";
+                scanf("%d", &iN);
+                cout << "Enter pos(0 - First, 1 - Last)\t:";
+                scanf("%d", &iFlag);
+                sObj.StrNRev(szString1, iN, iFlag);
+                cout << "Output\t\t\t\t:" << szString1;
             }
-            else if(sObj.StriCmp(cInput[0], "strncpy") == 0)
+            else if (sObj.StriCmp(szInput[0], "strrangerev") == 0)
             {
-                char cArr[MAXLEN * 2] = {'\0'};
-                int iN = atoi(cInput[2]);
-                char cFlag = atoi(cInput[3]);
-                sObj.StrNCpy(cInput[1], cArr, iN, cFlag);
-                cout << cArr;
+                int iS = 0, iE = 0, iFlag = 0;
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                cout << "Enter start\t:";
+                scanf("%d", &iS);
+                cout << "Enter end\t:";
+                scanf("%d", &iE);
+                sObj.StrRangeRev(szString1, iS, iE);
+                cout << "Output\t\t\t\t:" << szString1;
             }
-        }
-        else if(iCount == 5)
-        {
-            if(sObj.StriCmp(cInput[0], "strncat") == 0)
+            else if (sObj.StriCmp(szInput[0], "strncpy") == 0)
             {
-                int iN = atoi(cInput[3]);
-                char cFlag = atoi(cInput[4]);
-                sObj.StrNCat(cInput[1], cInput[2], iN, cFlag);
-                cout << cInput[1];
+                int iN = 0, iFlag = 0;
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                cout << "Enter no. of characters\t:";
+                scanf("%d", &iN);
+                cout << "Enter end\t:";
+                scanf("%d", &iFlag);
+                sObj.StrNCpy(szString1, szString2, iN, iFlag);
+                cout << "Output\t\t\t\t:" << szString2;
             }
-            else if(sObj.StriCmp(cInput[0], "strncmp") == 0)
+            else if (sObj.StriCmp(szInput[0], "strncat") == 0)
             {
-                int iN = atoi(cInput[3]);
-                char cFlag = atoi(cInput[4]);
-                iRet = sObj.StrNCmp(cInput[1], cInput[2], iN, cFlag);
-                if(iRet == 0)
+                int iN = 0, iFlag = 0;
+                cout << "Enter string\t\t\t:";
+                scanf(" %[^\n]", szString1);
+                cout << "Enter no. of characters\t:";
+                scanf("%d", &iN);
+                cout << "Enter end\t:";
+                scanf("%d", &iFlag);
+                sObj.StrNCat(szString1, szString2, iN, iFlag);
+                cout << "Output\t\t\t\t:" << szString1;
+            }
+            else if (sObj.StriCmp(szInput[0], "strncmp") == 0)
+            {
+                int iN = 0, iFlag = 0;
+                cout << "Enter string 1\t:";
+                scanf(" %[^\n]", szString1);
+                cout << "Enter string 2\t:";
+                scanf(" %[^\n]", szString2);
+                cout << "Enter no. of characters\t:";
+                scanf("%d", &iN);
+                cout << "Enter end\t:";
+                scanf("%d", &iFlag);
+                iRet = sObj.StrNCmp(szString1, szString2, iN, iFlag);
+                if (iRet == 0)
                 {
                     cout << "Equal Strings";
                 }
@@ -338,12 +441,19 @@ int main()
                     cout << "Unequal Strngs";
                 }
             }
-            else if(sObj.StriCmp(cInput[0], "strincmp") == 0)
+            else if (sObj.StriCmp(szInput[0], "strincmp") == 0)
             {
-                int iN = atoi(cInput[3]);
-                char cFlag = atoi(cInput[4]);
-                iRet = sObj.StriNCmp(cInput[1], cInput[2], iN, cFlag);
-                if(iRet == 0)
+                int iN = 0, iFlag = 0;
+                cout << "Enter string 1\t:";
+                scanf(" %[^\n]", szString1);
+                cout << "Enter string 2\t:";
+                scanf(" %[^\n]", szString2);
+                cout << "Enter no. of characters\t:";
+                scanf("%d", &iN);
+                cout << "Enter end\t:";
+                scanf("%d", &iFlag);
+                iRet = sObj.StriNCmp(szString1, szString2, iN, iFlag);
+                if (iRet == 0)
                 {
                     cout << "Equal Strings";
                 }
@@ -351,11 +461,18 @@ int main()
                 {
                     cout << "Unequal Strngs";
                 }
+            }
+        }
+        else if(iCount == 2)
+        {
+            if (sObj.StriCmp(szInput[0], "man") == 0)
+            {
+                sObj.ManPage(szInput[1]);
             }
         }
         else
         {
-            cout << "Enter Valid command (type \'help\')";
+            cout << "Please enter valid command (or type \'help\')";
         }
     }
     return 0;
