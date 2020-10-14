@@ -1,18 +1,17 @@
 // Header File
+
+#include<Windows.h>
 #include<iostream>
 #include<stdio.h>
 
-#define MAXLEN          20
-#define ERROR         -999
+#define MAXLEN          40
+#define ERROR           -1
 #define IN               1
 #define OUT              0
 #define MAX_CHAR       127
 #define FIRST            0
 #define LAST             1
-#define TRUE             1
-#define FALSE            0
 
-typedef char BOOL;
 using namespace std;
 
 // Strings class
@@ -23,18 +22,18 @@ class Strings
         void Help();
         int  StrLen(const char*);
         void StrLwr(char*);
-        void StrNLwr(char*, int, char);
+        void StrNLwr(char*, int, BOOL);
         void StrUpr(char*);
-        void StrNUpr(char*, int, char);
+        void StrNUpr(char*, int, BOOL);
         void StrTgl(char*);
-        void StrNTgl(char*, int, char);
+        void StrNTgl(char*, int, BOOL);
         void StrTglRev(char*);
         void StrCat(char*, const char*);
         void StrCatAltr(const char*, char*);
         void StrCatRev(char*, const char*);
-        void StrNCat(char*, const char*, int, char);
+        void StrNCat(char*, const char*, int, BOOL);
         void StrCpy(const char*, char*);
-        void StrNCpy(const char*, char*, int, char);
+        void StrNCpy(const char*, char*, int, BOOL);
         void StrCpyCap(const char*, char*);
         void StrCpyCapX(const char*, char*);
         void StrCpyLwr(const char*, char*);
@@ -45,14 +44,14 @@ class Strings
         void StrCpyTgl(const char*, char*);
         void StrRev(char*);
         void StrFirstCap(char*);
-        void StrNRev(char*, int, char);
+        void StrNRev(char*, int, BOOL);
         void StrRangeRev(char*, int, int);
         int  StrCmp(const char*, const char*);
         int  StriCmp(const char*, const char*);
-        int  StrNCmp(const char*, const char*, int, char);
-        int  StriNCmp(const char*, const char*, int, char);
+        int  StrNCmp(const char*, const char*, int, BOOL);
+        int  StriNCmp(const char*, const char*, int, BOOL);
         void StrSet(char*, char);
-        void StrNSet(char*, char, int, char);
+        void StrNSet(char*, char, int, BOOL);
         BOOL IsPldrm(const char *);
         BOOL IsiPldrm(const char *);
         BOOL IsAgrm(const char *, const char *);
