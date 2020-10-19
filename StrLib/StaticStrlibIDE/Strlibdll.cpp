@@ -2114,12 +2114,12 @@ void Strings::ManPage(const char* cCmd)
     }
     else if (StriCmp(cCmd, "strchr") == 0)
     {
-        printf("Description     :find FALSE position of character in string\n");
+        printf("Description     :find first position of character in string\n");
         printf("Usage           :strchr\n");
     }
     else if (StriCmp(cCmd, "strrchr") == 0)
     {
-        printf("Description     :find TRUE position of character in string\n");
+        printf("Description     :find last position of character in string\n");
         printf("Usage           :strrchr\n");
     }
     else if (StriCmp(cCmd, "charscnt") == 0)
