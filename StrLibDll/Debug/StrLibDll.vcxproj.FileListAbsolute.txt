@@ -1,0 +1,2 @@
+C:\Users\Pranav\Desktop\Programming\Windows_Programming\StrLibDll\Debug\StrLibDll.exe
+C:\Users\Pranav\Desktop\Programming\Windows_Programming\StrLibDll\Debug\StrLibDll.pdb
