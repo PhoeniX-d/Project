@@ -5,12 +5,10 @@
 #include<stdio.h>
 
 #define MAXLEN          40
-#define ERROR           -1
-#define IN               1
-#define OUT              0
-#define MAX_CHAR       127
-#define FIRST            0
-#define LAST             1
+#define _ERROR           -1
+#define _IN               1
+#define _OUT              0
+#define _MAX_CHAR       127
 
 using namespace std;
 
@@ -67,3 +65,5 @@ class Strings
         int  CountSpecials(const char *);
         int  LargestWord(const char *);
 };
+
+////////////////////////////// End  of File ///////////////////////////////////

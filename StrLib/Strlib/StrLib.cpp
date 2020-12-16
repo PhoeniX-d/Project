@@ -2,19 +2,20 @@
 /*
 *   Program containing all string library functions
 */
+
 #include "StrLib.h"
 
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :StrLen
-//  Input       :const char*
+//  Input       :const CHAR*
 //  Returns     :int
 //  Description :computes length of entered string
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-int Strings::StrLen(const char *cSrc)
+int Strings::StrLen(const CHAR* cSrc)
 {
     if(cSrc == NULL)
     {
@@ -28,23 +29,24 @@ int Strings::StrLen(const char *cSrc)
         cSrc++;
     }
     return iLen;
-}// end of StrLen
+}// end of StrLen()
 
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :StrLwr
-//  Input       :char*
+//  Input       :CHAR*
 //  Returns     :void
 //  Description :converts lower case of entered string
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-void Strings::StrLwr(char* cSrc)
+void Strings::StrLwr(CHAR* cSrc)
 {
     if(NULL == cSrc)
 	{
-		printf("Invalid Input\n");
+        cout << "Invalid Input\n";
+        return;
 	}
 	while(*cSrc !='\0')
 	{
@@ -54,19 +56,19 @@ void Strings::StrLwr(char* cSrc)
 		}
 		cSrc++;
 	}
-}// end of StrLwr
+}// end of StrLwr()
 
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :StrNLwr
-//  Input       :const char*, int, char
+//  Input       :const CHAR*, int, CHAR
 //  Returns     :void
 //  Description :convert into lower case the entered string
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-void Strings::StrNLwr(char* cSrc, int iN, BOOL bFlag)
+void Strings::StrNLwr(CHAR* cSrc, int iN, CHAR cFlag)
 {
     if(NULL == cSrc)
     {
@@ -78,7 +80,7 @@ void Strings::StrNLwr(char* cSrc, int iN, BOOL bFlag)
         iN = -iN;
     }
     
-    if (bFlag == FALSE)
+    if (cFlag == FIRST)
     {
         while(*cSrc !='\0' && iN != 0)
         {
@@ -90,9 +92,9 @@ void Strings::StrNLwr(char* cSrc, int iN, BOOL bFlag)
             iN--;
         }
     }
-    else if(bFlag == TRUE)
+    else if(cFlag == LAST)
     {
-        char *cEnd = cSrc;
+        CHAR* cEnd = cSrc;
         while(*(cEnd + 1) != '\0')
         {
             cEnd++;
@@ -107,23 +109,24 @@ void Strings::StrNLwr(char* cSrc, int iN, BOOL bFlag)
             iN--;
         } while (cEnd != (cSrc - 1) && iN != 0);
     }
-}// end of StrNLwr
+}// end of StrNLwr()
 
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :StrUpr
-//  Input       :const char*
+//  Input       :const CHAR*
 //  Returns     :void
 //  Description :converts upper case entered string
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-void Strings::StrUpr(char* cSrc)
+void Strings::StrUpr(CHAR* cSrc)
 {
     if(NULL == cSrc)
     {
        cout << "Invalid Input\n" ;
+       return;
     }
     while(*cSrc !='\0')
     {
@@ -133,29 +136,30 @@ void Strings::StrUpr(char* cSrc)
         }
         cSrc++;
     }
-}// end of StrUpr
+}// end of StrUpr()
 
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :StrNUpr
-//  Input       :char*, int, char
+//  Input       :CHAR*, int, CHAR
 //  Returns     :void
 //  Description :converts upper case entered string upto N
 //  Author      :Pranav Choudhary
 //  Date        :25 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-void Strings::StrNUpr(char* cSrc, int iN, BOOL bFlag)
+void Strings::StrNUpr(CHAR* cSrc, int iN, CHAR cFlag)
 {
     if(NULL == cSrc)
 	{
 		printf("Invalid Input\n");
+        return;
 	}
     if(iN < 0)
     {
         iN = -iN;
     }
-    if(bFlag == FALSE)
+    if(cFlag == FIRST)
     {
         while(*cSrc !='\0' && iN != 0)
         {
@@ -167,9 +171,9 @@ void Strings::StrNUpr(char* cSrc, int iN, BOOL bFlag)
             iN--;
         }
     }
-    else if(bFlag == TRUE)
+    else if(cFlag == LAST)
     {
-        char *cEnd = cSrc;
+        CHAR* cEnd = cSrc;
         while(*(cEnd + 1) != '\0')
         {
             cEnd++;
@@ -184,23 +188,25 @@ void Strings::StrNUpr(char* cSrc, int iN, BOOL bFlag)
             iN--;
         } while (cEnd != (cSrc - 1) && iN != 0);
     }
-}// end of StrNUpr
+}// end of StrNUpr()
 
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :StrTgl
-//  Input       :const char*
+//  Input       :const CHAR*
 //  Returns     :void
 //  Description :Toggle case of entered string
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-void Strings::StrTgl(char* cSrc)
+void Strings::StrTgl(CHAR* cSrc)
 {
     if(NULL == cSrc)
     {
         cout << "Invalid Input\n" ;
+        return;
+
     }
     while(*cSrc !='\0')
     {
@@ -215,29 +221,29 @@ void Strings::StrTgl(char* cSrc)
         cSrc++;
     }
 
-}// end of StrTgl
+}// end of StrTgl()
 
 ////////////////////////////////////////////////////////////////////////////
 //
 //  Name        :StrTglRev
-//  Input       :char*
+//  Input       :CHAR*
 //  Returns     :void
 //  Description :reverse the contents of that string by toggling the case
 //  Author      :Pranav Choudhary
 //  Date        :28 August 2020
 //
 /////////////////////////////////////////////////////////////////////////////
-void Strings::StrTglRev(char* cSrc)
+void Strings::StrTglRev(CHAR* cSrc)
 {
     if(cSrc == NULL)
     {
-        printf("Invalid Input\n");
+        cout << "Invalid Input\n";
         return;
     }
 
-    char *cStart = cSrc;
-    char *cEnd = cSrc;
-    char cTemp = '\0';
+    CHAR* cStart = cSrc;
+    CHAR* cEnd = cSrc;
+    CHAR cTemp = '\0';
 
     while(*cEnd != '\0')
     {
@@ -260,23 +266,24 @@ void Strings::StrTglRev(char* cSrc)
         cStart++;
         cEnd--;
     }
-}// end of StrTglRev
+}// end of StrTglRev()
 
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :StrNTgl
-//  Input       :const char*
+//  Input       :const CHAR*
 //  Returns     :void
 //  Description :Toggle case of entered string
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-void Strings::StrNTgl(char* cSrc, int iN, BOOL bFlag)
+void Strings::StrNTgl(CHAR* cSrc, int iN, CHAR cFlag)
 {
     if(NULL == cSrc)
     {
         cout << "Invalid Input\n" ;
+        return;
     }
     
     if(iN < 0)
@@ -284,7 +291,7 @@ void Strings::StrNTgl(char* cSrc, int iN, BOOL bFlag)
         iN = -iN;
     }
 
-    if(bFlag == FALSE)
+    if(cFlag == FIRST)
     {
         while(*cSrc !='\0' && iN != 0)
         {
@@ -300,9 +307,9 @@ void Strings::StrNTgl(char* cSrc, int iN, BOOL bFlag)
             iN--;
         }
     }
-    else if(bFlag == TRUE)
+    else if(cFlag == LAST)
     {
-        char *cEnd = cSrc;
+        CHAR* cEnd = cSrc;
         while(*(cEnd + 1) != '\0')
         {
             cEnd++;
@@ -323,19 +330,19 @@ void Strings::StrNTgl(char* cSrc, int iN, BOOL bFlag)
         } while ((cSrc - 1) != cEnd && iN != 0);
     }
 
-}// end of StrNTgl
+}// end of StrNTgl()
 
 ////////////////////////////////////////////////////////////
 //
 //  Name        :StrCat
-//  Input       :char*, const char*
+//  Input       :CHAR*, const CHAR*
 //  Returns     :void
 //  Description :concate two strings
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 ////////////////////////////////////////////////////////////
-void Strings::StrCat(char* cStr1, const char* cStr2)
+void Strings::StrCat(CHAR* cStr1, const CHAR* cStr2)
 {
     if(cStr1 == NULL || cStr2 == NULL)
     {
@@ -358,21 +365,21 @@ void Strings::StrCat(char* cStr1, const char* cStr2)
 ////////////////////////////////////////////////////////////
 //
 //  Name        :StrCatRev
-//  Input       :char*, const char*
+//  Input       :CHAR*, const CHAR*
 //  Returns     :void
-//  Description :concate 2nd string to FALSE in reverse
+//  Description :concate 2nd string to first in reverse
 //  Author      :Pranav Choudhary
 //  Date        :22 August 2020
 //
 ////////////////////////////////////////////////////////////
-void Strings::StrCatRev(char* cDest, const char* cSrc)
+void Strings::StrCatRev(CHAR* cDest, const CHAR* cSrc)
 {
     if(cDest == NULL || cSrc == NULL)
     {
-        printf("Invalid Input\n");
+        cout << "Invalid Input\n";
         return;
     }
-    const char *cEnd = cSrc;
+    const CHAR* cEnd = cSrc;
 
     while(*cDest != '\0')
     {
@@ -395,18 +402,18 @@ void Strings::StrCatRev(char* cDest, const char* cSrc)
 ////////////////////////////////////////////////////////////
 //
 //  Name        :StrCatAltr
-//  Input       :char*, const char*
+//  Input       :CHAR*, const CHAR*
 //  Returns     :void
 //  Description :concate two strings
 //  Author      :Pranav Choudhary
 //  Date        :22 August 2020
 //
 ////////////////////////////////////////////////////////////
-void Strings::StrCatAltr(const char* cSrc, char* cDest)
+void Strings::StrCatAltr(const CHAR* cSrc, CHAR* cDest)
 {
     if(cDest == NULL || cSrc == NULL)
     {
-        printf("Invalid Input\n");
+        cout << "Invalid Input\n";
         return;
     }
     while(*cDest != '\0')
@@ -430,15 +437,15 @@ void Strings::StrCatAltr(const char* cSrc, char* cDest)
 ////////////////////////////////////////////////////////////
 //
 //  Name        :StrNCat
-//  Input       :char*, char*, int, char
+//  Input       :CHAR*, CHAR*, int, CHAR
 //  Returns     :void
-//  Description :append N characters of second string after
-//               FALSE string(Implement strncat())
+//  Description :append N CHARacters of second string after
+//               first string(Implement strncat())
 //  Author      :Pranav Choudhary
 //  Date        :25 August 2020
 //
 ////////////////////////////////////////////////////////////
-void Strings::StrNCat(char* cStr1, const char* cStr2, int iN, BOOL bFlag)
+void Strings::StrNCat(CHAR* cStr1, const CHAR* cStr2, int iN, CHAR cFlag)
 {
     if(cStr1 == NULL || cStr2 == NULL)
     {
@@ -453,7 +460,7 @@ void Strings::StrNCat(char* cStr1, const char* cStr2, int iN, BOOL bFlag)
     {
         cStr1++;
     }
-    if(bFlag == FALSE)
+    if(cFlag == FIRST)
     {
         while(*cStr2 != '\0' && iN != 0)
         {
@@ -464,9 +471,9 @@ void Strings::StrNCat(char* cStr1, const char* cStr2, int iN, BOOL bFlag)
         }
         *cStr1 = '\0';
     }
-    else if(bFlag == TRUE)
+    else if(cFlag == LAST)
     {
-        const char *cEnd = cStr2;        
+        const CHAR* cEnd = cStr2;        
         while(*(cEnd + 1) != '\0')
         {
             cEnd++;
@@ -487,14 +494,14 @@ void Strings::StrNCat(char* cStr1, const char* cStr2, int iN, BOOL bFlag)
 ////////////////////////////////////////////////////////////
 //
 //  Name        :StrCpy
-//  Input       :const char*, char*
+//  Input       :const CHAR*, CHAR*
 //  Returns     :void
 //  Description :copy source string into destination string
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 ////////////////////////////////////////////////////////////
-void Strings::StrCpy(const char* cSrc, char* cDest)
+void Strings::StrCpy(const CHAR* cSrc, CHAR* cDest)
 {
     if(cSrc == NULL || cDest == NULL)
     {
@@ -514,14 +521,14 @@ void Strings::StrCpy(const char* cSrc, char* cDest)
 ///////////////////////////////////////////////////////////////////////
 //
 //  Name        :StrNCpy
-//  Input       :const char*, char*, int
+//  Input       :const CHAR*, CHAR*, int
 //  Returns     :void
-//  Description :copy source string's N chars into destination string
+//  Description :copy source string's N CHARs into destination string
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 ///////////////////////////////////////////////////////////////////////
-void Strings::StrNCpy(const char* cSrc, char* cDest, int iN, BOOL bFlag)
+void Strings::StrNCpy(const CHAR* cSrc, CHAR* cDest, int iN, CHAR cFlag)
 {
     if(cSrc == NULL || cDest == NULL)
     {
@@ -531,7 +538,7 @@ void Strings::StrNCpy(const char* cSrc, char* cDest, int iN, BOOL bFlag)
     if(iN < 0)
         iN = -iN;
 
-    if(bFlag == FALSE)
+    if(cFlag == FIRST)
     {
         while(*cSrc != '\0' && iN != 0)
         {
@@ -542,9 +549,9 @@ void Strings::StrNCpy(const char* cSrc, char* cDest, int iN, BOOL bFlag)
         }
         *cDest = '\0';
     }
-    else if(bFlag == TRUE)
+    else if(cFlag == LAST)
     {
-        const char *cEnd = cSrc;
+        const CHAR* cEnd = cSrc;
         while(*(cEnd + 1) != '\0')
         {
             cEnd++;
@@ -568,7 +575,7 @@ void Strings::StrNCpy(const char* cSrc, char* cDest, int iN, BOOL bFlag)
 ////////////////////////////////////////////////////////////
 //
 //  Name        :StrCpyCap
-//  Input       :const char*, char*
+//  Input       :const CHAR*, CHAR*
 //  Returns     :void
 //  Description :copy capital letters from source string 
 //               into destination string
@@ -576,7 +583,7 @@ void Strings::StrNCpy(const char* cSrc, char* cDest, int iN, BOOL bFlag)
 //  Date        :24 August 2020
 //
 ////////////////////////////////////////////////////////////
-void Strings::StrCpyCap(const char* cSrc, char* cDest)
+void Strings::StrCpyCap(const CHAR* cSrc, CHAR* cDest)
 {
     if(cSrc == NULL || cDest == NULL)
     {
@@ -599,7 +606,7 @@ void Strings::StrCpyCap(const char* cSrc, char* cDest)
 ////////////////////////////////////////////////////////////////////////////
 //
 //  Name        :StrCpyCapX
-//  Input       :const char*, char*
+//  Input       :const CHAR*, CHAR*
 //  Returns     :void
 //  Description :convert small letters to capital letters from source string
 //               into destination string
@@ -607,7 +614,7 @@ void Strings::StrCpyCap(const char* cSrc, char* cDest)
 //  Date        :24 August 2020
 //
 /////////////////////////////////////////////////////////////////////////////
-void Strings::StrCpyCapX(const char* cSrc, char* cDest)
+void Strings::StrCpyCapX(const CHAR* cSrc, CHAR* cDest)
 {
     if(cSrc == NULL || cDest == NULL)
     {
@@ -635,7 +642,7 @@ void Strings::StrCpyCapX(const char* cSrc, char* cDest)
 ////////////////////////////////////////////////////////////
 //
 //  Name        :StrCpyLwr
-//  Input       :const char*, char*
+//  Input       :const CHAR*, CHAR*
 //  Returns     :void
 //  Description :copy lower letters from source string 
 //               into destination string
@@ -643,7 +650,7 @@ void Strings::StrCpyCapX(const char* cSrc, char* cDest)
 //  Date        :24 August 2020
 //
 ////////////////////////////////////////////////////////////
-void Strings::StrCpyLwr(const char* cSrc, char* cDest)
+void Strings::StrCpyLwr(const CHAR* cSrc, CHAR* cDest)
 {
     if(cSrc == NULL || cDest == NULL)
     {
@@ -666,7 +673,7 @@ void Strings::StrCpyLwr(const char* cSrc, char* cDest)
 ////////////////////////////////////////////////////////////////////////////
 //
 //  Name        :StrCpyLwrX
-//  Input       :const char*, char*
+//  Input       :const CHAR*, CHAR*
 //  Returns     :void
 //  Description :convert capital letters to small letters from source string
 //               into destination string
@@ -674,7 +681,7 @@ void Strings::StrCpyLwr(const char* cSrc, char* cDest)
 //  Date        :24 August 2020
 //
 /////////////////////////////////////////////////////////////////////////////
-void Strings::StrCpyLwrX(const char* cSrc, char* cDest)
+void Strings::StrCpyLwrX(const CHAR* cSrc, CHAR* cDest)
 {
     if(cSrc == NULL || cDest == NULL)
     {
@@ -702,7 +709,7 @@ void Strings::StrCpyLwrX(const char* cSrc, char* cDest)
 ////////////////////////////////////////////////////////////
 //
 //  Name        :StrCpyRev
-//  Input       :const char*, char*
+//  Input       :const CHAR*, CHAR*
 //  Returns     :void
 //  Description :copy source string into destination string
 //               in reverse
@@ -710,7 +717,7 @@ void Strings::StrCpyLwrX(const char* cSrc, char* cDest)
 //  Date        :22 August 2020
 //
 ////////////////////////////////////////////////////////////
-void Strings::StrCpyRev(const char* cSrc, char* cDest)
+void Strings::StrCpyRev(const CHAR* cSrc, CHAR* cDest)
 {
     if(cSrc == NULL || cDest == NULL)
     {
@@ -737,14 +744,14 @@ void Strings::StrCpyRev(const char* cSrc, char* cDest)
 ////////////////////////////////////////////////////////////
 //
 //  Name        :StrTrimCpy
-//  Input       :const char*, char*
+//  Input       :const CHAR*, CHAR*
 //  Returns     :void
 //  Description :copy source string into destination string
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 ////////////////////////////////////////////////////////////
-void Strings::StrTrimCpy(const char* cSrc, char* cDest)
+void Strings::StrTrimCpy(const CHAR* cSrc, CHAR* cDest)
 {
     if(cSrc == NULL || cDest == NULL)
     {
@@ -767,14 +774,14 @@ void Strings::StrTrimCpy(const char* cSrc, char* cDest)
 ////////////////////////////////////////////////////////////
 //
 //  Name        :StrTrimCpyX
-//  Input       :const char*, char*
+//  Input       :const CHAR*, CHAR*
 //  Returns     :void
 //  Description :function that removes extra spaces
 //  Author      :Pranav Choudhary
 //  Date        :27 August 2020
 //
 ////////////////////////////////////////////////////////////
-void Strings::StrTrimCpyX(const char* cSrc, char* cDest)
+void Strings::StrTrimCpyX(const CHAR* cSrc, CHAR* cDest)
 {
     if(cSrc == NULL || cDest == NULL)
     {
@@ -807,14 +814,14 @@ void Strings::StrTrimCpyX(const char* cSrc, char* cDest)
 ////////////////////////////////////////////////////////////////////////////
 //
 //  Name        :StrCpyTgl
-//  Input       :const char*, char*
+//  Input       :const CHAR*, CHAR*
 //  Returns     :void
 //  Description :toggle letters from source string into destination string
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 /////////////////////////////////////////////////////////////////////////////
-void Strings::StrCpyTgl(const char* cSrc, char* cDest)
+void Strings::StrCpyTgl(const CHAR* cSrc, CHAR* cDest)
 {
     if(cSrc == NULL || cDest == NULL)
     {
@@ -847,23 +854,23 @@ void Strings::StrCpyTgl(const char* cSrc, char* cDest)
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :StrRev
-//  Input       :char*
+//  Input       :CHAR*
 //  Returns     :void
 //  Description :Reverses entered string
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-void Strings::StrRev(char* cSrc)
+void Strings::StrRev(CHAR* cSrc)
 {
     if(cSrc == NULL)
     {
         cout << "Invalid Input\n" ;
         return;
     }
-    char cTemp = '\0';
-    char *cStart = cSrc;
-    char *cEnd = cSrc;
+    CHAR cTemp = '\0';
+    CHAR* cStart = cSrc;
+    CHAR* cEnd = cSrc;
 
     while(*(cEnd + 1) != '\0' )
     {
@@ -882,16 +889,16 @@ void Strings::StrRev(char* cSrc)
 
 //////////////////////////////////////////////////////////////////////
 //
-//  Name        :StrFirstCap
-//  Input       :char *
+//  Name        :FirstCHARCap
+//  Input       :CHAR* 
 //  Returns     :void
-//  Description :replace each occurrence of FALSE character of 
+//  Description :replace each occurrence of first CHARacter of 
 //               each word into capital case
 //  Author      :Pranav Choudhary
 //  Date        :29 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-void Strings::StrFirstCap(char *cStr)
+void Strings::StrFirstCap(CHAR* cStr)
 {
     if(NULL == cStr)
     {
@@ -926,15 +933,15 @@ void Strings::StrFirstCap(char *cStr)
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :StrNRev
-//  Input       :char*, int
+//  Input       :CHAR*, int
 //  Returns     :void
-//  Description :reverse the string till FALSE N characters without 
+//  Description :reverse the string till first N CHARacters without 
 //               taking another string.
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-void Strings::StrNRev(char* cSrc, int iN, BOOL bFlag)
+void Strings::StrNRev(CHAR* cSrc, int iN, CHAR cFlag)
 {
     if(cSrc == NULL)
     {
@@ -946,11 +953,11 @@ void Strings::StrNRev(char* cSrc, int iN, BOOL bFlag)
         iN = -iN;
     }
 
-    char cTemp = '\0';
-    char *cStart = cSrc;
-    char *cEnd = cSrc;
+    CHAR cTemp = '\0';
+    CHAR* cStart = cSrc;
+    CHAR* cEnd = cSrc;
     
-    if(bFlag == FALSE)
+    if(cFlag == FIRST)
     {
         while(*cEnd != '\0' && iN != 1)
         {
@@ -970,7 +977,7 @@ void Strings::StrNRev(char* cSrc, int iN, BOOL bFlag)
             cStart++;
         }
     }
-    else if(bFlag == TRUE)
+    else if(cFlag == LAST)
     {
         cStart = cSrc;
         cEnd = NULL;
@@ -1001,7 +1008,7 @@ void Strings::StrNRev(char* cSrc, int iN, BOOL bFlag)
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :StrRangeRev
-//  Input       :char*, int, int
+//  Input       :CHAR*, int, int
 //  Returns     :void
 //  Description :reverse the string in that range without
 //               taking another string
@@ -1009,7 +1016,7 @@ void Strings::StrNRev(char* cSrc, int iN, BOOL bFlag)
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-void Strings::StrRangeRev(char* cSrc, int iS, int iE)
+void Strings::StrRangeRev(CHAR* cSrc, int iS, int iE)
 {
     if(iS < 0)
     {
@@ -1025,9 +1032,9 @@ void Strings::StrRangeRev(char* cSrc, int iS, int iE)
         return;
     }
 
-    char cTemp = '\0';
-    char *cStart = cSrc;
-    char *cEnd = cSrc;
+    CHAR cTemp = '\0';
+    CHAR* cStart = cSrc;
+    CHAR* cEnd = cSrc;
 
     if(iS == 0)
     {
@@ -1052,14 +1059,14 @@ void Strings::StrRangeRev(char* cSrc, int iS, int iE)
 ////////////////////////////////////////////////////////////
 //
 //  Name        :StrCmp
-//  Input       :const char*, const char*
+//  Input       :const CHAR*, const CHAR*
 //  Returns     :int
 //  Description :compare 2 strings
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 ////////////////////////////////////////////////////////////
-int Strings::StrCmp(const char* cStr1, const char* cStr2)
+int Strings::StrCmp(const CHAR* cStr1, const CHAR* cStr2)
 {
     if(cStr1 == NULL || cStr2 == NULL)
     {
@@ -1085,14 +1092,14 @@ int Strings::StrCmp(const char* cStr1, const char* cStr2)
 ////////////////////////////////////////////////////////////
 //
 //  Name        :StriCmp
-//  Input       :const char*, const char*
+//  Input       :const CHAR*, const CHAR*
 //  Returns     :int
 //  Description :compare 2 strings case insensitive
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 ////////////////////////////////////////////////////////////
-int Strings::StriCmp(const char* cStr1, const char* cStr2)
+int Strings::StriCmp(const CHAR* cStr1, const CHAR* cStr2)
 {
     if(cStr1 == NULL || cStr2 == NULL)
     {
@@ -1118,14 +1125,14 @@ int Strings::StriCmp(const char* cStr1, const char* cStr2)
 ////////////////////////////////////////////////////////////
 //
 //  Name        :StrNCmp
-//  Input       :const char*, const char*
+//  Input       :const CHAR*, const CHAR*
 //  Returns     :int
 //  Description :Implementation of strncmp()
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 ////////////////////////////////////////////////////////////
-int Strings::StrNCmp(const char* cStr1, const char* cStr2, int iN, BOOL bFlag)
+int Strings::StrNCmp(const CHAR* cStr1, const CHAR* cStr2, int iN, CHAR cFlag)
 {
     if(cStr1 == NULL || cStr2 == NULL)
     {
@@ -1133,14 +1140,14 @@ int Strings::StrNCmp(const char* cStr1, const char* cStr2, int iN, BOOL bFlag)
         return ERROR;
     }
     
-    const char *cEnd1 = cStr1;
-    const char *cEnd2 = cStr2;
+    const CHAR* cEnd1 = cStr1;
+    const CHAR* cEnd2 = cStr2;
 
     if(iN < 0)
     {
         iN = -iN;
     }
-    if(bFlag == FALSE)
+    if(cFlag == FIRST)
     {
         while(*cEnd1 == *cEnd2 && iN != 0)
         {
@@ -1153,7 +1160,7 @@ int Strings::StrNCmp(const char* cStr1, const char* cStr2, int iN, BOOL bFlag)
             iN--;
         }
     }
-    else if(bFlag == TRUE)
+    else if(cFlag == LAST)
     {
         while(*(cEnd1 + 1) != '\0' )
         {
@@ -1185,14 +1192,14 @@ int Strings::StrNCmp(const char* cStr1, const char* cStr2, int iN, BOOL bFlag)
 ////////////////////////////////////////////////////////////
 //
 //  Name        :StriNCmp
-//  Input       :const char*, const char*
+//  Input       :const CHAR*, const CHAR*
 //  Returns     :int
 //  Description :Implementation of strncmp()
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 ////////////////////////////////////////////////////////////
-int Strings::StriNCmp(const char* cStr1, const char* cStr2, int iN, BOOL bFlag)
+int Strings::StriNCmp(const CHAR* cStr1, const CHAR* cStr2, int iN, CHAR cFlag)
 {
     if(cStr1 == NULL || cStr2 == NULL)
     {
@@ -1200,15 +1207,15 @@ int Strings::StriNCmp(const char* cStr1, const char* cStr2, int iN, BOOL bFlag)
         return ERROR;
     }
 
-    const char *cEnd1 = cStr1;
-    const char *cEnd2 = cStr2;
+    const CHAR* cEnd1 = cStr1;
+    const CHAR* cEnd2 = cStr2;
 
     if(iN < 0)
     {
         iN = -iN;
     }
 
-    if(bFlag == FALSE)
+    if(cFlag == FIRST)
     {
         while(*cEnd1 != '\0' && *cEnd2 != '\0' && *cEnd1 != '\n' && *cEnd2 != '\n' && iN != 0)
         {
@@ -1221,7 +1228,7 @@ int Strings::StriNCmp(const char* cStr1, const char* cStr2, int iN, BOOL bFlag)
             iN--;
         }
     }
-    else if(bFlag == TRUE)
+    else if(cFlag == LAST)
     {
         while(*(cEnd1 + 1) != '\0' )
         {
@@ -1253,15 +1260,15 @@ int Strings::StriNCmp(const char* cStr1, const char* cStr2, int iN, BOOL bFlag)
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :StrSet
-//  Input       :char*, char
+//  Input       :CHAR*, CHAR
 //  Returns     :void
-//  Description :sets all characters in string to a specific character
+//  Description :sets all CHARacters in string to a specific CHARacter
 //               (Implement strset())
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-void Strings::StrSet(char *cSrc, char ch)
+void Strings::StrSet(CHAR* cSrc, CHAR ch)
 {
     if(cSrc == NULL)
     {
@@ -1278,15 +1285,15 @@ void Strings::StrSet(char *cSrc, char ch)
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :StrNSet
-//  Input       :char*, char
+//  Input       :CHAR*, CHAR
 //  Returns     :void
-//  Description :sets FALSE N characters in string to a specific 
-//               character (Implement strnset())
+//  Description :sets first N CHARacters in string to a specific 
+//               CHARacter (Implement strnset())
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-void Strings::StrNSet(char *cSrc, char ch, int iN, BOOL bFlag)
+void Strings::StrNSet(CHAR* cSrc, CHAR ch, int iN, CHAR cFlag)
 {
     if(cSrc == NULL)
     {
@@ -1297,7 +1304,7 @@ void Strings::StrNSet(char *cSrc, char ch, int iN, BOOL bFlag)
     {
         iN = -iN;
     }
-    if(bFlag == FALSE)
+    if(cFlag == FIRST)
     {
         while(*cSrc != '\0'  && iN != 0)
         {
@@ -1306,9 +1313,9 @@ void Strings::StrNSet(char *cSrc, char ch, int iN, BOOL bFlag)
             iN--;
         }
     }
-    else if(bFlag == TRUE)
+    else if(cFlag == LAST)
     {
-        char *cEnd = cSrc;
+        CHAR* cEnd = cSrc;
         while (*(cEnd + 1) != '\0')
         {
             cEnd++;
@@ -1326,14 +1333,14 @@ void Strings::StrNSet(char *cSrc, char ch, int iN, BOOL bFlag)
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :WordCnt
-//  Input       :const char *
+//  Input       :const CHAR* 
 //  Returns     :int
 //  Description :count words in given string
 //  Author      :Pranav Choudhary
 //  Date        :22 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-int Strings::WordCnt(const char *cStr)
+int Strings::WordCnt(const CHAR* cStr)
 {
     int iCnt = 0;
     if(NULL == cStr)
@@ -1367,23 +1374,23 @@ int Strings::WordCnt(const char *cStr)
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :WordRev
-//  Input       :char*
+//  Input       :CHAR*
 //  Returns     :void
 //  Description :reverse words from that string
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-void Strings::WordRev(char* cSrc)
+void Strings::WordRev(CHAR* cSrc)
 {
     if(cSrc == NULL)
     {
         cout << "Invalid Input\n" ;
         return;
     }
-    char cTemp = '\0';
-    char *cStart = cSrc;
-    char *cEnd = cSrc;
+    CHAR cTemp = '\0';
+    CHAR* cStart = cSrc;
+    CHAR* cEnd = cSrc;
 
     while(*cSrc != '\0')
     {
@@ -1411,17 +1418,17 @@ void Strings::WordRev(char* cSrc)
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :MaxOccur
-//  Input       :const char *
+//  Input       :const CHAR* 
 //  Returns     :void
-//  Description :find maximum occurring character in a string
+//  Description :find maximum occurring CHARacter in a string
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-void Strings::MaxOccur(const char *cSrc)
+void Strings::MaxOccur(const CHAR* cSrc)
 {
-    int iChars[MAX_CHAR] = {0}, i = 0, iMax = 0;
-    char ch = '\0';
+    int iCHARs[MAX_CHAR] = {0}, i = 0, iMax = 0;
+    CHAR ch = '\0';
     if(NULL == cSrc)
     {
         cout << "Invalid Input\n" ;
@@ -1429,37 +1436,37 @@ void Strings::MaxOccur(const char *cSrc)
     }
     while (*cSrc != '\0')
     {
-        iChars[*cSrc]++;
+        iCHARs[*cSrc]++;
         cSrc++;
     }
-    iMax = iChars[0];
+    iMax = iCHARs[0];
     for (i = 0; i < MAX_CHAR; i++)
     {
         if(i != 32)
         {
-            if(iMax < iChars[i])
+            if(iMax < iCHARs[i])
             {
-                iMax = iChars[i];
+                iMax = iCHARs[i];
                 ch = i;
             }
         }
     }
 
-    cout << "Max occuring char \'" << ch << "\' with occurance " << iMax << endl;
+    cout << "Max occuring CHAR \'" << ch << "\' with occurance " << iMax << endl;
 }
 
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :strchr
-//  Input       :const char*, char
+//  Input       :const CHAR*, CHAR
 //  Returns     :int
-//  Description :return position of FALSE occurance of entered 
-//               char in the entered string
+//  Description :return position of first occurance of entered 
+//               CHAR in the entered string
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-int Strings::StrChr(const char *cSrc, char ch)
+int Strings::StrChr(const CHAR* cSrc, CHAR ch)
 {
     int iCnt = -1;
     while(*cSrc != '\0')
@@ -1481,15 +1488,15 @@ int Strings::StrChr(const char *cSrc, char ch)
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :StrrChr
-//  Input       :const char*, char
+//  Input       :const CHAR*, CHAR
 //  Returns     :int
-//  Description :return position of TRUE occurance of entered 
-//               char in the entered string
+//  Description :return position of last occurance of entered 
+//               CHAR in the entered string
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-int Strings::StrrChr(const char *cSrc, char ch)
+int Strings::StrrChr(const CHAR* cSrc, CHAR ch)
 {
     if(cSrc == NULL)
     {
@@ -1522,17 +1529,17 @@ int Strings::StrrChr(const char *cSrc, char ch)
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :IsPldrm
-//  Input       :const char*
+//  Input       :const CHAR*
 //  Returns     :BOOL
 //  Description :check whether string is palindrome or not
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-BOOL Strings::IsPldrm(const char* cSrc)
+BOOL Strings::IsPldrm(const CHAR* cSrc)
 {
-    const char *cStart = NULL;
-    const char *cEnd = NULL;
+    const CHAR* cStart = NULL;
+    const CHAR* cEnd = NULL;
 
     if(cSrc == NULL)
     {
@@ -1569,17 +1576,17 @@ BOOL Strings::IsPldrm(const char* cSrc)
 ///////////////////////////////////////////////////////////////////////////
 //
 //  Name        :IsiPldrm
-//  Input       :const char*
+//  Input       :const CHAR*
 //  Returns     :BOOL
 //  Description :check whether string is palindrome or not case insensitive
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 ///////////////////////////////////////////////////////////////////////////
-BOOL Strings::IsiPldrm(const char* cSrc)
+BOOL Strings::IsiPldrm(const CHAR* cSrc)
 {
-    const char *cStart = NULL;
-    const char *cEnd = NULL;
+    const CHAR* cStart = NULL;
+    const CHAR* cEnd = NULL;
 
     if(cSrc == NULL)
     {
@@ -1616,15 +1623,15 @@ BOOL Strings::IsiPldrm(const char* cSrc)
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :CharsCnt
-//  Input       :const char *
+//  Input       :const CHAR* 
 //  Returns     :void
 //  Description :count total number of alphabets,
-//               digits and special characters in a string
+//               digits and special CHARacters in a string
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-void Strings::CharsCnt(const char *cSrc)
+void Strings::CharsCnt(const CHAR* cSrc)
 {
     int iA = 0, iSp = 0, iD = 0, iW = 0, iState = OUT;
     if(NULL == cSrc)
@@ -1658,22 +1665,22 @@ void Strings::CharsCnt(const char *cSrc)
         cSrc++;
     }
     cout << "Alphabets\t:" << iA << endl;
-    cout << "Digits\t\t:" << iD << endl;
-    cout << "Special\t\t:" << iSp << endl;
-    cout << "Words\t\t:" << iW << endl;
+    cout << "Digits\t:" << iD << endl;
+    cout << "Special\t:" << iSp << endl;
+    cout << "Words\t:" << iW << endl;
 }
 
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :CountUpr
-//  Input       :const char *
+//  Input       :const CHAR* 
 //  Returns     :int
 //  Description :count capital letters in given string
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-int Strings::CountUpr(const char *cSrc)
+int Strings::CountUpr(const CHAR* cSrc)
 {
     int iCnt = 0;
     if(NULL == cSrc)
@@ -1697,14 +1704,14 @@ int Strings::CountUpr(const char *cSrc)
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :CountLwr
-//  Input       :const char *
+//  Input       :const CHAR* 
 //  Returns     :int
 //  Description :count small letters in given string
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-int Strings::CountLwr(const char *cSrc)
+int Strings::CountLwr(const CHAR* cSrc)
 {
     int iCnt = 0;
     if(NULL == cSrc)
@@ -1728,16 +1735,16 @@ int Strings::CountLwr(const char *cSrc)
 /////////////////////////////////////////////////////////////////////////
 //
 //  Name        :IsAgrm
-//  Input       :const char*, const char*
+//  Input       :const CHAR*, const CHAR*
 //  Returns     :BOOL
 //  Description :check whether given strings are Anagram strings or not.
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 /////////////////////////////////////////////////////////////////////////
-BOOL Strings::IsAgrm(const char* cStr1, const char* cStr2)
+BOOL Strings::IsAgrm(const CHAR* cStr1, const CHAR* cStr2)
 {
-    char cChars[MAX_CHAR] = {0};
+    CHAR cCHARs[MAX_CHAR] = {0};
     int i = 0;
     if(cStr1 == NULL || cStr2 == NULL)
     {
@@ -1747,8 +1754,8 @@ BOOL Strings::IsAgrm(const char* cStr1, const char* cStr2)
 
     while(*cStr1 != '\0' && *cStr2 != '\0')
     {
-        cChars[*cStr1]++;
-        cChars[*cStr2]--;
+        cCHARs[*cStr1]++;
+        cCHARs[*cStr2]--;
         cStr1++;
         cStr2++;
     }
@@ -1756,7 +1763,7 @@ BOOL Strings::IsAgrm(const char* cStr1, const char* cStr2)
     {
        for (i = 0; i < MAX_CHAR; i++)
         {
-            if(cChars[i] != 0)
+            if(cCHARs[i] != 0)
             {
                 break;
             }
@@ -1775,14 +1782,14 @@ BOOL Strings::IsAgrm(const char* cStr1, const char* cStr2)
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :CountSpecials
-//  Input       :const char *
+//  Input       :const CHAR* 
 //  Returns     :int
-//  Description :count special characters in given string
+//  Description :count special CHARacters in given string
 //  Author      :Pranav Choudhary
 //  Date        :24 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-int Strings::CountSpecials(const char *cSrc)
+int Strings::CountSpecials(const CHAR* cSrc)
 {
     int iCnt = 0;
     if(NULL == cSrc)
@@ -1808,14 +1815,14 @@ int Strings::CountSpecials(const char *cSrc)
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :CountSpace
-//  Input       :const char*
+//  Input       :const CHAR*
 //  Returns     :int
 //  Description :compute space in the entered string
 //  Author      :Pranav Choudhary
 //  Date        :26 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-int Strings::CountSpace(const char *cSrc)
+int Strings::CountSpace(const CHAR* cSrc)
 {
     int iCnt = 0;
     while(*cSrc != '\0')
@@ -1832,7 +1839,7 @@ int Strings::CountSpace(const char *cSrc)
 //////////////////////////////////////////////////////////////////////
 //
 //  Name        :LargestWord
-//  Input       :const char *
+//  Input       :const CHAR* 
 //  Returns     :int
 //  Description :program which accept string from user and return 
 //               length of largest word
@@ -1840,7 +1847,7 @@ int Strings::CountSpace(const char *cSrc)
 //  Date        :27 August 2020
 //
 //////////////////////////////////////////////////////////////////////
-int Strings::LargestWord(const char *cStr)
+int Strings::LargestWord(const CHAR* cStr)
 {
     int iMax = 0 ,i = 0 ,iCnt = 0;
 
@@ -1880,14 +1887,14 @@ int Strings::LargestWord(const char *cStr)
 ////////////////////////////////////////////////////////////////////
 //
 //  Name        :ManPage
-//  Input       :const char*, const char*
+//  Input       :const CHAR*, const CHAR*
 //  Returns     :void
 //  Description :Man Page for commands
 //  Author      :Pranav Choudhary
 //  Date        :29 Aug 2020
 //
 ////////////////////////////////////////////////////////////////////
-void Strings::ManPage(const char* cCmd)
+void Strings::ManPage(const CHAR* cCmd)
 {
     if(StriCmp(cCmd, "strlen") == 0)
     {
@@ -1917,32 +1924,32 @@ void Strings::ManPage(const char* cCmd)
     else if(StriCmp(cCmd, "strnlwr") == 0)
     {
         cout << "Description     :converts string into lower case\n";
-        cout << "                 if Flag = 0, then FALSE N characters are converted\n";
-        cout << "                 if Flag = 1, then TRUE N characters are converted\n";
+        cout << "                 if Flag = 0, then first N CHARacters are converted\n";
+        cout << "                 if Flag = 1, then last N CHARacters are converted\n";
         cout << "Usage           :strnlwr\n";
     }
     else if(StriCmp(cCmd, "strnupr") == 0)
     {
         cout << "Description     :converts string into upper case\n";
-        cout << "                 if Flag = 0, then FALSE N characters are converted\n";
-        cout << "                 if Flag = 1, then TRUE N characters are converted\n";
+        cout << "                 if Flag = 0, then first N CHARacters are converted\n";
+        cout << "                 if Flag = 1, then last N CHARacters are converted\n";
         cout << "Usage           :strnupr\n";
     }
     else if(StriCmp(cCmd, "strtgl") == 0)
     {
-        cout << "Description     :toggles characters in string\n";
+        cout << "Description     :toggles CHARacters in string\n";
         cout << "Usage           :strtgl\n";
     }
     else if(StriCmp(cCmd, "strntgl") == 0)
     {
-        cout << "Description     :toggles characters in string\n";
-        cout << "                 if Flag = 0, then FALSE N characters are toggled\n";
-        cout << "                 if Flag = 1, then TRUE N characters are toggled\n";
+        cout << "Description     :toggles CHARacters in string\n";
+        cout << "                 if Flag = 0, then first N CHARacters are toggled\n";
+        cout << "                 if Flag = 1, then last N CHARacters are toggled\n";
         cout << "Usage           :strntgl\n";
     }
     else if(StriCmp(cCmd, "strtglrev") == 0)
     {
-        cout << "Description     :toggles characters in string in reverse\n";
+        cout << "Description     :toggles CHARacters in string in reverse\n";
         cout << "Usage           :strtglrev\n";
     }
     else if(StriCmp(cCmd, "strcat") == 0)
@@ -1952,7 +1959,7 @@ void Strings::ManPage(const char* cCmd)
     }
     else if(StriCmp(cCmd, "strcataltr") == 0)
     {
-        cout << "Description     :concatinates alternative chars from src string into destination\n";
+        cout << "Description     :concatinates alternative CHARs from src string into destination\n";
         cout << "Usage           :strcataltr\n";
     }
     else if(StriCmp(cCmd, "strcatrev") == 0)
@@ -1963,8 +1970,8 @@ void Strings::ManPage(const char* cCmd)
     else if(StriCmp(cCmd, "strncat") == 0)
     {
         cout << "Description     :concatinates src string into destination\n";
-        cout << "                 if Flag = 0, then FALSE N characters are concatinated\n";
-        cout << "                 if Flag = 1, then TRUE N characters are concatinated\n";
+        cout << "                 if Flag = 0, then first N CHARacters are concatinated\n";
+        cout << "                 if Flag = 1, then last N CHARacters are concatinated\n";
         cout << "Usage           :strncat\n";
     }
     else if(StriCmp(cCmd, "strcpy") == 0)
@@ -1972,36 +1979,36 @@ void Strings::ManPage(const char* cCmd)
         cout << "Description     :copies src string into destination\n";
         cout << "Usage           :strcpy\n";
     }
-    else if(StriCmp(cCmd, "strFALSEcap") == 0)
+    else if(StriCmp(cCmd, "strfirstcap") == 0)
     {
-        cout << "Description     :capitalize each words FALSE character\n";
-        cout << "Usage           :strFALSEcap\n";
+        cout << "Description     :capitalize each words first CHARacter\n";
+        cout << "Usage           :strfirstcap\n";
     }
     else if(StriCmp(cCmd, "strncpy") == 0)
     {
         cout << "Description     :copies src string into destination\n";
-        cout << "                 if Flag = 0, then FALSE N characters are copied\n";
-        cout << "                 if Flag = 1, then TRUE N characters are copied\n";
+        cout << "                 if Flag = 0, then first N CHARacters are copied\n";
+        cout << "                 if Flag = 1, then last N CHARacters are copied\n";
         cout << "Usage           :strncpy\n";
     }
     else if(StriCmp(cCmd, "strcpycap") == 0)
     {
-        cout << "Description     :copies capitals chars from src string into destination\n";
+        cout << "Description     :copies capitals CHARs from src string into destination\n";
         cout << "Usage           :strcpycap\n";
     }
     else if(StriCmp(cCmd, "strcpycapx") == 0)
     {
-        cout << "Description     :copies capitals chars from src string into destination by toggling case\n";
+        cout << "Description     :copies capitals CHARs from src string into destination by toggling case\n";
         cout << "Usage           :strcpycapx\n";
     }
     else if(StriCmp(cCmd, "strcpylwr") == 0)
     {
-        cout << "Description     :copies lower chars from src string into destination\n";
+        cout << "Description     :copies lower CHARs from src string into destination\n";
         cout << "Usage           :strcpylwr\n";
     }
     else if(StriCmp(cCmd, "strcpylwrx") == 0)
     {
-        cout << "Description     :copies lower chars from src string into destination by toggling case\n";
+        cout << "Description     :copies lower CHARs from src string into destination by toggling case\n";
         cout << "Usage           :strcpylwrx\n";
     }
     else if(StriCmp(cCmd, "strtrimcpy") == 0)
@@ -2032,8 +2039,8 @@ void Strings::ManPage(const char* cCmd)
     else if(StriCmp(cCmd, "strnrev") == 0)
     {
         cout << "Description     :reverses string\n";
-        cout << "                 if Flag = 0, then FALSE N characters are reversed\n";
-        cout << "                 if Flag = 1, then TRUE N characters are reversed\n";
+        cout << "                 if Flag = 0, then first N CHARacters are reversed\n";
+        cout << "                 if Flag = 1, then last N CHARacters are reversed\n";
         cout << "Usage           :strnrev\n";
     }
     else if(StriCmp(cCmd, "strrangerev") == 0)
@@ -2054,27 +2061,27 @@ void Strings::ManPage(const char* cCmd)
     else if(StriCmp(cCmd, "strncmp") == 0)
     {
         cout << "Description     :compares two strings\n";
-        cout << "                 if Flag = 0, then FALSE N characters are compared\n";
-        cout << "                 if Flag = 1, then TRUE N characters are compared\n";
+        cout << "                 if Flag = 0, then first N CHARacters are compared\n";
+        cout << "                 if Flag = 1, then last N CHARacters are compared\n";
         cout << "Usage           :strncmp\n";
     }
     else if(StriCmp(cCmd, "strincmp") == 0)
     {
         cout << "Description     :compares two strings witout considering case\n";
-        cout << "                 if Flag = 0, then FALSE N characters are compared\n";
-        cout << "                 if Flag = 1, then TRUE N characters are compared\n";
+        cout << "                 if Flag = 0, then first N CHARacters are compared\n";
+        cout << "                 if Flag = 1, then last N CHARacters are compared\n";
         cout << "Usage           :strincmp\n";
     }
     else if(StriCmp(cCmd, "strset") == 0)
     {
-        cout << "Description     :set characters in string with specified character\n";
+        cout << "Description     :set CHARacters in string with specified CHARacter\n";
         cout << "Usage           :strset\n";
     }
     else if(StriCmp(cCmd, "strnset") == 0)
     {
-        cout << "Description     :set N characters in string with specified character\n";
-        cout << "                 if Flag = 0, then FALSE N characters are set\n";
-        cout << "                 if Flag = 1, then TRUE N characters are set\n";
+        cout << "Description     :set N CHARacters in string with specified CHARacter\n";
+        cout << "                 if Flag = 0, then first N CHARacters are set\n";
+        cout << "                 if Flag = 1, then last N CHARacters are set\n";
         cout << "Usage           :strnset\n";
     }
     else if(StriCmp(cCmd, "ispldrm") == 0)
@@ -2104,42 +2111,42 @@ void Strings::ManPage(const char* cCmd)
     }
     else if(StriCmp(cCmd, "maxoccur") == 0)
     {
-        cout << "Description     :counts maximum occuring character in string\n";
+        cout << "Description     :counts maximum occuring CHARacter in string\n";
         cout << "Usage           :maxoccur\n";
     }
     else if(StriCmp(cCmd, "strchr") == 0)
     {
-        cout << "Description     :find FALSE position of character in string\n";
+        cout << "Description     :find first position of CHARacter in string\n";
         cout << "Usage           :strchr\n";
     }
     else if(StriCmp(cCmd, "strrchr") == 0)
     {
-        cout << "Description     :find TRUE position of character in string\n";
+        cout << "Description     :find last position of CHARacter in string\n";
         cout << "Usage           :strrchr\n";
     }
-    else if(StriCmp(cCmd, "charscnt") == 0)
+    else if(StriCmp(cCmd, "CharsCnt") == 0)
     {
-        cout << "Description     :counts total alphabets, digits, special characters, words in string\n";
-        cout << "Usage           :charscnt\n";
+        cout << "Description     :counts total alphabets, digits, special CHARacters, words in string\n";
+        cout << "Usage           :CharsCnt\n";
     }
     else if(StriCmp(cCmd, "countlwr") == 0)
     {
-        cout << "Description     :counts lower characters in string\n";
+        cout << "Description     :counts lower CHARacters in string\n";
         cout << "Usage           :countlwr\n";
     }
     else if(StriCmp(cCmd, "countupr") == 0)
     {
-        cout << "Description     :counts upper characters in string\n";
+        cout << "Description     :counts upper CHARacters in string\n";
         cout << "Usage           :countupr\n";
     }
     else if(StriCmp(cCmd, "countspace") == 0)
     {
-        cout << "Description     :counts spaces characters in string\n";
+        cout << "Description     :counts spaces CHARacters in string\n";
         cout << "Usage           :countspace\n";
     }
     else if(StriCmp(cCmd, "countspecial") == 0)
     {
-        cout << "Description     :counts special characters in string\n";
+        cout << "Description     :counts special CHARacters in string\n";
         cout << "Usage           :countspecial\n";
     }
     else if(StriCmp(cCmd, "largestw") == 0)
@@ -2152,7 +2159,7 @@ void Strings::ManPage(const char* cCmd)
 ////////////////////////////////////////////////////////////////////
 //
 //  Name        :ManPage
-//  Input       :const char*, const char*
+//  Input       :const CHAR*, const CHAR*
 //  Returns     :void
 //  Description :Man Page for commands
 //  Author      :Pranav Choudhary
@@ -2189,7 +2196,7 @@ void Strings::Help()
     cout << "StrRev        :type \'man strrev\' - to see more" << endl;
     cout << "StrNRev       :type \'man strnrev\' - to see more" << endl;
     cout << "StrRangeRev   :type \'man strrangerev\' - to see more" << endl;
-    cout << "StrFALSECap   :type \'man strFALSEcap\' - to see more" << endl;
+    cout << "StrFirstCap   :type \'man strfirstcap\' - to see more" << endl;
     cout << "StrCmp        :type \'man strcmp\' - to see more" << endl;
     cout << "StriCmp       :type \'man stricmp\' - to see more" << endl;
     cout << "StrNCmp       :type \'man strncmp\' - to see more" << endl;
@@ -2204,10 +2211,12 @@ void Strings::Help()
     cout << "MaxOccur      :type \'man maxoccur\' - to see more" << endl;
     cout << "strchr        :type \'man strchr\' - to see more" << endl;
     cout << "strrchr       :type \'man strrchr\' - to see more" << endl;
-    cout << "CharsCnt      :type \'man charscount\' - to see more" << endl;
+    cout << "CharsCnt      :type \'man CHARscount\' - to see more" << endl;
     cout << "CountLwr      :type \'man countlwr\' - to see more" << endl;
     cout << "CountUpr      :type \'man countupr\' - to see more" << endl;
     cout << "CountSpace    :type \'man countspace\' - to see more" << endl;
     cout << "CountSpecials :type \'man countspecial\' - to see more" << endl;
     cout << "LargestWord   :type \'man largestw\' - to see more" << endl;
 }
+
+/////////////////////////////// End of StrLib.cpp /////////////////////////////////////////// 
