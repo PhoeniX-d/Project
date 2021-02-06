@@ -1,22 +1,29 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-class PackerUnpackerLogin extends GUITemplate implements Runnable, ActionListener
+class PackerUnpackerLogin extends GUITemplate implements ActionListener, KeyListener
 {
 	JButton submit, clear;
 	JLabel topLabel, status, username, password;
 	JPasswordField passwordField;
-	JTextField textField;
-
+	static JTextField unameField;
+	static String userValue, pwdValue;
+	static int attempt = 5;
+	
 	public PackerUnpackerLogin() 
-	{		
+	{
 		topLabel = new JLabel("File Packer and Unpacker");
 		topLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		topLabel.setBounds(185, 23, 320, 30);
@@ -42,18 +49,21 @@ class PackerUnpackerLogin extends GUITemplate implements Runnable, ActionListene
 		username.setForeground(Color.WHITE);
 		username.setFont(new Font("Courier New", Font.BOLD, 17));
 		username.setAlignmentX(JLabel.LEFT);
+		
 		content.add(username);
 		
 		passwordField = new JPasswordField();
 		passwordField.setBounds(275, 148, 322, 30);
 		content.add(passwordField);
 		passwordField.setToolTipText("Enter your password here!");
+		passwordField.addKeyListener(this);
 		
-		textField = new JTextField();
-		textField.setBounds(275, 97, 322, 26);
-		content.add(textField);
-		textField.setColumns(15);
-		textField.setToolTipText("Enter your username here!");
+		unameField = new JTextField();
+		unameField.setBounds(275, 97, 322, 26);
+		content.add(unameField);
+		unameField.setColumns(15);
+
+		unameField.setToolTipText("Enter your username here!");
 		
 		password = new JLabel("PASSWORD :");
 		password.setHorizontalAlignment(SwingConstants.CENTER);
@@ -71,19 +81,105 @@ class PackerUnpackerLogin extends GUITemplate implements Runnable, ActionListene
 		clear.setFont(new Font("Courier New", Font.BOLD, 17));
 		clear.setBounds(452, 238, 145, 23);
 		content.add(clear);
-
-		this.setResizable(false);
-	}
-
-	public static void main(String[] args)
-	{
-		PackerUnpackerLogin frame = new PackerUnpackerLogin();
-		frame.setVisible(true);
-	}
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
 		
+		pack();
+		validate();
+		clockHome();
+		this.setBounds(380, 180, 700, 450);
+		this.setVisible(true);
+		this.setResizable(false);
+		submit.addActionListener(this);
+		clear.addActionListener(this);
 	}
+	
+	public boolean isValid(String username, String password)
+	{
+		if(username.length() < 8 || password.length() < 8)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
+	public void submitTask()
+	{
+		if(isValid(userValue, pwdValue) == false)
+		{
+			unameField.setText("");
+			passwordField.setText("");
+			JOptionPane.showMessageDialog(this,"Short Username or Password", "File Packer-Unpacker", JOptionPane.ERROR_MESSAGE);
+		}
+		
+		if(userValue.equals("Administrator") && pwdValue.equals("Administrator"))
+		{
+			PackerUnpackerFront nextPage = new PackerUnpackerFront(userValue);
+			this.setVisible(false);
+			nextPage.pack();
+			nextPage.setVisible(true);
+			nextPage.setBounds(380, 180, 700, 450);
+		}
+		else
+	    {
+	        attempt--;		        
+	        if(attempt == 0)
+	        {
+	        	JOptionPane.showMessageDialog(this, "Number of attempts finished","File Packer-Unpacker", JOptionPane.ERROR_MESSAGE);
+	        	this.dispose();
+	        	System.exit(0);
+	        }
+	        if(attempt < 3)
+	        {
+	        	JOptionPane.showMessageDialog(this,"Incorrect Login or password, \n     Attempt Remaining " + attempt,"Error", JOptionPane.ERROR_MESSAGE);
+	        }
+	        else
+	        {
+	        	JOptionPane.showMessageDialog(this,"Incorrect Login or password","Error", JOptionPane.ERROR_MESSAGE);
+	        }
+	    }
+	}
+
+	public void actionPerformed(ActionEvent ae)
+	{	
+		userValue = unameField.getText();
+		pwdValue = new String(passwordField.getPassword());
+			
+		if(ae.getSource() == minimize)
+		{
+			this.setState(JFrame.ICONIFIED);
+		}
+		if(ae.getSource() == exit)
+		{
+			this.setVisible(false);
+			System.exit(0);
+		}
+		
+		if(ae.getSource() == clear)
+		{
+			unameField.setText("");
+			passwordField.setText("");
+		}
+		
+		if(ae.getSource() == submit)
+		{			
+			submitTask();
+		}		
+	}
+
+	public void keyPressed(KeyEvent ke)
+	{
+		userValue = unameField.getText();
+		pwdValue = new String(passwordField.getPassword());
+		
+		String keyName = KeyEvent.getKeyText(ke.getKeyCode());
+		if(keyName.equals("Enter"))
+		{
+			submitTask();
+		}
+	}
+
+	public void keyReleased(KeyEvent ke){}
+	public void keyTyped(KeyEvent e){}
 }

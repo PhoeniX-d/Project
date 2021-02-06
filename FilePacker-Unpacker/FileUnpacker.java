@@ -1,12 +1,6 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class FileUnpacker
 {
@@ -17,7 +11,8 @@ public class FileUnpacker
 
     public void fileUnpack(String filePath)
     {
-        try {
+        try
+        {
             FileInputStream inStream = new FileInputStream(filePath);
 
             byte header[] = new byte[100];
@@ -27,7 +22,7 @@ public class FileUnpacker
 
             String magicStr = new String(magic);
             if (!magicStr.equals("LeafyBeacon")) {
-                System.out.println("Invslid File for unpacking");
+                System.out.println("Invalid File for unpacking");
             }
             while ((size = inStream.read(header, 0, 100)) > 0) {
                 String str = new String(header);
@@ -42,18 +37,13 @@ public class FileUnpacker
                 outStream.write(arr, 0, fileSize);
             }
         } 
-        catch (IOException ie) 
+        catch (InvalidFileException ie) 
         {
-            ie.printStackTrace();
+            throw new InvalidFileException("Invalid packed file format");
         }
         catch (Exception e) 
         {
             e.printStackTrace();
         }
-    }
-    
-    public static void main(String[] args) throws IOException
-    {
-        new FileUnpacker(args[0]);
     }
 }

@@ -2,68 +2,60 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
-class PackerUnpackerFront extends GUITemplate implements Runnable, ActionListener
+class PackerUnpackerFront extends GUITemplate implements ActionListener
 {
 	JButton pack, unpack;
-	JLabel label, status, welcome;
-
+	JLabel task, welcome;
+	String username;
 	
-	PackerUnpackerFront()
+	PackerUnpackerFront(String username)
 	{
-		welcome = new JLabel("Welcome : ");
-		welcome.setBounds(170, 25, 350, 25);
+		this.username = username;
+		welcome = new JLabel("Welcome : " + username);
+		welcome.setBounds(200, 25, 350, 25);
 		welcome.setFont(new Font("Courier New", Font.BOLD, 20));
-		header.add(welcome);
+		header.add(welcome);		
+
+		task = new JLabel("Select Task");
+		task.setBounds(235, 52, 203, 30);
+		content.add(task);
+		task.setHorizontalAlignment(SwingConstants.CENTER);
+		task.setForeground(Color.WHITE);
+		task.setFont(new Font("Courier New", Font.BOLD, 20));
+		task.setAlignmentX(JLabel.CENTER);
 		
-		pack = new JButton("Pack");
+		pack = new JButton("Pack Files");
 		pack.setHorizontalAlignment(SwingConstants.CENTER);
 		pack.setFont(new Font("Courier New", Font.BOLD, 20));
-		pack.setBounds(150, 140, 145, 50);
-		pack.setAlignmentX(JLabel.CENTER);
+		pack.setBounds(140, 140, 155, 50);
+		pack.setAlignmentX(JButton.CENTER);
 		content.add(pack);
 		
-		unpack = new JButton("Unpack");
+		unpack = new JButton("Unpack File");
 		unpack.setHorizontalAlignment(SwingConstants.CENTER);
 		unpack.setFont(new Font("Courier New", Font.BOLD, 20));
-		unpack.setBounds(400, 140, 145, 50);
-		unpack.setAlignmentX(JLabel.CENTER);
+		unpack.setBounds(380, 140, 180, 50);
+		unpack.setAlignmentX(JButton.CENTER);
 		content.add(unpack);
-		
-		status = new JLabel();
-		status.setAlignmentX(JLabel.CENTER);
-		status.setBounds(150, 200, 342, 22);
-		content.add(status);
-		
-		label = new JLabel("Select Task");
-		label.setBounds(235, 52, 203, 30);
-		content.add(label);
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setForeground(Color.WHITE);
-		label.setFont(new Font("Courier New", Font.BOLD, 20));
-		label.setAlignmentX(JLabel.CENTER);
 		
 		pack.addActionListener(this);
 		unpack.addActionListener(this);
+		
+		this.setBounds(380, 180, 700, 450);
+		this.setVisible(true);
 		this.setResizable(false);
-		setVisible(true);
 	}
 	
 	public void actionPerformed(ActionEvent ae)
 	{
-		if (ae.getSource() == pack) {
-			status.setText("You Have Selected Pack Activity");
-		} else if (ae.getSource() == unpack) {
-			status.setText("You Have Selected Unpack Activity");
-		}
 		if (ae.getSource() == exit)
 		{
 			this.setVisible(false);
@@ -73,16 +65,23 @@ class PackerUnpackerFront extends GUITemplate implements Runnable, ActionListene
 		{
 			setState(JFrame.ICONIFIED);
 		}
-		status.setFont(new Font("Courier New", Font.BOLD, 13));
-		status.setForeground(Color.GREEN);
-	}
-	
-	public void run()
-	{
+		if(ae.getSource() == pack)
+		{
+			this.setVisible(false);
+			try
+			{
+				FilePackerFront packer = new FilePackerFront(username);
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			}
+		}
 		
-	}
-	public static void main(String[] args)
-	{
-		PackerUnpackerFront t = new PackerUnpackerFront();
+		if(ae.getSource() == unpack)
+		{
+			this.setVisible(false);
+			FileUnpackerFront unpacker = new FileUnpackerFront(username);
+		}
 	}
 }

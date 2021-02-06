@@ -1,28 +1,29 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.stream.Stream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
-public class FilePacker
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+public class FilePacker extends JFrame
 {
     // create FileOutputStream object for destination file 
     FileOutputStream outStream = null;
 
     // We support files with following extensions to be packed
     String validExtensions[] = {".txt", ".c", ".cpp", ".java", ".cs", ".js"};
+    String validExt;
+    static boolean flag = false;
 
     // constructor
-    FilePacker(String src, String dest) throws IOException
+    public FilePacker(String src, String extension, String dest) throws Exception
     {
         // Implement Magic number code
         String magic = "LeafyBeacon";
@@ -32,36 +33,68 @@ public class FilePacker
         outStream.write(arr, 0, arr.length);
 
         File folder = new File(src);
-        listAllFiles(folder.getAbsolutePath());
+        listAllFiles(folder.getAbsolutePath(), extension);
     }
     
-    public void listAllFiles(String path)
+    public void listAllFiles(String path, String extension)
     {
-        try (Stream<Path> paths = Files.walk(Paths.get(path))) {
-            paths.forEach(filePath -> {
-                if (Files.isRegularFile(filePath)) {
-                    try {
+        try (Stream<Path> paths = Files.walk(Paths.get(path)))
+        {
+            paths.forEach(filePath ->
+            {
+                if (Files.isRegularFile(filePath))
+                {
+                    try
+                    {
                         String name = filePath.getFileName().toString();
                         String ext = name.substring(name.lastIndexOf("."));
                         List<String> list = Arrays.asList(validExtensions);
-
-                        if (list.contains(ext)) {
-                            filePack(filePath.toString());
+                        
+                        if(extension.equals("All"))
+                        {               
+                            if (list.contains(ext))
+                            {
+                                filePack(filePath.toString());
+                            }
                         }
-                    } catch (Exception e) {
+                        else
+                        {
+                        	if (list.contains(ext))
+                            {
+                        		if(ext.equals(extension))
+                        		{
+                        			filePack(filePath.toString());
+                        		}                  
+                            }                    
+                        }
+                    }
+                    catch (Exception e)
+                    {
                         e.printStackTrace();
                     }
                 }
             });
-        } catch (IOException e) {
+        } 
+        catch (IOException e) 
+        {
             e.printStackTrace();
+        }
+        finally
+        {
+        	if(flag == false)
+        	{
+        		String str = new String("Source Directory does not contain file with selected extension");
+        		JOptionPane.showMessageDialog(this, str, "File Packer-Unpacker", JOptionPane.INFORMATION_MESSAGE);
+        	}
         }
     }
     
     public void filePack(String filePath)
     {
+    	flag = true;
         FileInputStream inStream = null;
-        try {
+        try 
+        {
             byte[] buffer = new byte[1024];
             int length = 0;
             byte[] temp = new byte[100];
@@ -93,10 +126,5 @@ public class FilePacker
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    
-    public static void main(String[] args) throws IOException
-    {
-        new FilePacker(args[0], args[1]);   
     }
 }

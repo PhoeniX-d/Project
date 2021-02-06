@@ -1,5 +1,9 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -12,15 +16,18 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
-class ClockLabel extends JLabel implements ActionListener {
+class ClockLabel extends JLabel implements ActionListener
+{
 	String type;
 	SimpleDateFormat sdf;
 
-	public ClockLabel(String type) {
+	public ClockLabel(String type)
+	{
 		this.type = type;
 		setForeground(Color.RED);
 
-		switch (type) {
+		switch (type)
+		{
 		case "date":
 			sdf = new SimpleDateFormat("MMMM dd yyyy");
 			setFont(new Font("Consolas", Font.BOLD, 17));
@@ -63,42 +70,38 @@ class GUITemplate extends JFrame implements ActionListener
 
 	public GUITemplate() 
 	{
-		setBounds(380, 180, 700, 450);
+		setIconImage(Toolkit.getDefaultToolkit().getImage("filepackerunpacker.jpg"));
+		this.setBounds(380, 180, 700, 450);
 		getContentPane().setLayout(null);		
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-		//GridBagLayout grid = new GridBagLayout();
-		//getContentPane().setLayout(grid);
 
 		top = new JPanel();
 		top.setBounds(0, 0, 684, 25);
 		top.setBackground(Color.LIGHT_GRAY);
 		top.setLayout(null);
 		getContentPane().add(top);
-		/*getContentPane().add(top, new GridBagConstraints(0, 0, 1, 1, 1, 5, GridBagConstraints.BASELINE,
-				GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));*/
 
 		header = new JPanel();
 		header.setBounds(0, 25, 684, 80);
-		header.setLayout(null);
 		header.setBackground(Color.white);
 		getContentPane().add(header);
-		/*getContentPane().add(header, new GridBagConstraints(0, 1, 1, 1, 1, 20, GridBagConstraints.BASELINE,
-				GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));*/
+		header.setLayout(null);
 
 		content = new JPanel();
-		content.setBounds(0, 105, 685, 305);
+		content.setBounds(0, 105, 685, 306);
 		content.setLayout(null);
 		content.setBackground(new Color(0, 50, 120));
 		getContentPane().add(content);
-		/*getContentPane().add(content, new GridBagConstraints(0, 1, 1, 1, 1, 20, GridBagConstraints.BASELINE,
-				GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0));*/
 		
-		setTitle("File Packer Unpacker");
-		clock();
-		closeAndMin();
+		this.setTitle("File Packer Unpacker");
+		this.clock();
+		this.closeAndMin();
+		this.setVisible(true);
+		this.setResizable(false);;
 	}
 
-	void closeAndMin() {
+	void closeAndMin()
+	{
 		minimize = new JButton("-");
 		minimize.setBounds(2, 0, 45, 25);
 		minimize.setHorizontalAlignment(SwingConstants.CENTER);
@@ -117,9 +120,7 @@ class GUITemplate extends JFrame implements ActionListener
 		top.add(exit);
 		
 		minimize.addActionListener(this);
-		exit.addActionListener(this);
-		this.setResizable(false);
-		
+		exit.addActionListener(this);		
 	}
 
 	public void actionPerformed(ActionEvent ae) {
@@ -198,8 +199,8 @@ class GUITemplate extends JFrame implements ActionListener
 		top.add(timeLabel);
 	}
 	
-	public static void main(String[] args) {
-		GUITemplate frame = new GUITemplate();
-		frame.setVisible(true);
+	public static void main(String[] args)
+	{
+		new GUITemplate();
 	}
 }
