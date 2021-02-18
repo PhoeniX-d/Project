@@ -23,7 +23,7 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 	JTextField srcDirField, destFileField;
 	Choice choice;
 	String username, state;
-	public FilePackerFront(String username)
+	public FilePackerFront(String username) throws Exception
 	{
 		this.username = username;
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -36,7 +36,7 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 		topLabel.setForeground(Color.BLUE);
 		header.add(topLabel);
 
-		srcDir = new JLabel("Source Directory Name:");
+		srcDir = new JLabel("*Source Directory Name:");
 		srcDir.setHorizontalAlignment(SwingConstants.CENTER);
 		srcDir.setBounds(21, 57, 245, 30);
 		srcDir.setBackground(new Color(0, 50, 120));
@@ -57,7 +57,7 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 		srcDirField.setColumns(10);
 		srcDirField.setToolTipText("Source Directory Name!");
 
-		destFile = new JLabel("Destination File Name:");
+		destFile = new JLabel("*Destination File Name:");
 		destFile.setHorizontalAlignment(SwingConstants.CENTER);
 		destFile.setForeground(Color.WHITE);
 		destFile.setFont(new Font("Courier New", Font.BOLD, 17));
@@ -84,7 +84,7 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 		content.add(choice);
 		
 		
-		this.setBounds(380, 180, 700, 450);
+		this.setBounds(fSize.width / 4, fSize.height / 5, 700, 450);
 		this.setVisible(true);
 		this.setResizable(false);
 		
@@ -95,16 +95,48 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 	
 	public void submitTask()
 	{
-		this.setVisible(false);
-		try
+		
+		if(destFileField.getText().isEmpty() || srcDirField.getText().isEmpty())
+    	{
+    		String s = new String("Please enter all required fields");
+    		JOptionPane.showMessageDialog(this, s, "File Packer-Unpacker", JOptionPane.INFORMATION_MESSAGE);
+    		this.setVisible(false);
+    		try
+			{
+				FilePackerFront packer = new FilePackerFront(username);
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			}
+    	}
+		else
 		{
-			FilePacker packer = new FilePacker(srcDirField.getText(), state, destFileField.getText());
-			this.setEnabled(false);
-			PackerUnpackerFront nextPage = new PackerUnpackerFront(username);
-		}
-		catch(Exception e)
-		{
-			JOptionPane.showMessageDialog(null, e.getMessage());
+			this.setVisible(false);
+			try
+			{
+				FilePacker packer = new FilePacker(srcDirField.getText(), state, destFileField.getText(), username);
+				this.dispose();
+				if(packer.isDirExists == false)
+				{
+					try
+					{
+						FilePackerFront packerfront = new FilePackerFront(username);
+					}
+					catch(Exception e)
+					{
+						JOptionPane.showMessageDialog(null, e.getMessage());
+					}
+				}
+				else
+				{
+					FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(username);
+				}
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			}
 		}
 	}
 	
@@ -132,10 +164,9 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 		if(ae.getSource() == previous)
 		{
 			this.setVisible(false);
-			this.setEnabled(false);
 			try
 			{
-				PackerUnpackerFront nextPage = new PackerUnpackerFront(username);
+				FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(username);
 			}
 			catch(Exception e)
 			{

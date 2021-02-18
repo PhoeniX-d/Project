@@ -25,7 +25,7 @@ class FileUnpackerFront extends GUITemplate implements ActionListener
 	JTextField sourceFileField;
 	String username;
 
-	public FileUnpackerFront(String username)
+	public FileUnpackerFront(String username) 
 	{
 		this.username = username;
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -46,13 +46,13 @@ class FileUnpackerFront extends GUITemplate implements ActionListener
 		sourceFile.setFont(new Font("Courier New", Font.BOLD, 17));
 		sourceFile.setAlignmentX(JLabel.LEFT);
 		sourceFile.requestFocusInWindow();
-		sourceFile.setToolTipText("Name of file to be unpacked");
 		content.add(sourceFile);
 
 		sourceFileField = new JTextField();
 		sourceFileField.setBounds(327, 61, 285, 25);
 		content.add(sourceFileField);
-		sourceFileField.setColumns(10);
+		sourceFileField.setColumns(30);
+		sourceFileField.setToolTipText("Name of file to be unpacked");
 		sourceFileField.setToolTipText("Source Directory Name!");
 
 		extract = new JButton("Extract Here");
@@ -67,7 +67,7 @@ class FileUnpackerFront extends GUITemplate implements ActionListener
 		previous.addActionListener(this);
 		content.add(previous);
 
-		this.setBounds(380, 180, 700, 450);
+		this.setBounds(fSize.width / 4, fSize.height / 5, 700, 450);
 		this.setVisible(true);
 		this.setResizable(false);
 	}
@@ -76,7 +76,7 @@ class FileUnpackerFront extends GUITemplate implements ActionListener
 	{
 		if (ae.getSource() == exit)
 		{
-			this.setVisible(false);
+			this.dispose();
 			System.exit(0);
 		}
 		if (ae.getSource() == minimize)
@@ -85,35 +85,54 @@ class FileUnpackerFront extends GUITemplate implements ActionListener
 		}
 		if(ae.getSource() == extract)
 		{
-			this.setVisible(false);
-			try
-			{
-				FileUnpacker unpacker = new FileUnpacker(sourceFileField.getText());
-				this.setEnabled(false);
-			}
-			catch(InvalidFileException ie)
+			if(sourceFileField.getText().isEmpty())
+	    	{
+	    		String s = new String("Please enter all required fields");
+	    		JOptionPane.showMessageDialog(this, s, "File Packer-Unpacker", JOptionPane.INFORMATION_MESSAGE);
+	    		this.setVisible(false);
+	    		FileUnpackerFront nextPage = new FileUnpackerFront(username);
+	    	}
+			else
 			{
 				this.setVisible(false);
-				this.setEnabled(false);
-				JOptionPane.showMessageDialog(this, "Invalid Packed File", "Error", JOptionPane.ERROR_MESSAGE);
-			}
-			catch(Exception e)
-			{
-				JOptionPane.showMessageDialog(null, e.getMessage());
-			}
-			finally
-			{
-				PackerUnpackerFront nextPage = new PackerUnpackerFront(username);
+				try
+				{
+					FileUnpacker unpacker = new FileUnpacker(sourceFileField.getText());
+					if(unpacker.isFileThere == false)
+					{
+						JOptionPane.showMessageDialog(this, "Packed File Does not exists", "Error", JOptionPane.ERROR_MESSAGE);
+						FileUnpackerFront unpack = new FileUnpackerFront(username);
+					}
+					else
+					{
+						FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(username);
+					}
+					//this.setVisible(false);
+				}
+				catch(InvalidFileException ie)
+				{
+					this.dispose();
+					JOptionPane.showMessageDialog(this, "Invalid Packed File", "Error", JOptionPane.ERROR_MESSAGE);
+					FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(username);
+				}
+				catch(Exception e)
+				{
+					JOptionPane.showMessageDialog(null, e.getMessage());
+					FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(username);
+				}
+				finally
+				{
+					
+				}
 			}
 		}
 		
 		if(ae.getSource() == previous)
 		{
-			this.setVisible(false);
-			this.setEnabled(false);
+			this.dispose();
 			try
 			{
-				PackerUnpackerFront nextPage = new PackerUnpackerFront(username);
+				FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(username);
 			}
 			catch(Exception e)
 			{

@@ -1,8 +1,7 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,9 +11,12 @@ import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 class ClockLabel extends JLabel implements ActionListener
 {
@@ -63,15 +65,26 @@ class GUITemplate extends JFrame implements ActionListener
 	JPanel header;
 	JPanel content;
 	JPanel top;
+	Image img;
 	ClockLabel dayLabel;
 	ClockLabel timeLabel;
 	ClockLabel dateLabel;
 	JButton minimize, exit;
+	Dimension fSize;
 
-	public GUITemplate() 
+	public GUITemplate()
 	{
-		setIconImage(Toolkit.getDefaultToolkit().getImage("filepackerunpacker.jpg"));
-		this.setBounds(380, 180, 700, 450);
+		try
+		{
+			setIconImage(Toolkit.getDefaultToolkit().getImage("filepackerunpacker.jpg"));
+			fSize = Toolkit.getDefaultToolkit().getScreenSize();		
+			this.setBounds(fSize.width / 4, fSize.height / 5, 700, 450);
+			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(this, e, "File Packer-Unpacker", JOptionPane.ERROR_MESSAGE);
+		}
 		getContentPane().setLayout(null);		
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -126,7 +139,7 @@ class GUITemplate extends JFrame implements ActionListener
 	public void actionPerformed(ActionEvent ae) {
 		if (ae.getSource() == exit)
 		{
-			this.setVisible(false);
+			this.dispose();
 			System.exit(0);
 		}
 		if (ae.getSource() == minimize)

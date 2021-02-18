@@ -7,12 +7,12 @@ public class FilePackerUnpacker {
 	{
 		try
 		{
-			PackerUnpackerLogin frame = new PackerUnpackerLogin();
+			FilePackerUnpackerLogin frame = new FilePackerUnpackerLogin();
 			frame.setVisible(true);
 			SwingUtilities.invokeLater(new Runnable()
 			{
 			      public void run() {
-			        PackerUnpackerLogin.unameField.requestFocus();
+			        FilePackerUnpackerLogin.unameField.requestFocus();
 			      }
 			});
 		}
