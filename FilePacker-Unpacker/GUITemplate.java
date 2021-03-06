@@ -5,6 +5,11 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -71,7 +76,12 @@ class GUITemplate extends JFrame implements ActionListener
 	ClockLabel dateLabel;
 	JButton minimize, exit;
 	Dimension fSize;
-	static HashMap<String, String> creds = new HashMap<String, String>();;
+	static HashMap<String, String> creds = new HashMap<String, String>();
+	File serializeFile;
+	ObjectInputStream mapInput;
+	ObjectOutputStream mapOutput;
+	FileInputStream serializeFis = null;
+	FileOutputStream serializeFos = null;
 	
 	public GUITemplate()
 	{

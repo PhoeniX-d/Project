@@ -4,6 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -25,7 +30,7 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener
 	JPasswordField pwdField, confirmpwdField;
 	String userValue, pwdValue, confirmpwdValue;
 	JCheckBox show1, show2;
-	
+
 	RegisterUser() throws Exception
 	{
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -74,10 +79,11 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener
 		pwdField.setBounds(300, 100, 260, 25);
 		content.add(pwdField);
 		pwdField.setEchoChar((char)0);
-		pwdField.setToolTipText("New user password");
+		pwdField.setToolTipText("New user password, it must of length >= 8 characters ");
 		
 		show1 = new JCheckBox("Show", true);
 		show1.setBounds(580, 100, 65, 25);
+		show1.setToolTipText("See password");
 		content.add(show1);
 
 		confirmpwdField = new JPasswordField();
@@ -88,6 +94,7 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener
 		
 		show2 = new JCheckBox("Show", true);
 		show2.setBounds(580, 155, 65, 25);
+		show2.setToolTipText("See password");
 		content.add(show2);
 		
 		create = new JButton("Create");
@@ -142,7 +149,7 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener
 		}
 		else
 		{
-			pwdField.setEchoChar('*');
+			confirmpwdField.setEchoChar('*');
 		}
 		
 		if (ae.getSource() == exit)
@@ -174,18 +181,42 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener
 	}
 	
 	public void createTask()
-	{		
-		Set<String> keys= creds.keySet();
-		if(keys.contains(userValue))
+	{	
+		if(isValid(userValue, pwdValue) == false)
 		{
-			JOptionPane.showMessageDialog(null, "Sorry!! username already exists, try different username", "File Packer-Unpacker2", JOptionPane.INFORMATION_MESSAGE);
 			nameField.setText("");
 			pwdField.setText("");
 			confirmpwdField.setText("");
+			JOptionPane.showMessageDialog(this,"Short Username or Password", "File Packer-Unpacker", JOptionPane.ERROR_MESSAGE);
 		}
 		else
 		{
-			if(pwdValue.equals(confirmpwdValue) == false)
+			serializeFile = new File("credentials.txt");
+			if(serializeFile.exists() && serializeFile.isFile())
+			{
+				try
+				{
+					serializeFis = new FileInputStream("credentials.txt");
+					mapInput = new ObjectInputStream(serializeFis);
+					creds = (HashMap<String, String>)mapInput.readObject();
+					serializeFis.close();
+					mapInput.close();
+				}
+				catch(Exception e)
+				{
+					
+				}
+			}
+			
+			Set<String> keys= creds.keySet();
+			if(keys.contains(userValue))
+			{
+				JOptionPane.showMessageDialog(null, "Sorry!! username already exists, try different username", "File Packer-Unpacker2", JOptionPane.INFORMATION_MESSAGE);
+				nameField.setText("");
+				pwdField.setText("");
+				confirmpwdField.setText("");
+			}
+			else if(pwdValue.equals(confirmpwdValue) == false)
 			{
 				JOptionPane.showMessageDialog(null, "Password didn\'t confirmed, try again", "File Packer-Unpacker", JOptionPane.INFORMATION_MESSAGE);
 				confirmpwdField.setText("");
@@ -196,14 +227,23 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener
 				JOptionPane.showMessageDialog(null, "New User Registered Successfully!", "File Packer-Unpacker", JOptionPane.INFORMATION_MESSAGE);
 				nameField.setText("");
 				pwdField.setText("");
-				confirmpwdField.setText("");		
+				confirmpwdField.setText("");
+				this.setVisible(false);
+				try
+				{
+					serializeFos = new FileOutputStream("credentials.txt");
+					mapOutput = new ObjectOutputStream(serializeFos);
+					mapOutput.writeObject(creds);
+					serializeFos.close();
+					mapOutput.close();
+					FilePackerUnpackerLogin nextPage = new FilePackerUnpackerLogin();
+				}
+				catch(Exception e)
+				{
+					JOptionPane.showMessageDialog(null, e.getMessage());
+				}
 			}
 		}		
-	}
-	
-	public static void main(String[] args)throws Exception
-	{
-		new RegisterUser();
 	}
 	
 	public void keyPressed(KeyEvent ke)

@@ -184,6 +184,10 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 		}
 	}
 
+	public static void main(String[] args) throws Exception
+	{
+		new FilePackerFront("OK");
+	}
 	public void keyReleased(KeyEvent ke){}
 	public void keyTyped(KeyEvent e){}
 }

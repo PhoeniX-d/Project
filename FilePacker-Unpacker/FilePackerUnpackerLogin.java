@@ -4,8 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.util.HashMap;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -18,6 +23,7 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 	Thread t = new Thread();	
 	JButton submit, clear, register;
 	JLabel topLabel, status, username, password, warning;
+	JCheckBox show;
 	JPasswordField passwordField;
 	static JTextField unameField; 
 	static String userValue, pwdValue;
@@ -25,6 +31,8 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 	
 	public FilePackerUnpackerLogin()
 	{
+		t.start();
+		getCredentials();
 		topLabel = new JLabel("File Packer and Unpacker");
 		topLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		topLabel.setBounds(185, 23, 320, 30);
@@ -58,6 +66,11 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 		content.add(passwordField);
 		passwordField.setToolTipText("Enter your password here!");
 		passwordField.addKeyListener(this);
+		
+		show = new JCheckBox("Show");
+		show.setBounds(275, 193, 65, 25);
+		show.setToolTipText("See password");
+		content.add(show);		
 		
 		unameField = new JTextField();
 		unameField.setBounds(275, 97, 322, 26);
@@ -104,7 +117,7 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 		submit.addActionListener(this);
 		clear.addActionListener(this);
 		register.addActionListener(this);
-		t.start();
+		show.addActionListener(this);
 	}
 	
 	public boolean isValid(String username, String password)
@@ -120,40 +133,49 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 	}
 	
 	public void submitTask()
-	{
+	{	
+		String credentials = creds.get(userValue);
 		if(isValid(userValue, pwdValue) == false)
 		{
 			unameField.setText("");
 			passwordField.setText("");
 			JOptionPane.showMessageDialog(this,"Short Username or Password", "File Packer-Unpacker", JOptionPane.ERROR_MESSAGE);
 		}
-		
-		if(userValue.equals("Administrator") && pwdValue.equals("Administrator"))
+		else if(credentials == null)
 		{
-			FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(userValue);
-			this.setVisible(false);
-			nextPage.pack();
-			nextPage.setVisible(true);
-			nextPage.setBounds(fSize.width / 4, fSize.height / 5, 700, 450);
+			JOptionPane.showMessageDialog(this,"User does not exists, create a new user login", "File Packer-Unpacker", JOptionPane.INFORMATION_MESSAGE);
+			unameField.setText("");
+			passwordField.setText("");
 		}
 		else
-	    {
-	        attempt--;		        
-	        if(attempt == 0)
-	        {
-	        	JOptionPane.showMessageDialog(this, "Number of attempts finished","File Packer-Unpacker", JOptionPane.ERROR_MESSAGE);
-	        	this.dispose();
-	        	System.exit(0);
-	        }
-	        if(attempt < 3)
-	        {
-	        	JOptionPane.showMessageDialog(this,"Incorrect Login or password, \n     Attempt Remaining " + attempt,"Error", JOptionPane.ERROR_MESSAGE);
-	        }
-	        else
-	        {
-	        	JOptionPane.showMessageDialog(this,"Incorrect Login or password","Error", JOptionPane.ERROR_MESSAGE);
-	        }
-	    }
+		{
+			if(pwdValue.equals(credentials))
+			{
+				FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(userValue);
+				this.setVisible(false);
+				nextPage.pack();
+				nextPage.setVisible(true);
+				nextPage.setBounds(fSize.width / 4, fSize.height / 5, 700, 450);
+			}
+			else
+		    {
+		        attempt--;		        
+		        if(attempt == 0)
+		        {
+		        	JOptionPane.showMessageDialog(this, "Number of attempts finished","File Packer-Unpacker", JOptionPane.ERROR_MESSAGE);
+		        	this.dispose();
+		        	System.exit(0);
+		        }
+		        if(attempt < 3)
+		        {
+		        	JOptionPane.showMessageDialog(this,"Incorrect username or password, \n     Attempt Remaining " + attempt,"Error", JOptionPane.ERROR_MESSAGE);
+		        }
+		        else
+		        {
+		        	JOptionPane.showMessageDialog(this,"Incorrect username or password","Error", JOptionPane.ERROR_MESSAGE);
+		        }
+		    }
+		}
 	}
 
 	public void actionPerformed(ActionEvent ae)
@@ -171,6 +193,15 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 			System.exit(0);
 		}
 		
+		if(show.getModel().isSelected())
+		{
+			passwordField.setEchoChar((char)0);
+		}
+		else
+		{
+			passwordField.setEchoChar('*');
+		}
+		
 		if(ae.getSource() == clear)
 		{
 			unameField.setText("");
@@ -184,6 +215,7 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 		
 		if(ae.getSource() == register)
 		{
+			this.setVisible(false);
 			try
 			{
 				RegisterUser reg = new RegisterUser();
@@ -221,6 +253,25 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 		}
 	}
 	
+	public void getCredentials()
+	{
+		serializeFile = new File("credentials.txt");
+		if(serializeFile.exists() && serializeFile.isFile())
+		{
+			try
+			{
+				serializeFis = new FileInputStream("credentials.txt");
+				mapInput = new ObjectInputStream(serializeFis);
+				creds = (HashMap<String, String>)mapInput.readObject();
+				serializeFis.close();
+				mapInput.close();
+			}
+			catch(Exception e)
+			{
+				
+			}
+		}
+	}
 	public static void main(String[] args)
 	{
 		new FilePackerUnpackerLogin();

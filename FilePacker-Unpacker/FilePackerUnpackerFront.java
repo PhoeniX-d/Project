@@ -84,4 +84,9 @@ class FilePackerUnpackerFront extends GUITemplate implements ActionListener
 			FileUnpackerFront unpacker = new FileUnpackerFront(username);
 		}
 	}
+	
+	public static void main(String[] args) throws Exception
+	{
+		new FilePackerUnpackerFront("OK");
+	}
 }
