@@ -15,9 +15,8 @@ import javax.swing.SwingConstants;
 
 class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, KeyListener, Runnable
 {
-	Thread t = new Thread();
-	
-	JButton submit, clear;
+	Thread t = new Thread();	
+	JButton submit, clear, register;
 	JLabel topLabel, status, username, password, warning;
 	JPasswordField passwordField;
 	static JTextField unameField; 
@@ -83,13 +82,18 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 		
 		submit = new JButton("Submit");
 		submit.setFont(new Font("Courier New", Font.BOLD, 17));
-		submit.setBounds(102, 238, 145, 23);
+		submit.setBounds(100, 238, 145, 23);
 		content.add(submit);
-
+		
 		clear = new JButton("Clear");
 		clear.setFont(new Font("Courier New", Font.BOLD, 17));
-		clear.setBounds(452, 238, 145, 23);
+		clear.setBounds(275, 238, 145, 23);
 		content.add(clear);
+		
+		register = new JButton("Register");
+		register.setFont(new Font("Courier New", Font.BOLD, 17));
+		register.setBounds(450, 238, 145, 23);
+		content.add(register);
 		
 		pack();
 		validate();
@@ -99,6 +103,7 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 		this.setResizable(false);
 		submit.addActionListener(this);
 		clear.addActionListener(this);
+		register.addActionListener(this);
 		t.start();
 	}
 	
@@ -175,7 +180,19 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 		if(ae.getSource() == submit)
 		{			
 			submitTask();
-		}		
+		}	
+		
+		if(ae.getSource() == register)
+		{
+			try
+			{
+				RegisterUser reg = new RegisterUser();
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(this, e,"Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
 	}
 
 	public void keyPressed(KeyEvent ke)

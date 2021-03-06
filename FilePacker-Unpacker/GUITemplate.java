@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 class ClockLabel extends JLabel implements ActionListener
 {
@@ -71,7 +71,8 @@ class GUITemplate extends JFrame implements ActionListener
 	ClockLabel dateLabel;
 	JButton minimize, exit;
 	Dimension fSize;
-
+	static HashMap<String, String> creds = new HashMap<String, String>();;
+	
 	public GUITemplate()
 	{
 		try
@@ -212,7 +213,7 @@ class GUITemplate extends JFrame implements ActionListener
 		top.add(timeLabel);
 	}
 	
-	public static void main(String[] args)
+	public static void main(String[] args) throws Exception
 	{
 		new GUITemplate();
 	}

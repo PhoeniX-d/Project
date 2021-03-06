@@ -120,10 +120,6 @@ class FileUnpackerFront extends GUITemplate implements ActionListener
 					JOptionPane.showMessageDialog(null, e.getMessage());
 					FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(username);
 				}
-				finally
-				{
-					
-				}
 			}
 		}
 		
