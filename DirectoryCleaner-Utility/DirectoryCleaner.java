@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.time.LocalDateTime;
@@ -23,8 +24,7 @@ class DirectoryCleaner
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));		
 		dirName = br.readLine();
 		Cleaner cleaner = new Cleaner(dirName);
-		cleaner.cleanEmptyFiles();
-		cleaner.cleanDuplicateFiles();
+		cleaner.directoryCleanup();
 		cleaner.details();
 	}
 }
@@ -35,11 +35,13 @@ class Cleaner
 	int duplicateFiles = 0;
 	int emptyFiles = 0;
 	int totalFiles = 0;
+	
 	File filesList[] = null;
 	LinkedList<String> empty = new LinkedList<String>();
 	LinkedList<String> unableEmpty = new LinkedList<String>();
 	LinkedList<String> duplicate = new LinkedList<String>();
 	LinkedList<String> unableDuplicate = new LinkedList<String>();
+	LinkedList<String> l = new LinkedList<String>();
 	
 	Cleaner(String dirName)
 	{
@@ -52,35 +54,10 @@ class Cleaner
 			System.exit(0);
 		}
 		filesList = dir.listFiles();
-		totalFiles = dir.list().length;
 	}
 	
-	public void cleanEmptyFiles()
-	{		
-		for(File file : filesList)
-		{
-			if(file.length() == 0 && file.isDirectory() == false)
-			{
-				if(!file.delete())
-				{
-					unableEmpty.add(file.getName());
-				}
-				else
-				{
-					empty.add(file.getName());
-					emptyFiles++;
-				}				
-			}
-		}
-	}
-	
-	
-	public void cleanDuplicateFiles()
+	public void directoryCleanup()
 	{
-		byte bArr[] = new byte[1024];
-		int bytesRead = 0;
-		FileInputStream fis = null;
-		LinkedList<String> l = new LinkedList<String>();		
 		try
 		{
 			MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -89,62 +66,91 @@ class Cleaner
 				System.out.println("Unable to get the SHA-256 instance");
 				System.exit(0);
 			}
-			
-			for(File file : filesList)
-			{
-				if(file.isDirectory() == false)
-				{
-					try
-					{
-						fis = new FileInputStream(file);
-					}
-					catch(Exception e)
-					{
-						System.out.println("System error while processing file " + file.getName());
-					}
-					
-					if(file.length() != 0)
-					{
-						while((bytesRead = fis.read(bArr)) != -1)
-						{
-							digest.update(bArr, 0, bytesRead);
-						}
-					}
-					// Here you have to close fis object otherwise file won't get deleted 
-					fis.close();
-					byte bytes[] = digest.digest();				
-					StringBuffer sb = new StringBuffer();
-					
-					for(int i = 0; i < bytes.length; i++)
-					{
-						// add each byte from decimal to hexadecimal StringBuffer
-						sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-					}
-					
-					if(l.contains(sb.toString()))
-					{
-						if(!file.delete())
-						{
-							unableDuplicate.add(file.getName());
-						}
-						else
-						{
-							duplicate.add(file.getName());
-							duplicateFiles++;				
-						}
-					}
-					else
-					{
-						l.add(sb.toString());
-					}
-				}			
-			}
+			recursiveTravel(digest, filesList, 0);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}		
 	}
+	
+	public void recursiveTravel(MessageDigest digest, File[] filesArr, int depth) throws IOException
+	{
+		byte bArr[] = new byte[1024];
+		int bytesRead = 0;
+		FileInputStream fis = null;
+		totalFiles = totalFiles + filesArr.length;
+		for(File file : filesArr)
+		{
+			if(file.isDirectory() == false)
+			{
+				try
+				{
+					fis = new FileInputStream(file);
+				}
+				catch(Exception e)
+				{
+					System.out.println("System error while processing file " + file.getName());
+				}
+				
+				if(file.length() == 0)
+				{
+					if(!file.delete())
+					{
+						unableEmpty.add(file.getName());
+					}
+					else
+					{
+						empty.add(file.getName());
+						emptyFiles++;
+					}				
+				}
+				else if(file.length() != 0)
+				{
+					while((bytesRead = fis.read(bArr)) != -1)
+					{
+						digest.update(bArr, 0, bytesRead);
+					}
+				}
+				// Here you have to close fis object otherwise file won't get deleted 
+				fis.close();
+				byte bytes[] = digest.digest();				
+				StringBuffer sb = new StringBuffer();
+				
+				for(int i = 0; i < bytes.length; i++)
+				{
+					// add each byte from decimal to hexadecimal StringBuffer
+					sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+				}
+				
+				if(l.contains(sb.toString()))
+				{
+					if(!file.delete())
+					{
+						unableDuplicate.add(file.getName());
+					}
+					else
+					{
+						duplicate.add(file.getName());
+						duplicateFiles++;				
+					}
+				}
+				else
+				{
+					l.add(sb.toString());
+				}
+			}
+			else
+			{
+				recursiveTravel(digest, file.listFiles(), depth + 1);
+				if(file.listFiles().length == 0)
+				{
+					file.delete();
+				}
+			}
+		}
+	}
+	
 	
 	public void details()
 	{
