@@ -2,6 +2,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -83,10 +85,5 @@ class FilePackerUnpackerFront extends GUITemplate implements ActionListener
 			this.setVisible(false);
 			FileUnpackerFront unpacker = new FileUnpackerFront(username);
 		}
-	}
-	
-	public static void main(String[] args) throws Exception
-	{
-		new FilePackerUnpackerFront("OK");
 	}
 }

@@ -1,8 +1,8 @@
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-public class FilePackerUnpacker {
-
+public class FilePackerUnpacker 
+{
 	public static void main(String[] args)
 	{
 		try

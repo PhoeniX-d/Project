@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -22,10 +23,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
-class RegisterUser extends GUITemplate implements  ActionListener, KeyListener
+class RegisterUser extends GUITemplate implements  ActionListener, KeyListener, Runnable
 {
 	JButton create, previous;
-	JLabel topLabel, status, name, pwd, confirmPwd;
+	JLabel topLabel, status, name, pwd, confirmPwd, warning;
 	JTextField nameField;
 	JPasswordField pwdField, confirmpwdField;
 	String userValue, pwdValue, confirmpwdValue;
@@ -34,7 +35,7 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener
 	RegisterUser() throws Exception
 	{
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		
+		Thread t = new Thread(this);
 		topLabel = new JLabel("Register New User");
 		topLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		topLabel.setBounds(185, 23, 320, 30);
@@ -92,6 +93,14 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener
 		confirmpwdField.setEchoChar((char)0);
 		confirmpwdField.setToolTipText("Confirm Entered password");
 		
+		warning = new JLabel();
+		warning.setBounds(300, 190, 300, 30);
+		warning.setHorizontalAlignment(SwingConstants.LEFT);
+		warning.setForeground(Color.RED);
+		warning.setFont(new Font("Courier New", Font.BOLD, 17));
+		content.add(warning);
+		t.start();
+		
 		show2 = new JCheckBox("Show", true);
 		show2.setBounds(580, 155, 65, 25);
 		show2.setToolTipText("See password");
@@ -99,12 +108,12 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener
 		
 		create = new JButton("Create");
 		create.setFont(new Font("Courier New", Font.BOLD, 17));
-		create.setBounds(125, 225, 145, 25);
+		create.setBounds(125, 235, 145, 25);
 		content.add(create);
 		
 		previous = new JButton("Previous");
 		previous.setFont(new Font("Courier New", Font.BOLD, 17));
-		previous.setBounds(400, 225, 145, 25);
+		previous.setBounds(400, 235, 145, 25);
 		content.add(previous);
 		
 		this.setBounds(fSize.width / 4, fSize.height / 5, 700, 450);
@@ -154,7 +163,7 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener
 		
 		if (ae.getSource() == exit)
 		{
-			this.setVisible(false);
+			this.dispose();
 			System.exit(0);
 		}
 		if (ae.getSource() == minimize)
@@ -168,7 +177,7 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener
 		
 		if(ae.getSource() == previous)
 		{
-			this.setVisible(false);
+			this.dispose();
 			try
 			{
 				FilePackerUnpackerLogin nextPage = new FilePackerUnpackerLogin();
@@ -204,7 +213,7 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener
 				}
 				catch(Exception e)
 				{
-					
+					JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 			
@@ -231,16 +240,16 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener
 				this.setVisible(false);
 				try
 				{
-					serializeFos = new FileOutputStream("credentials.txt");
-					mapOutput = new ObjectOutputStream(serializeFos);
+					deserializeFos = new FileOutputStream("credentials.txt");
+					mapOutput = new ObjectOutputStream(deserializeFos);
 					mapOutput.writeObject(creds);
-					serializeFos.close();
+					deserializeFos.close();
 					mapOutput.close();
 					FilePackerUnpackerLogin nextPage = new FilePackerUnpackerLogin();
 				}
 				catch(Exception e)
 				{
-					JOptionPane.showMessageDialog(null, e.getMessage());
+					JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}		
@@ -265,5 +274,27 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void run()
+	{
+	    for(;;)
+	    {
+	    	if(nameField.isFocusOwner() || pwdField.isFocusOwner() || confirmpwdField.isFocusOwner())
+	    	{
+	    		if(Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK))
+	    		{
+	    			warning.setText("Warning : CAPS LOCK is on");;
+	    		}
+	    		else
+		    	{
+		    		warning.setText("");
+		    	}
+	    	}
+	    	else
+	    	{
+	    		warning.setText("");
+	    	}
+	    }
 	}
 }

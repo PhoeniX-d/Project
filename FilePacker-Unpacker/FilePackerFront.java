@@ -116,17 +116,13 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 			try
 			{
 				FilePacker packer = new FilePacker(srcDirField.getText(), state, destFileField.getText(), username);
-				this.dispose();
+				srcDirField.setText("");
+				destFileField.setText("");
 				if(packer.isDirExists == false)
 				{
-					try
-					{
-						FilePackerFront packerfront = new FilePackerFront(username);
-					}
-					catch(Exception e)
-					{
-						JOptionPane.showMessageDialog(null, e.getMessage());
-					}
+					String str = new String("Source directory does not exists");
+		    		JOptionPane.showMessageDialog(this, str, "File Packer-Unpacker", JOptionPane.INFORMATION_MESSAGE);
+		    		this.setVisible(true);
 				}
 				else
 				{
@@ -183,11 +179,7 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 			submitTask();
 		}
 	}
-
-	public static void main(String[] args) throws Exception
-	{
-		new FilePackerFront("OK");
-	}
+	
 	public void keyReleased(KeyEvent ke){}
 	public void keyTyped(KeyEvent e){}
 }

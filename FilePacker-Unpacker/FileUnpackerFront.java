@@ -101,13 +101,13 @@ class FileUnpackerFront extends GUITemplate implements ActionListener
 					if(unpacker.isFileThere == false)
 					{
 						JOptionPane.showMessageDialog(this, "Packed File Does not exists", "Error", JOptionPane.ERROR_MESSAGE);
-						FileUnpackerFront unpack = new FileUnpackerFront(username);
+						sourceFileField.setText("");
+						this.setVisible(true);
 					}
 					else
 					{
 						FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(username);
 					}
-					//this.setVisible(false);
 				}
 				catch(InvalidFileException ie)
 				{

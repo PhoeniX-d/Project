@@ -43,8 +43,6 @@ public class FilePacker extends JFrame
         }
         else
         {
-        	String str = new String("Source directory does not exists");
-    		JOptionPane.showMessageDialog(this, str, "File Packer-Unpacker", JOptionPane.INFORMATION_MESSAGE);
     		this.isDirExists = false;
         }
         outStream.close();

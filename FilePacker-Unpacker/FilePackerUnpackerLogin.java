@@ -1,12 +1,15 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 import javax.swing.JButton;
@@ -20,7 +23,6 @@ import javax.swing.SwingConstants;
 
 class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, KeyListener, Runnable
 {
-	Thread t = new Thread();	
 	JButton submit, clear, register;
 	JLabel topLabel, status, username, password, warning;
 	JCheckBox show;
@@ -31,7 +33,7 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 	
 	public FilePackerUnpackerLogin()
 	{
-		t.start();
+		Thread t = new Thread(this);	
 		getCredentials();
 		topLabel = new JLabel("File Packer and Unpacker");
 		topLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -87,11 +89,12 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 		content.add(password);
 		
 		warning = new JLabel();
-		warning.setBounds(265, 180, 300, 30);
+		warning.setBounds(325, 193, 300, 30);
 		warning.setHorizontalAlignment(SwingConstants.CENTER);
 		warning.setForeground(Color.RED);
 		warning.setFont(new Font("Courier New", Font.BOLD, 17));
 		content.add(warning);
+		t.start();
 		
 		submit = new JButton("Submit");
 		submit.setFont(new Font("Courier New", Font.BOLD, 17));
@@ -189,7 +192,7 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 		}
 		if(ae.getSource() == exit)
 		{
-			this.setVisible(false);
+			this.dispose();
 			System.exit(0);
 		}
 		
@@ -242,17 +245,6 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 	public void keyReleased(KeyEvent ke){}
 	public void keyTyped(KeyEvent e) {}
 	
-	public void run()
-	{
-		for(;;)
-		{
-			 if(unameField.getText().length() < 8)
-			 {
-				 submit.setEnabled(false);
-			 }
-		}
-	}
-	
 	public void getCredentials()
 	{
 		serializeFile = new File("credentials.txt");
@@ -268,12 +260,30 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 			}
 			catch(Exception e)
 			{
-				
+				JOptionPane.showMessageDialog(this, e,"Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
-	public static void main(String[] args)
+	
+	public void run()
 	{
-		new FilePackerUnpackerLogin();
-	}
+	    for(;;)
+	    {
+	    	if(unameField.isFocusOwner() || passwordField.isFocusOwner())
+	    	{
+	    		if(Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK))
+	    		{
+	    			warning.setText("Warning : CAPS LOCK is on");;
+	    		}
+	    		else
+		    	{
+		    		warning.setText("");
+		    	}
+	    	}
+	    	else
+	    	{
+	    		warning.setText("");
+	    	}
+	    }
+	 }
 }

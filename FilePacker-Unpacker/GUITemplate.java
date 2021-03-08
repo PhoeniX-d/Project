@@ -81,7 +81,7 @@ class GUITemplate extends JFrame implements ActionListener
 	ObjectInputStream mapInput;
 	ObjectOutputStream mapOutput;
 	FileInputStream serializeFis = null;
-	FileOutputStream serializeFos = null;
+	FileOutputStream deserializeFos = null;
 	
 	public GUITemplate()
 	{
@@ -221,10 +221,5 @@ class GUITemplate extends JFrame implements ActionListener
 		top.add(dayLabel);
 		top.add(dateLabel);
 		top.add(timeLabel);
-	}
-	
-	public static void main(String[] args) throws Exception
-	{
-		new GUITemplate();
 	}
 }
