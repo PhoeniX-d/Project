@@ -26,7 +26,7 @@ public class FileUnpacker
                 byte magic[] = new byte[11];
                 inStream.read(magic, 0, magic.length); 
                 
-                magic = decryptData(magic);
+                //magic = decryptData(magic);
                 
                 String magicStr = new String(magic);
                 
@@ -36,7 +36,7 @@ public class FileUnpacker
                 }
                 while ((size = inStream.read(header, 0, 100)) > 0)
                 {
-                	header = decryptData(header);                	
+                	//header = decryptData(header);                	
                     String str = new String(header);
                     System.out.println(str);
                     String ext = str.substring(str.lastIndexOf("\\"));
@@ -49,7 +49,7 @@ public class FileUnpacker
                     System.out.println(fileName);
                     
                     byte[] arr = new byte[fileSize];
-                    arr = decryptData(arr);
+                    //arr = decryptData(arr);
                     inStream.read(arr, 0, fileSize);
                     FileOutputStream outStream = new FileOutputStream(fileName);
                     outStream.write(arr, 0, fileSize);
@@ -73,22 +73,17 @@ public class FileUnpacker
     	{
     		isFileThere = false;
     	}
-    }
-     
+    }     
     
+    /*
     private byte[] decryptData(byte[] chunk)
     {
 		byte[] cArr = new byte[chunk.length];		
 		for(int i = 0; i < chunk.length; i++)
 		{
-			cArr[i] = (byte)(chunk[i] + 12);
+			cArr[i] = (byte)(chunk[i] + 3);
 		}
 		return cArr;
 	}
-    
-    public static void main(String[] args) throws IOException
-    {
-    	System.out.println("Hiii");
-    	new FileUnpacker("BBBB.txt");
-    }
+	*/
 }

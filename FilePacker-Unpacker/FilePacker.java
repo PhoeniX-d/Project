@@ -31,7 +31,7 @@ public class FilePacker extends JFrame
         String magic = "LeafyBeacon";
         byte arr[] = magic.getBytes();
         
-        arr = encryptData(arr);
+        //arr = encryptData(arr);
         
         outStream = new FileOutputStream(dest);
         outStream.write(arr, 0, arr.length);
@@ -126,7 +126,7 @@ public class FilePacker extends JFrame
             // create object of FileInputStream to read data from file
             inStream = new FileInputStream(filePath);            
             
-            temp = encryptData(temp);
+            //temp = encryptData(temp);
             
             // first write our header to Dest file whose object is outstream
             outStream.write(temp, 0, temp.length);
@@ -134,7 +134,7 @@ public class FilePacker extends JFrame
             // read all data from that directory file and write it into Dest file(Pack file)
             while ((length = inStream.read(buffer)) > 0) 
             {
-            	buffer = encryptData(buffer);
+            	//buffer = encryptData(buffer);
                 outStream.write(buffer, 0, length);
             }
 
@@ -145,18 +145,15 @@ public class FilePacker extends JFrame
         }
     }
     
+    /*
     private byte[] encryptData(byte[] chunk)
     {
 		byte[] cArr = new byte[chunk.length];		
 		for(int i = 0; i < chunk.length; i++)
 		{
-			cArr[i] = (byte)(chunk[i] - 12);
+			cArr[i] = (byte)(chunk[i] - 3);
 		}
 		return cArr;
 	}
-     
-    public static void main(String[] args) throws Exception
-    {
-    	new FilePacker("demo", "All", "BBBB.txt", "Admin");
-    }
+	*/
 }
