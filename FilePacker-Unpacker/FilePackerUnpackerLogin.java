@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, KeyListener, Runnable
 {
@@ -27,7 +28,7 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 	JLabel topLabel, status, username, password, warning;
 	JCheckBox show;
 	JPasswordField passwordField;
-	static JTextField unameField; 
+	JTextField unameField; 
 	static String userValue, pwdValue;
 	static int attempt = 5;
 	
@@ -53,14 +54,14 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 		status.setBounds(275, 30, 145, 30);
 		content.add(status);
 		
-		username = new JLabel("USERNAME :");
+		username = new JLabel("*USERNAME :");
 		username.setHorizontalAlignment(SwingConstants.CENTER);
 		username.setBounds(100, 94, 120, 30);
 		username.setBackground(new Color(0, 50, 120));
 		username.setForeground(Color.WHITE);
 		username.setFont(new Font("Courier New", Font.BOLD, 17));
 		username.setAlignmentX(JLabel.LEFT);
-		
+				
 		content.add(username);
 		
 		passwordField = new JPasswordField();
@@ -78,10 +79,11 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 		unameField.setBounds(275, 97, 322, 26);
 		content.add(unameField);
 		unameField.setColumns(15);
+		unameField.addKeyListener(this);
 
 		unameField.setToolTipText("Enter your username here!");
 		
-		password = new JLabel("PASSWORD :");
+		password = new JLabel("*PASSWORD :");
 		password.setHorizontalAlignment(SwingConstants.CENTER);
 		password.setForeground(Color.WHITE);
 		password.setFont(new Font("Courier New", Font.BOLD, 17));
@@ -222,6 +224,12 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 			try
 			{
 				RegisterUser reg = new RegisterUser();
+				SwingUtilities.invokeLater(new Runnable()
+				{
+				      public void run() {
+				        reg.nameField.requestFocus();
+				      }
+				});
 			}
 			catch(Exception e)
 			{
@@ -238,7 +246,14 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 		String keyName = KeyEvent.getKeyText(ke.getKeyCode());
 		if(keyName.equals("Enter"))
 		{
-			submitTask();
+			if(userValue.equals("") || pwdValue.equals(""))
+			{
+				JOptionPane.showMessageDialog(this, "Please Enter All Required Fields","Error", JOptionPane.ERROR_MESSAGE);
+			}
+			else
+			{
+				submitTask();				
+			}
 		}
 	}
 

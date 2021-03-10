@@ -2,6 +2,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -9,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 class InvalidFileException extends RuntimeException
@@ -18,7 +21,7 @@ class InvalidFileException extends RuntimeException
 		super(str);
 	}
 }
-class FileUnpackerFront extends GUITemplate implements ActionListener
+class FileUnpackerFront extends GUITemplate implements ActionListener, KeyListener
 {
 	JButton extract, previous;
 	JLabel topLabel, sourceFile;
@@ -52,8 +55,8 @@ class FileUnpackerFront extends GUITemplate implements ActionListener
 		sourceFileField.setBounds(327, 61, 285, 25);
 		content.add(sourceFileField);
 		sourceFileField.setColumns(30);
+		sourceFileField.addKeyListener(this);
 		sourceFileField.setToolTipText("Name of file to be unpacked");
-		sourceFileField.setToolTipText("Source Directory Name!");
 
 		extract = new JButton("Extract Here");
 		extract.setFont(new Font("Courier New", Font.BOLD, 17));
@@ -72,6 +75,52 @@ class FileUnpackerFront extends GUITemplate implements ActionListener
 		this.setResizable(false);
 	}
 	
+	public void extractTask()
+	{
+		if(sourceFileField.getText().isEmpty())
+    	{
+    		String s = new String("Please enter name of packed file");
+    		JOptionPane.showMessageDialog(this, s, "File Packer-Unpacker", JOptionPane.INFORMATION_MESSAGE);
+    		this.setVisible(false);
+    		FileUnpackerFront nextPage = new FileUnpackerFront(username);
+    	}
+		else
+		{
+			this.dispose();
+			try
+			{
+				FileUnpacker unpacker = new FileUnpacker(sourceFileField.getText());
+				if(unpacker.isFileThere == false)
+				{
+					JOptionPane.showMessageDialog(this, "Packed File Does not exists", "Error", JOptionPane.ERROR_MESSAGE);
+					sourceFileField.setText("");
+					FileUnpackerFront unpackerf = new FileUnpackerFront(username);
+					SwingUtilities.invokeLater(new Runnable()
+					{
+					      public void run() {
+					        unpackerf.sourceFileField.requestFocus();
+					      }
+					});
+				}
+				else
+				{
+					FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(username);
+				}
+			}
+			catch(InvalidFileException ie)
+			{
+				this.dispose();
+				JOptionPane.showMessageDialog(this, "Invalid Packed File", "Error", JOptionPane.ERROR_MESSAGE);
+				FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(username);
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(null, e.getMessage());
+				FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(username);
+			}
+		}
+	}
+	
 	public void actionPerformed(ActionEvent ae)
 	{
 		if (ae.getSource() == exit)
@@ -85,42 +134,7 @@ class FileUnpackerFront extends GUITemplate implements ActionListener
 		}
 		if(ae.getSource() == extract)
 		{
-			if(sourceFileField.getText().isEmpty())
-	    	{
-	    		String s = new String("Please enter all required fields");
-	    		JOptionPane.showMessageDialog(this, s, "File Packer-Unpacker", JOptionPane.INFORMATION_MESSAGE);
-	    		this.setVisible(false);
-	    		FileUnpackerFront nextPage = new FileUnpackerFront(username);
-	    	}
-			else
-			{
-				this.setVisible(false);
-				try
-				{
-					FileUnpacker unpacker = new FileUnpacker(sourceFileField.getText());
-					if(unpacker.isFileThere == false)
-					{
-						JOptionPane.showMessageDialog(this, "Packed File Does not exists", "Error", JOptionPane.ERROR_MESSAGE);
-						sourceFileField.setText("");
-						this.setVisible(true);
-					}
-					else
-					{
-						FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(username);
-					}
-				}
-				catch(InvalidFileException ie)
-				{
-					this.dispose();
-					JOptionPane.showMessageDialog(this, "Invalid Packed File", "Error", JOptionPane.ERROR_MESSAGE);
-					FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(username);
-				}
-				catch(Exception e)
-				{
-					JOptionPane.showMessageDialog(null, e.getMessage());
-					FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(username);
-				}
-			}
+			extractTask();
 		}
 		
 		if(ae.getSource() == previous)
@@ -136,4 +150,15 @@ class FileUnpackerFront extends GUITemplate implements ActionListener
 			}
 		}
 	}
+	public void keyPressed(KeyEvent ke)
+	{
+		String keyName = KeyEvent.getKeyText(ke.getKeyCode());
+		if(keyName.equals("Enter"))
+		{
+			extractTask();
+		}
+	}
+	
+	public void keyReleased(KeyEvent ke){}
+	public void keyTyped(KeyEvent e){}
 }

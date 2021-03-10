@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 class FilePackerUnpackerFront extends GUITemplate implements ActionListener
 {
@@ -73,6 +74,12 @@ class FilePackerUnpackerFront extends GUITemplate implements ActionListener
 			try
 			{
 				FilePackerFront packer = new FilePackerFront(username);
+				SwingUtilities.invokeLater(new Runnable()
+				{
+				      public void run() {
+				        packer.srcDirField.requestFocus();
+				      }
+				});
 			}
 			catch(Exception e)
 			{
@@ -84,6 +91,12 @@ class FilePackerUnpackerFront extends GUITemplate implements ActionListener
 		{
 			this.setVisible(false);
 			FileUnpackerFront unpacker = new FileUnpackerFront(username);
+			SwingUtilities.invokeLater(new Runnable()
+			{
+			      public void run() {
+			        unpacker.sourceFile.requestFocus();
+			      }
+			});
 		}
 	}
 }

@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 class RegisterUser extends GUITemplate implements  ActionListener, KeyListener, Runnable
@@ -74,12 +75,14 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener, 
 		nameField.setBounds(300, 45, 260, 25);
 		content.add(nameField);
 		nameField.setColumns(10);
+		nameField.addKeyListener(this);
 		nameField.setToolTipText("Enter a new username");
 		
 		pwdField = new JPasswordField();
 		pwdField.setBounds(300, 100, 260, 25);
 		content.add(pwdField);
 		pwdField.setEchoChar((char)0);
+		pwdField.addKeyListener(this);
 		pwdField.setToolTipText("New user password, it must of length >= 8 characters ");
 		
 		show1 = new JCheckBox("Show", true);
@@ -126,10 +129,17 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener, 
 		show2.addActionListener(this);
 	}
 	
-	public boolean isValid(String username, String password)
+	public boolean isValid(String userValue, String pwdValue, String confirmpwdValue)
 	{
-		if(username.length() < 8 || password.length() < 8)
+		if(userValue.length() < 8 || pwdValue.length() < 8 || confirmpwdValue.length() < 8)
 		{
+			JOptionPane.showMessageDialog(this,"Short Username or Password", "File Packer-Unpacker", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		else if(pwdValue.equals(confirmpwdValue) == false)
+		{
+			JOptionPane.showMessageDialog(null, "Password didn\'t confirmed, try again", "File Packer-Unpacker", JOptionPane.INFORMATION_MESSAGE);
+			confirmpwdField.setText("");
 			return false;
 		}
 		else
@@ -181,6 +191,12 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener, 
 			try
 			{
 				FilePackerUnpackerLogin nextPage = new FilePackerUnpackerLogin();
+				SwingUtilities.invokeLater(new Runnable()
+				{
+				      public void run() {
+				    	  nextPage.unameField.requestFocus();
+				      }
+				});
 			}
 			catch(Exception e)
 			{
@@ -191,12 +207,15 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener, 
 	
 	public void createTask()
 	{	
-		if(isValid(userValue, pwdValue) == false)
+		if(nameField.getText().isEmpty() || pwdField.getPassword().toString().isEmpty() || confirmpwdField.getPassword().toString().isEmpty())
+		{
+			JOptionPane.showMessageDialog(this,"All Fields are Mandatory", "File Packer-Unpacker", JOptionPane.INFORMATION_MESSAGE);
+		}
+		else if(isValid(userValue, pwdValue, confirmpwdValue) == false)
 		{
 			nameField.setText("");
 			pwdField.setText("");
 			confirmpwdField.setText("");
-			JOptionPane.showMessageDialog(this,"Short Username or Password", "File Packer-Unpacker", JOptionPane.ERROR_MESSAGE);
 		}
 		else
 		{
@@ -225,11 +244,6 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener, 
 				pwdField.setText("");
 				confirmpwdField.setText("");
 			}
-			else if(pwdValue.equals(confirmpwdValue) == false)
-			{
-				JOptionPane.showMessageDialog(null, "Password didn\'t confirmed, try again", "File Packer-Unpacker", JOptionPane.INFORMATION_MESSAGE);
-				confirmpwdField.setText("");
-			}
 			else
 			{
 				creds.put(userValue, pwdValue);
@@ -246,6 +260,12 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener, 
 					deserializeFos.close();
 					mapOutput.close();
 					FilePackerUnpackerLogin nextPage = new FilePackerUnpackerLogin();
+					SwingUtilities.invokeLater(new Runnable()
+					{
+					      public void run() {
+					    	  nextPage.unameField.requestFocus();
+					      }
+					});
 				}
 				catch(Exception e)
 				{

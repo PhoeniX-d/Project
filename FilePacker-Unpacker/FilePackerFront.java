@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 class FilePackerFront extends GUITemplate implements ActionListener, ItemListener, KeyListener
@@ -44,17 +45,20 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 		srcDir.setFont(new Font("Courier New", Font.BOLD, 17));
 		srcDir.setAlignmentX(JLabel.LEFT);
 		srcDir.requestFocusInWindow();
+		srcDir.addKeyListener(this);
 		content.add(srcDir);
 
 		destFileField = new JTextField();
 		destFileField.setBounds(276, 131, 260, 25);
 		content.add(destFileField);
+		destFileField.addKeyListener(this);
 		destFileField.setToolTipText("Destination File Name!");
 
 		srcDirField = new JTextField();
 		srcDirField.setBounds(276, 60, 260, 25);
 		content.add(srcDirField);
 		srcDirField.setColumns(10);
+		srcDirField.addKeyListener(this);
 		srcDirField.setToolTipText("Source Directory Name!");
 
 		destFile = new JLabel("*Destination File Name:");
@@ -62,7 +66,6 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 		destFile.setForeground(Color.WHITE);
 		destFile.setFont(new Font("Courier New", Font.BOLD, 17));
 		destFile.setBounds(21, 130, 245, 30);
-		destFile.addKeyListener(this);
 		content.add(destFile);
 
 		submit = new JButton("Submit");
@@ -104,6 +107,12 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
     		try
 			{
 				FilePackerFront packer = new FilePackerFront(username);
+				SwingUtilities.invokeLater(new Runnable()
+				{
+				      public void run() {
+				    	  packer.srcDirField.requestFocus();
+				      }
+				});
 			}
 			catch(Exception e)
 			{
@@ -112,7 +121,7 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
     	}
 		else
 		{
-			this.setVisible(false);
+			this.dispose();
 			try
 			{
 				FilePacker packer = new FilePacker(srcDirField.getText(), state, destFileField.getText(), username);
@@ -122,11 +131,17 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 				{
 					String str = new String("Source directory does not exists");
 		    		JOptionPane.showMessageDialog(this, str, "File Packer-Unpacker", JOptionPane.INFORMATION_MESSAGE);
-		    		this.setVisible(true);
+		    		FilePackerFront packerf = new FilePackerFront(username);
+					SwingUtilities.invokeLater(new Runnable()
+					{
+					      public void run() {
+					        packerf.srcDirField.requestFocus();
+					      }
+					});
 				}
 				else
 				{
-					FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(username);
+					FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(username);					
 				}
 			}
 			catch(Exception e)
