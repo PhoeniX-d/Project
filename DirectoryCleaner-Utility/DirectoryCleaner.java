@@ -23,7 +23,12 @@ class DirectoryCleaner
 		System.out.println("Enter the directory name");
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));		
 		dirName = br.readLine();
-		Cleaner cleaner = new Cleaner(dirName);
+		System.out.println("Choose the method you want to follow:");
+		System.out.println("1. Removing empty and duplicate files from a single-single directory:");
+		System.out.println("2. Removing all empty and duplicate files from a specified directory:");
+		br = new BufferedReader(new InputStreamReader(System.in));
+		int choice = Integer.parseInt(br.readLine());
+		Cleaner cleaner = new Cleaner(dirName, choice);
 		cleaner.directoryCleanup();
 		cleaner.details();
 	}
@@ -35,18 +40,21 @@ class Cleaner
 	int duplicateFiles = 0;
 	int emptyFiles = 0;
 	int totalFiles = 0;
+	int choice = 0;
 	
 	File filesList[] = null;
 	LinkedList<String> empty = new LinkedList<String>();
 	LinkedList<String> unableEmpty = new LinkedList<String>();
 	LinkedList<String> duplicate = new LinkedList<String>();
 	LinkedList<String> unableDuplicate = new LinkedList<String>();
-	LinkedList<String> l = new LinkedList<String>();
+	LinkedList<String> globalListOfFiles = new LinkedList<String>();
+	LinkedList<String> localListofFiles = null;
 	
-	Cleaner(String dirName)
+	Cleaner(String dirName, int choice)
 	{
 		dir = new File(dirName);
 		DirectoryCleaner.absolutePath = dir.getAbsolutePath();
+		
 		// check for directory exists or not if yes is it directory?
 		if(dir.exists() == false && dir.isDirectory() == false)
 		{
@@ -54,6 +62,7 @@ class Cleaner
 			System.exit(0);
 		}
 		filesList = dir.listFiles();
+		this.choice = choice;
 	}
 	
 	public void directoryCleanup()
@@ -79,6 +88,10 @@ class Cleaner
 		byte bArr[] = new byte[1024];
 		int bytesRead = 0;
 		FileInputStream fis = null;
+		if(this.choice == 1)
+		{
+			localListofFiles = new LinkedList<String>();
+		}
 		totalFiles = totalFiles + filesArr.length;
 		for(File file : filesArr)
 		{
@@ -123,8 +136,9 @@ class Cleaner
 					sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
 				}
 				
-				if(l.contains(sb.toString()))
+				if(this.choice == 1 && localListofFiles.contains(sb.toString()))
 				{
+					System.out.println(file.getName());
 					if(!file.delete())
 					{
 						unableDuplicate.add(file.getName());
@@ -135,9 +149,30 @@ class Cleaner
 						duplicateFiles++;				
 					}
 				}
+				else if(this.choice == 2 && globalListOfFiles.contains(sb.toString()))
+				{
+					System.out.println(file.getName());
+					if(!file.delete())
+					{
+						unableDuplicate.add(file.getName());
+					}
+					else
+					{
+						duplicate.add(file.getName());
+						duplicateFiles++;				
+					}
+				}
+					
 				else
 				{
-					l.add(sb.toString());
+					if(this.choice == 1)
+					{
+						localListofFiles.add(sb.toString());
+					}
+					else if(this.choice == 2)
+					{
+						globalListOfFiles.add(sb.toString());
+					}
 				}
 			}
 			else
