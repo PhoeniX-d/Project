@@ -35,6 +35,7 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener, 
 
 	RegisterUser() throws Exception
 	{
+		FilePackerUnpacker.log.info("User is creating new login id");
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		Thread t = new Thread(this);
 		topLabel = new JLabel("Register New User");
@@ -127,6 +128,7 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener, 
 		previous.addActionListener(this);
 		show1.addActionListener(this);
 		show2.addActionListener(this);
+		FilePackerUnpacker.log.info("User created new login id");
 	}
 	
 	public boolean isValid(String userValue, String pwdValue, String confirmpwdValue)
@@ -219,12 +221,12 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener, 
 		}
 		else
 		{
-			serializeFile = new File("credentials.txt");
+			serializeFile = new File("credentials");
 			if(serializeFile.exists() && serializeFile.isFile())
 			{
 				try
 				{
-					serializeFis = new FileInputStream("credentials.txt");
+					serializeFis = new FileInputStream("credentials");
 					mapInput = new ObjectInputStream(serializeFis);
 					creds = (HashMap<String, String>)mapInput.readObject();
 					serializeFis.close();
@@ -239,7 +241,7 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener, 
 			Set<String> keys= creds.keySet();
 			if(keys.contains(userValue))
 			{
-				JOptionPane.showMessageDialog(null, "Sorry!! username already exists, try different username", "File Packer-Unpacker2", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Sorry!! username already exists, try different username", "File Packer-Unpacker", JOptionPane.INFORMATION_MESSAGE);
 				nameField.setText("");
 				pwdField.setText("");
 				confirmpwdField.setText("");
@@ -254,7 +256,7 @@ class RegisterUser extends GUITemplate implements  ActionListener, KeyListener, 
 				this.setVisible(false);
 				try
 				{
-					deserializeFos = new FileOutputStream("credentials.txt");
+					deserializeFos = new FileOutputStream("credentials");
 					mapOutput = new ObjectOutputStream(deserializeFos);
 					mapOutput.writeObject(creds);
 					deserializeFos.close();

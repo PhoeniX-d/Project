@@ -1,6 +1,7 @@
 import java.awt.Choice;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -9,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -17,15 +19,18 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+
 class FilePackerFront extends GUITemplate implements ActionListener, ItemListener, KeyListener
 {
-	JButton submit, previous;
+	JButton submit, previous, browse;
 	JLabel topLabel, status, srcDir, destFile;
-	JTextField srcDirField, destFileField;
+	static JTextField srcDirField, destFileField;
 	Choice choice;
+	JFileChooser fileChooser;
 	String username, state;
 	public FilePackerFront(String username) throws Exception
 	{
+		FilePackerUnpacker.log.info("To the window of File Packer Front");
 		this.username = username;
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		
@@ -49,13 +54,13 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 		content.add(srcDir);
 
 		destFileField = new JTextField();
-		destFileField.setBounds(276, 131, 260, 25);
+		destFileField.setBounds(275, 155, 260, 25);
 		content.add(destFileField);
 		destFileField.addKeyListener(this);
 		destFileField.setToolTipText("Destination File Name!");
 
 		srcDirField = new JTextField();
-		srcDirField.setBounds(276, 60, 260, 25);
+		srcDirField.setBounds(275, 60, 260, 25);
 		content.add(srcDirField);
 		srcDirField.setColumns(10);
 		srcDirField.addKeyListener(this);
@@ -65,24 +70,31 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 		destFile.setHorizontalAlignment(SwingConstants.CENTER);
 		destFile.setForeground(Color.WHITE);
 		destFile.setFont(new Font("Courier New", Font.BOLD, 17));
-		destFile.setBounds(21, 130, 245, 30);
+		destFile.setBounds(21, 155, 245, 30);
 		content.add(destFile);
 
 		submit = new JButton("Submit");
 		submit.setFont(new Font("Courier New", Font.BOLD, 17));
-		submit.setBounds(75, 240, 145, 25);
+		submit.setBounds(100, 240, 145, 25);
 		content.add(submit);
 		
 		previous = new JButton("Previous");
 		previous.setFont(new Font("Courier New", Font.BOLD, 17));
-		previous.setBounds(325, 240, 145, 25);
+		previous.setBounds(435, 240, 145, 25);
 		content.add(previous);
-
+		
+		browse = new JButton("Browse");
+		browse.setFont(new Font("Courier New", Font.BOLD, 17));
+		browse.setBounds(275, 105, 100, 25);
+		content.add(browse);
+		
 		choice = new Choice();
 		choice.setFont(new Font("Courier New", Font.BOLD, 11));
-		choice.setBounds(582, 57, 60, 20);
+		choice.setBounds(400, 108, 80, 25);
 		choice.add("All");choice.add(".txt");choice.add(".c");
 		choice.add(".cpp");choice.add(".java");choice.add(".cs");
+		choice.add(".jpge");choice.add(".jpg");choice.add(".h");
+
 		state = choice.getSelectedItem();
 		content.add(choice);
 		
@@ -94,6 +106,8 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 		choice.addItemListener(this);
 		submit.addActionListener(this);
 		previous.addActionListener(this);
+		browse.addActionListener(this);
+		FilePackerUnpacker.log.info("Moving from window of File Packer Front");
 	}
 	
 	public void submitTask()
@@ -103,14 +117,12 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
     	{
     		String s = new String("Please enter all required fields");
     		JOptionPane.showMessageDialog(this, s, "File Packer-Unpacker", JOptionPane.INFORMATION_MESSAGE);
-    		this.setVisible(false);
     		try
 			{
-				FilePackerFront packer = new FilePackerFront(username);
 				SwingUtilities.invokeLater(new Runnable()
 				{
 				      public void run() {
-				    	  packer.srcDirField.requestFocus();
+				    	  FilePackerFront.srcDirField.requestFocus();
 				      }
 				});
 			}
@@ -121,7 +133,6 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
     	}
 		else
 		{
-			this.dispose();
 			try
 			{
 				FilePacker packer = new FilePacker(srcDirField.getText(), state, destFileField.getText(), username);
@@ -131,17 +142,19 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 				{
 					String str = new String("Source directory does not exists");
 		    		JOptionPane.showMessageDialog(this, str, "File Packer-Unpacker", JOptionPane.INFORMATION_MESSAGE);
-		    		FilePackerFront packerf = new FilePackerFront(username);
+		    		
 					SwingUtilities.invokeLater(new Runnable()
 					{
 					      public void run() {
-					        packerf.srcDirField.requestFocus();
+					        FilePackerFront.srcDirField.requestFocus();
 					      }
 					});
 				}
 				else
 				{
-					FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(username);					
+					this.setVisible(false);
+					FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(username);
+					nextPage.setVisible(true);					
 				}
 			}
 			catch(Exception e)
@@ -160,7 +173,14 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 	{
 		if (ae.getSource() == exit)
 		{
-			this.setVisible(false);
+			final Frame[] frames = Frame.getFrames();
+			if (frames != null)
+			{
+				for (final Frame f : frames)
+			    {
+			        f.dispose();
+			    }
+			}
 			System.exit(0);
 		}
 		if (ae.getSource() == minimize)
@@ -171,13 +191,27 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 		{
 			submitTask();
 		}
-		
+		if(ae.getSource() == browse)
+		{
+			fileChooser = new JFileChooser(); 
+			fileChooser.setCurrentDirectory(new java.io.File("."));
+			fileChooser.setDialogTitle("Select Directory");
+			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		   
+			fileChooser.setAcceptAllFileFilterUsed(false);  
+		    if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+		    { 
+		      srcDirField.setText(fileChooser.getSelectedFile().toString());
+		    }
+		}
 		if(ae.getSource() == previous)
 		{
-			this.setVisible(false);
+			
 			try
 			{
 				FilePackerUnpackerFront nextPage = new FilePackerUnpackerFront(username);
+				this.setVisible(false);
+				nextPage.setVisible(true);
 			}
 			catch(Exception e)
 			{
@@ -197,4 +231,10 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 	
 	public void keyReleased(KeyEvent ke){}
 	public void keyTyped(KeyEvent e){}
+	
+	/*
+	public static void main(String[] args)throws Exception
+	{
+		new FilePackerFront("Admin");
+	}*/
 }

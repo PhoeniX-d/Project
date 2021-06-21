@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,9 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 import javax.swing.JButton;
@@ -34,6 +33,7 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 	
 	public FilePackerUnpackerLogin()
 	{
+		FilePackerUnpacker.log.info("Creating login window..");
 		Thread t = new Thread(this);	
 		getCredentials();
 		topLabel = new JLabel("File Packer and Unpacker");
@@ -123,6 +123,7 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 		clear.addActionListener(this);
 		register.addActionListener(this);
 		show.addActionListener(this);
+		FilePackerUnpacker.log.info("Login window created..");
 	}
 	
 	public boolean isValid(String username, String password)
@@ -194,7 +195,14 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 		}
 		if(ae.getSource() == exit)
 		{
-			this.dispose();
+			final Frame[] frames = Frame.getFrames();
+			if (frames != null)
+			{
+				for (final Frame f : frames)
+			    {
+			        f.dispose();
+			    }
+			}
 			System.exit(0);
 		}
 		
@@ -262,12 +270,12 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 	
 	public void getCredentials()
 	{
-		serializeFile = new File("credentials.txt");
+		serializeFile = new File("credentials");
 		if(serializeFile.exists() && serializeFile.isFile())
 		{
 			try
 			{
-				serializeFis = new FileInputStream("credentials.txt");
+				serializeFis = new FileInputStream("credentials");
 				mapInput = new ObjectInputStream(serializeFis);
 				creds = (HashMap<String, String>)mapInput.readObject();
 				serializeFis.close();

@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -82,7 +83,6 @@ class GUITemplate extends JFrame implements ActionListener
 	ObjectOutputStream mapOutput;
 	FileInputStream serializeFis = null;
 	FileOutputStream deserializeFos = null;
-	
 	public GUITemplate()
 	{
 		try
@@ -150,7 +150,14 @@ class GUITemplate extends JFrame implements ActionListener
 	public void actionPerformed(ActionEvent ae) {
 		if (ae.getSource() == exit)
 		{
-			this.dispose();
+			final Frame[] frames = Frame.getFrames();
+			if (frames != null)
+			{
+				for (final Frame f : frames)
+			    {
+			        f.dispose();
+			    }
+			}
 			System.exit(0);
 		}
 		if (ae.getSource() == minimize)

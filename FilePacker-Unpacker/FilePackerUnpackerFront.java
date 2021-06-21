@@ -1,9 +1,8 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,6 +19,7 @@ class FilePackerUnpackerFront extends GUITemplate implements ActionListener
 	
 	FilePackerUnpackerFront(String username) 
 	{
+		FilePackerUnpacker.log.info("To the window of File Packer Unpacker Front");
 		this.username = username;
 		welcome = new JLabel("Welcome : " + username);
 		welcome.setBounds(200, 25, 350, 25);
@@ -55,13 +55,21 @@ class FilePackerUnpackerFront extends GUITemplate implements ActionListener
 		this.setBounds(fSize.width / 4, fSize.height / 5, 700, 450);
 		this.setVisible(true);
 		this.setResizable(false);
+		FilePackerUnpacker.log.info("Moving from window of File Packer Unpacker Front");
 	}
 	
 	public void actionPerformed(ActionEvent ae)
 	{
 		if (ae.getSource() == exit)
 		{
-			this.dispose();
+			final Frame[] frames = Frame.getFrames();
+			if (frames != null)
+			{
+				for (final Frame f : frames)
+			    {
+			        f.dispose();
+			    }
+			}
 			System.exit(0);
 		}
 		if (ae.getSource() == minimize)
@@ -70,14 +78,15 @@ class FilePackerUnpackerFront extends GUITemplate implements ActionListener
 		}
 		if(ae.getSource() == pack)
 		{
-			this.setVisible(false);
 			try
 			{
-				FilePackerFront packer = new FilePackerFront(username);
+				FilePackerFront nextPage = new FilePackerFront(username);
+				this.setVisible(false);
+				nextPage.setVisible(true);
 				SwingUtilities.invokeLater(new Runnable()
 				{
 				      public void run() {
-				        packer.srcDirField.requestFocus();
+				    	  FilePackerFront.srcDirField.requestFocus();
 				      }
 				});
 			}
@@ -89,12 +98,13 @@ class FilePackerUnpackerFront extends GUITemplate implements ActionListener
 		
 		if(ae.getSource() == unpack)
 		{
+			FileUnpackerFront nextPage = new FileUnpackerFront(username);
 			this.setVisible(false);
-			FileUnpackerFront unpacker = new FileUnpackerFront(username);
+			nextPage.setVisible(true);
 			SwingUtilities.invokeLater(new Runnable()
 			{
 			      public void run() {
-			        unpacker.sourceFile.requestFocus();
+			    	  nextPage.sourceFile.requestFocus();
 			      }
 			});
 		}
