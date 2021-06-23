@@ -12,13 +12,20 @@ public class FileUnpacker {
 		FilePackerUnpacker.log.info("File Unpacking started..");
 		if (dest.isEmpty())
 			dest = ".";
-		
+
 		// Perform Decryption of file here...
-		new FileDecryption(src);
+		try {
+			new FileDecryption(src);
+		} catch (Exception e) {
+			throw new BadEncryptionFile("Invalid Encrypted File");
+		}
 		// Now file is decrypted, now perform unpacking of file
-		
+
 		fileUnpack(src, dest);
 		FilePackerUnpacker.log.info("File Unacking completed..");
+
+		// Move to its secure form after decryption
+		new FileEncryption(src);
 	}
 
 	public void fileUnpack(String filePath, String destination) throws IOException {
@@ -70,8 +77,4 @@ public class FileUnpacker {
 			isFileThere = false;
 		}
 	}
-	
-	 public static void main(String[] args)throws Exception { 
-		 new FileUnpacker("cryp", "C:\\Users\\Dell\\Desktop\\FinalProjects"); }
-	 
 }

@@ -49,9 +49,4 @@ public class FileEncryption {
 		String encodedKey = Base64.getEncoder().encodeToString(secKey.getEncoded());
 		return encodedKey;
 	}
-
-	public static void main(String[] args) throws Exception {
-		new FileEncryption("cryp");
-	}
-	
 }

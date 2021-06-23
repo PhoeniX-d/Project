@@ -97,7 +97,7 @@ class GUITemplate extends JFrame implements ActionListener
 			JOptionPane.showMessageDialog(this, e, "File Packer-Unpacker", JOptionPane.ERROR_MESSAGE);
 		}
 		getContentPane().setLayout(null);		
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
 		top = new JPanel();
 		top.setBounds(0, 0, 684, 25);
@@ -151,12 +151,10 @@ class GUITemplate extends JFrame implements ActionListener
 		if (ae.getSource() == exit)
 		{
 			final Frame[] frames = Frame.getFrames();
-			if (frames != null)
-			{
-				for (final Frame f : frames)
-			    {
-			        f.dispose();
-			    }
+			if (frames != null) {
+				for (final Frame f : frames) {
+					f.dispose();
+				}
 			}
 			System.exit(0);
 		}
@@ -193,38 +191,6 @@ class GUITemplate extends JFrame implements ActionListener
 		dateLabel.setBounds(395, 0, 150, 25);
 		timeLabel.setBounds(545, 0, 140, 25);
 		
-		top.add(dayLabel);
-		top.add(dateLabel);
-		top.add(timeLabel);
-	}
-
-	void clockHome()
-	{
-		dateLabel = new ClockLabel("date");
-		timeLabel = new ClockLabel("time");
-		dayLabel = new ClockLabel("day");
-		dayLabel.setHorizontalAlignment(SwingConstants.CENTER);
-
-		dateLabel.setForeground(Color.RED);
-		dateLabel.setAlignmentX(CENTER_ALIGNMENT);
-		dateLabel.setAlignmentY(CENTER_ALIGNMENT);
-
-		timeLabel.setForeground(Color.RED);
-		timeLabel.setAlignmentX(CENTER_ALIGNMENT);
-		timeLabel.setAlignmentY(CENTER_ALIGNMENT);
-
-		dayLabel.setForeground(Color.RED);
-		dayLabel.setAlignmentX(CENTER_ALIGNMENT);
-		dayLabel.setAlignmentY(CENTER_ALIGNMENT);
-
-		dateLabel.setFont(new Font("Consolas", Font.BOLD, 17));
-		timeLabel.setFont(new Font("Consolas", Font.BOLD, 17));
-		dayLabel.setFont(new Font("Consolas", Font.BOLD, 17));
-
-		dayLabel.setBounds(270, 0, 130, 25);
-		dateLabel.setBounds(395, 0, 150, 25);
-		timeLabel.setBounds(545, 0, 140, 25);
-
 		top.add(dayLabel);
 		top.add(dateLabel);
 		top.add(timeLabel);
