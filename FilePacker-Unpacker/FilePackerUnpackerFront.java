@@ -124,8 +124,4 @@ class FilePackerUnpackerFront extends GUITemplate implements ActionListener {
 			}
 		}
 	}
-	public static void main(String[] args)throws Exception
-	{
-		new FilePackerUnpackerFront("Pranav");
-	}
 }

@@ -17,8 +17,8 @@ public class FilePacker extends JFrame {
 	// Create FileOutputStream object for destination file
 	FileOutputStream outStream = null;
 	// We support files with following extensions to be packed
-	String invalidExtensions[] = { ".txt", ".c", ".cpp", ".java", ".cs", ".js", ".class", ".jpge", "jpg", ".pdf", ".py",
-			".doc", ".docx" };
+	String invalidExtensions[] = {".txt", ".c", ".cpp", ".java", ".cs", ".js", ".class", ".jpge", "jpg", ".pdf", ".py",
+			".doc", ".docx", ".png", ".wav" };
 	String validExt;
 	static boolean flag = false;
 	boolean isDirExists = true;

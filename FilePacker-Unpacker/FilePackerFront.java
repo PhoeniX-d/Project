@@ -225,9 +225,4 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 
 	public void keyTyped(KeyEvent e) {
 	}
-	
-	public static void main(String[] args) throws Exception
-	{
-		new FilePackerFront("Pranav");
-	}
 }
