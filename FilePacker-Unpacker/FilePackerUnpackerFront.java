@@ -46,7 +46,7 @@ class FilePackerUnpackerFront extends GUITemplate implements ActionListener {
 		unpack.setBounds(380, 120, 180, 50);
 		unpack.setAlignmentX(JButton.CENTER);
 		content.add(unpack);
-		
+
 		logout = new JButton("Logout");
 		logout.setHorizontalAlignment(SwingConstants.CENTER);
 		logout.setFont(new Font("Courier New", Font.BOLD, 20));
@@ -107,7 +107,7 @@ class FilePackerUnpackerFront extends GUITemplate implements ActionListener {
 				JOptionPane.showMessageDialog(null, e.getMessage());
 			}
 		}
-		
+
 		if (ae.getSource() == logout) {
 			try {
 				FilePackerUnpackerLogin nextPage = new FilePackerUnpackerLogin();

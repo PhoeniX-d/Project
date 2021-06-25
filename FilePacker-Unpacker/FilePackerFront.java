@@ -85,7 +85,7 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 		browse.setFont(new Font("Courier New", Font.BOLD, 17));
 		browse.setBounds(275, 95, 100, 25);
 		content.add(browse);
-		
+
 		saveTo = new JButton("Save To");
 		saveTo.setFont(new Font("Courier New", Font.BOLD, 17));
 		saveTo.setBounds(275, 190, 125, 25);
@@ -135,7 +135,8 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 			}
 		} else {
 			try {
-				FilePacker packer = new FilePacker(srcDirField.getText(), state, destFileField.getText(), destDirField, username);
+				FilePacker packer = new FilePacker(srcDirField.getText(), state, destFileField.getText(), destDirField,
+						username);
 				srcDirField.setText("");
 				destFileField.setText("");
 				if (packer.isDirExists == false) {

@@ -33,10 +33,12 @@ public class FileUnpacker {
 		if (f.exists() && f.isFile()) {
 			try {
 				inStream = new FileInputStream(filePath);
-				int size = 0, i = 1;
+				int size = 0, i = 1, iLength = 0;
 				byte header[] = new byte[100];
 				byte magic[] = new byte[11];
 				inStream.read(magic, 0, magic.length);
+
+				// Check whether its a valid packed file or not
 				String magicStr = new String(magic);
 				if (!magicStr.equals("LeafyBeacon")) {
 					throw new InvalidFileException("Invalid packed file format");
@@ -47,16 +49,30 @@ public class FileUnpacker {
 				String[] dirNames = new String(header).split("\\\\");
 				String dirName = dirNames[dirNames.length - 2];
 				file = new File(destination, dirName);
+
+				// If direcory is already there then create new directory with new name
 				while (file.exists()) {
 					file = new File(destination, dirName + "_" + i++);
 				}
+
+				// If directory creation is successfull then proceed
 				if (file.mkdir()) {
 					do {
 						String str = new String(header);
 						String ext = str.substring(str.lastIndexOf("\\"));
 						ext = ext.substring(1);
 						String words[] = ext.split("\\s");
-						int fileSize = Integer.parseInt(words[1]);
+						iLength = words.length;
+						if (iLength > 2) {
+							StringBuilder sb = new StringBuilder();
+							for (int k = 0; k < iLength - 1; k++) {
+								sb = sb.append(words[k]);
+								if (k != iLength - 1)
+									sb = sb.append(" ");
+							}
+							words[0] = sb.toString();
+						}
+						int fileSize = Integer.parseInt(words[iLength - 1]);
 						byte[] temp = words[0].getBytes();
 						String fileName = new String(temp);
 						byte[] arr = new byte[fileSize];
@@ -71,7 +87,6 @@ public class FileUnpacker {
 				throw new InvalidFileException("Invalid packed file format");
 			} finally {
 				inStream.close();
-				Runtime.getRuntime().gc();
 			}
 		} else {
 			isFileThere = false;

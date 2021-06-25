@@ -13,11 +13,11 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class FilePacker extends JFrame {
-	
+
 	// Create FileOutputStream object for destination file
 	FileOutputStream outStream = null;
 	// We support files with following extensions to be packed
-	String invalidExtensions[] = {".txt", ".c", ".cpp", ".java", ".cs", ".js", ".class", ".jpge", "jpg", ".pdf", ".py",
+	String invalidExtensions[] = { ".txt", ".c", ".cpp", ".java", ".cs", ".js", ".class", ".jpge", "jpg", ".pdf", ".py",
 			".doc", ".docx", ".png", ".wav" };
 	String validExt;
 	static boolean flag = false;
@@ -59,6 +59,7 @@ public class FilePacker extends JFrame {
 
 						if (extension.equals("All")) {
 							if (list.contains(ext)) {
+								System.out.println(filePath.toString());
 								filePack(filePath.toString());
 							}
 						} else {
@@ -77,7 +78,6 @@ public class FilePacker extends JFrame {
 				String str = new String("Source Directory does not contain file with selected extension");
 				JOptionPane.showMessageDialog(this, str, "File Packer-Unpacker", JOptionPane.INFORMATION_MESSAGE);
 			}
-			Runtime.getRuntime().gc();
 		}
 	}
 

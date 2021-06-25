@@ -24,18 +24,15 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 
-class ClockLabel extends JLabel implements ActionListener
-{
+class ClockLabel extends JLabel implements ActionListener {
 	String type;
 	SimpleDateFormat sdf;
 
-	public ClockLabel(String type)
-	{
+	public ClockLabel(String type) {
 		this.type = type;
 		setForeground(Color.RED);
 
-		switch (type)
-		{
+		switch (type) {
 		case "date":
 			sdf = new SimpleDateFormat("MMMM dd yyyy");
 			setFont(new Font("Consolas", Font.BOLD, 17));
@@ -66,8 +63,7 @@ class ClockLabel extends JLabel implements ActionListener
 	}
 }
 
-class GUITemplate extends JFrame implements ActionListener
-{
+class GUITemplate extends JFrame implements ActionListener {
 	JPanel header;
 	JPanel content;
 	JPanel top;
@@ -77,26 +73,24 @@ class GUITemplate extends JFrame implements ActionListener
 	ClockLabel dateLabel;
 	JButton minimize, exit;
 	Dimension fSize;
+	// To store username and password and to serialize it into a file
 	static HashMap<String, String> creds = new HashMap<String, String>();
 	File serializeFile;
 	ObjectInputStream mapInput;
 	ObjectOutputStream mapOutput;
 	FileInputStream serializeFis = null;
 	FileOutputStream deserializeFos = null;
-	public GUITemplate()
-	{
-		try
-		{
+
+	public GUITemplate() {
+		try {
 			setIconImage(Toolkit.getDefaultToolkit().getImage("filepackerunpacker.jpg"));
-			fSize = Toolkit.getDefaultToolkit().getScreenSize();		
+			fSize = Toolkit.getDefaultToolkit().getScreenSize();
 			this.setBounds(fSize.width / 4, fSize.height / 5, 700, 450);
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e, "File Packer-Unpacker", JOptionPane.ERROR_MESSAGE);
 		}
-		getContentPane().setLayout(null);		
+		getContentPane().setLayout(null);
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
 		top = new JPanel();
@@ -116,16 +110,16 @@ class GUITemplate extends JFrame implements ActionListener
 		content.setLayout(null);
 		content.setBackground(new Color(0, 50, 120));
 		getContentPane().add(content);
-		
+
 		this.setTitle("File Packer Unpacker");
 		this.clock();
 		this.closeAndMin();
 		this.setVisible(true);
-		this.setResizable(false);;
+		this.setResizable(false);
+		;
 	}
 
-	void closeAndMin()
-	{
+	void closeAndMin() {
 		minimize = new JButton("-");
 		minimize.setBounds(2, 0, 45, 25);
 		minimize.setHorizontalAlignment(SwingConstants.CENTER);
@@ -142,14 +136,13 @@ class GUITemplate extends JFrame implements ActionListener
 
 		top.add(minimize);
 		top.add(exit);
-		
+
 		minimize.addActionListener(this);
-		exit.addActionListener(this);		
+		exit.addActionListener(this);
 	}
 
 	public void actionPerformed(ActionEvent ae) {
-		if (ae.getSource() == exit)
-		{
+		if (ae.getSource() == exit) {
 			final Frame[] frames = Frame.getFrames();
 			if (frames != null) {
 				for (final Frame f : frames) {
@@ -158,39 +151,37 @@ class GUITemplate extends JFrame implements ActionListener
 			}
 			System.exit(0);
 		}
-		if (ae.getSource() == minimize)
-		{
+		if (ae.getSource() == minimize) {
 			setState(JFrame.ICONIFIED);
 		}
 	}
 
-	void clock()
-	{
+	void clock() {
 		dateLabel = new ClockLabel("date");
 		timeLabel = new ClockLabel("time");
 		dayLabel = new ClockLabel("day");
 		dayLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		
+
 		dateLabel.setForeground(Color.RED);
 		dateLabel.setAlignmentX(CENTER_ALIGNMENT);
 		dateLabel.setAlignmentY(CENTER_ALIGNMENT);
-		
+
 		timeLabel.setForeground(Color.RED);
 		timeLabel.setAlignmentX(CENTER_ALIGNMENT);
 		timeLabel.setAlignmentY(CENTER_ALIGNMENT);
-		
+
 		dayLabel.setForeground(Color.RED);
 		dayLabel.setAlignmentX(CENTER_ALIGNMENT);
 		dayLabel.setAlignmentY(CENTER_ALIGNMENT);
-		
+
 		dateLabel.setFont(new Font("Consolas", Font.BOLD, 17));
 		timeLabel.setFont(new Font("Consolas", Font.BOLD, 17));
 		dayLabel.setFont(new Font("Consolas", Font.BOLD, 17));
-		
+
 		dayLabel.setBounds(270, 0, 130, 25);
 		dateLabel.setBounds(395, 0, 150, 25);
 		timeLabel.setBounds(545, 0, 140, 25);
-		
+
 		top.add(dayLabel);
 		top.add(dateLabel);
 		top.add(timeLabel);
