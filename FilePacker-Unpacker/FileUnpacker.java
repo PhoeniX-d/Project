@@ -46,7 +46,7 @@ public class FileUnpacker {
 
 				// create a directory in which you want to put your files
 				size = inStream.read(header, 0, 100);
-				String[] dirNames = new String(header).split("\\\\");
+				String[] dirNames = new String(header).split(FilePackerUnpacker.fileSep + FilePackerUnpacker.fileSep);
 				String dirName = dirNames[dirNames.length - 2];
 				file = new File(destination, dirName);
 
@@ -59,7 +59,7 @@ public class FileUnpacker {
 				if (file.mkdir()) {
 					do {
 						String str = new String(header);
-						String ext = str.substring(str.lastIndexOf("\\"));
+						String ext = str.substring(str.lastIndexOf(FilePackerUnpacker.fileSep));
 						ext = ext.substring(1);
 						String words[] = ext.split("\\s");
 						iLength = words.length;
@@ -77,7 +77,7 @@ public class FileUnpacker {
 						String fileName = new String(temp);
 						byte[] arr = new byte[fileSize];
 						inStream.read(arr, 0, fileSize);
-						FileOutputStream outStream = new FileOutputStream(file.getAbsoluteFile() + "\\" + fileName);
+						FileOutputStream outStream = new FileOutputStream(file.getAbsoluteFile() + FilePackerUnpacker.fileSep + fileName);
 						outStream.write(arr, 0, fileSize);
 						outStream.close();
 					} while ((size = inStream.read(header, 0, 100)) > 0);

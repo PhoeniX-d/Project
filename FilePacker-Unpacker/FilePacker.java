@@ -29,7 +29,7 @@ public class FilePacker extends JFrame {
 		// Implement Magic number code and write it on file
 		String magic = "LeafyBeacon";
 		byte arr[] = magic.getBytes();
-		outStream = new FileOutputStream(destPath + "\\" + dest);
+		outStream = new FileOutputStream(destPath + FilePackerUnpacker.fileSep + dest);
 		outStream.write(arr, 0, arr.length);
 
 		// Check whether user gave directory or not
@@ -43,7 +43,7 @@ public class FilePacker extends JFrame {
 		outStream.close();
 
 		// After closing the file perform the encryption....
-		new FileEncryption(destPath + "\\" + dest);
+		new FileEncryption(destPath + FilePackerUnpacker.fileSep + dest);
 		// Now file is encrypted
 		FilePackerUnpacker.log.info("File Packing completed..");
 	}
@@ -59,7 +59,6 @@ public class FilePacker extends JFrame {
 
 						if (extension.equals("All")) {
 							if (list.contains(ext)) {
-								System.out.println(filePath.toString());
 								filePack(filePath.toString());
 							}
 						} else {

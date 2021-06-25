@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -8,10 +9,10 @@ import javax.swing.SwingUtilities;
 public class FilePackerUnpacker {
 	static Logger log = Logger.getLogger("FilePackerUnpackerLog");
 	static FileHandler logHandler;
-
+	static String fileSep = File.separator;
 	public static void main(String[] args) {
 		try {
-			logHandler = new FileHandler(".\\FilePackerUnpacker.log", true);
+			logHandler = new FileHandler("." + fileSep + "FilePackerUnpacker.log", true);
 			log.addHandler(logHandler);
 			log.setUseParentHandlers(false);
 
