@@ -103,7 +103,12 @@ class FilePackerFront extends GUITemplate implements ActionListener, ItemListene
 		choice.add(".jpge");
 		choice.add(".jpg");
 		choice.add(".h");
-
+		choice.add(".py");
+		choice.add(".mp3");
+		choice.add(".mp4");
+		choice.add(".pptx");
+		choice.add(".ppt");
+		
 		state = choice.getSelectedItem();
 		content.add(choice);
 

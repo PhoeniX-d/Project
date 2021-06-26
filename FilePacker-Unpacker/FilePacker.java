@@ -18,7 +18,7 @@ public class FilePacker extends JFrame {
 	FileOutputStream outStream = null;
 	// We support files with following extensions to be packed
 	String invalidExtensions[] = { ".txt", ".c", ".cpp", ".java", ".cs", ".js", ".class", ".jpge", "jpg", ".pdf", ".py",
-			".doc", ".docx", ".png", ".wav" };
+			".doc", ".docx", ".png", ".wav", ".mp3", ".mp4", ".pptx", ".ppt"};
 	String validExt;
 	static boolean flag = false;
 	boolean isDirExists = true;
@@ -58,7 +58,6 @@ public class FilePacker extends JFrame {
 						List<String> list = Arrays.asList(invalidExtensions);
 
 						if (extension.equals("All")) {
-							if (list.contains(ext)) {
 								filePack(filePath.toString());
 							}
 						} else {
