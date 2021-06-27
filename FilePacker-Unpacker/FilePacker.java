@@ -17,8 +17,8 @@ public class FilePacker extends JFrame {
 	// Create FileOutputStream object for destination file
 	FileOutputStream outStream = null;
 	// We support files with following extensions to be packed
-	String invalidExtensions[] = { ".txt", ".c", ".cpp", ".java", ".cs", ".js", ".class", ".jpge", "jpg", ".pdf", ".py",
-			".doc", ".docx", ".png", ".wav", ".mp3", ".mp4", ".pptx", ".ppt"};
+	String invalidExtensions[] = { ".txt", ".c", ".cpp", ".java", ".cs", ".js", ".class", ".jpge", ".jpg", ".pdf",
+			".py", ".doc", ".docx", ".png", ".wav", ".mp3", ".mp4", ".pptx", ".ppt" };
 	String validExt;
 	static boolean flag = false;
 	boolean isDirExists = true;
@@ -59,7 +59,6 @@ public class FilePacker extends JFrame {
 
 						if (extension.equals("All")) {
 								filePack(filePath.toString());
-							}
 						} else {
 							if (list.contains(ext)) {
 								if (ext.equals(extension)) {
@@ -84,14 +83,14 @@ public class FilePacker extends JFrame {
 		FileInputStream inStream = null;
 		byte[] buffer = new byte[1024];
 		int length = 0;
-		byte[] temp = new byte[100];
+		byte[] temp = new byte[256];
 		File fObj = new File(filePath);
 		StringBuffer header = new StringBuffer();
 		long fileSize = fObj.length();
 		header.append(filePath).append(" ").append(fileSize);
 
 		// Filling extra space with whitespaces
-		for (int i = header.length(); i < 100; i++) {
+		for (int i = header.length(); i < 256; i++) {
 			header.append(" ");
 		}
 
