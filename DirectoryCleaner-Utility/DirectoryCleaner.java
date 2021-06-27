@@ -1,56 +1,59 @@
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Iterator;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
+
+import javax.swing.JOptionPane;
 
 class DirectoryCleaner
 {
 	static String absolutePath = null;
+	static int choice;
 	static String dirName = null;
 	static long start = 0, end = 0;
 	static DateTimeFormatter dtf = null;
 	static LocalDateTime now = null;
-	public static void main(String[] args) throws Exception
+	DirectoryCleaner() throws Exception
 	{
 		dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
 		now = LocalDateTime.now();
-		System.out.println("Enter the directory name");
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));		
-		dirName = br.readLine();
-		System.out.println("Choose the method you want to follow:");
-		System.out.println("1. Removing empty and duplicate files from a single-single directory:");
-		System.out.println("2. Removing all empty and duplicate files from a specified directory:");
-		br = new BufferedReader(new InputStreamReader(System.in));
-		int choice = Integer.parseInt(br.readLine());
-		Cleaner cleaner = new Cleaner(dirName, choice);
-		cleaner.directoryCleanup();
-		cleaner.details();
 	}
 }
 
 class Cleaner
 {
 	File dir = null;
-	int duplicateFiles = 0;
-	int emptyFiles = 0;
-	int totalFiles = 0;
-	int choice = 0;
+	static int duplicateFiles = 0;
+	static int emptyFiles = 0;
+	static int totalFiles = 0;
+	static int choice = 0;
 	
 	File filesList[] = null;
-	LinkedList<String> empty = new LinkedList<String>();
-	LinkedList<String> unableEmpty = new LinkedList<String>();
-	LinkedList<String> duplicate = new LinkedList<String>();
-	LinkedList<String> unableDuplicate = new LinkedList<String>();
-	LinkedList<String> globalListOfFiles = new LinkedList<String>();
-	LinkedList<String> localListofFiles = null;
+	File[] fArray = null;
+	// To keep track of empty files
+	static LinkedList<String> empty = new LinkedList<String>();
 	
-	Cleaner(String dirName, int choice)
+	// To keep track of empty files that are unable to remove
+	static LinkedList<String> unableEmpty = new LinkedList<String>();
+	
+	// To keep track of duplicate files that
+	static LinkedList<String> duplicate = new LinkedList<String>();
+	
+	// To keep track of duplicate files that are unable to remove
+	static LinkedList<String> unableDuplicate = new LinkedList<String>();
+	
+	// To keep track of Method 2(Remove every) types of files
+	static LinkedList<String> globalListOfFiles = new LinkedList<String>();
+	
+	// To keep track of Method 1(Remove only upper dir contents) types of files
+	static LinkedList<String> localListofFiles = null;
+	
+	Cleaner(String dirName, int ch)
 	{
 		dir = new File(dirName);
 		DirectoryCleaner.absolutePath = dir.getAbsolutePath();
@@ -58,29 +61,24 @@ class Cleaner
 		// check for directory exists or not if yes is it directory?
 		if(dir.exists() == false && dir.isDirectory() == false)
 		{
-			System.out.println("Invalid Directory or Directory does not exists");
+			String s = "Invalid Directory or Directory does not exists anymore";
+			JOptionPane.showMessageDialog(null, s, "Directory Cleaner", JOptionPane.INFORMATION_MESSAGE);
 			System.exit(0);
 		}
 		filesList = dir.listFiles();
-		this.choice = choice;
+		Arrays.sort(filesList, Collections.reverseOrder());
+		choice = ch;
 	}
 	
-	public void directoryCleanup()
+	public void directoryCleanup()throws Exception
 	{
-		try
+		MessageDigest digest = MessageDigest.getInstance("SHA-256");
+		if(digest == null)
 		{
-			MessageDigest digest = MessageDigest.getInstance("SHA-256");
-			if(digest == null)
-			{
-				System.out.println("Unable to get the SHA-256 instance");
-				System.exit(0);
-			}
-			recursiveTravel(digest, filesList, 0);
+			JOptionPane.showMessageDialog(null, "Unable to get SHA-256 instance", "Directory Cleaner", JOptionPane.INFORMATION_MESSAGE);
+			System.exit(0);
 		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}		
+		recursiveTravel(digest, filesList, 0);	
 	}
 	
 	public void recursiveTravel(MessageDigest digest, File[] filesArr, int depth) throws IOException
@@ -88,7 +86,7 @@ class Cleaner
 		byte bArr[] = new byte[1024];
 		int bytesRead = 0;
 		FileInputStream fis = null;
-		if(this.choice == 1)
+		if(choice == 1)
 		{
 			localListofFiles = new LinkedList<String>();
 		}
@@ -103,7 +101,7 @@ class Cleaner
 				}
 				catch(Exception e)
 				{
-					System.out.println("System error while processing file " + file.getName());
+					JOptionPane.showMessageDialog(null, "System error while processing file " + file.getName(), "Directory Cleaner", JOptionPane.INFORMATION_MESSAGE);
 				}
 				
 				if(file.length() == 0)
@@ -136,9 +134,8 @@ class Cleaner
 					sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
 				}
 				
-				if(this.choice == 1 && localListofFiles.contains(sb.toString()))
+				if(choice == 1 && localListofFiles.contains(sb.toString()))
 				{
-					System.out.println(file.getName());
 					if(!file.delete())
 					{
 						unableDuplicate.add(file.getName());
@@ -149,9 +146,8 @@ class Cleaner
 						duplicateFiles++;				
 					}
 				}
-				else if(this.choice == 2 && globalListOfFiles.contains(sb.toString()))
+				else if(choice == 2 && globalListOfFiles.contains(sb.toString()))
 				{
-					System.out.println(file.getName());
 					if(!file.delete())
 					{
 						unableDuplicate.add(file.getName());
@@ -165,11 +161,11 @@ class Cleaner
 					
 				else
 				{
-					if(this.choice == 1)
+					if(choice == 1)
 					{
 						localListofFiles.add(sb.toString());
 					}
-					else if(this.choice == 2)
+					else if(choice == 2)
 					{
 						globalListOfFiles.add(sb.toString());
 					}
@@ -177,73 +173,14 @@ class Cleaner
 			}
 			else
 			{
-				recursiveTravel(digest, file.listFiles(), depth + 1);
+				fArray = file.listFiles();
+				//Arrays.sort(fArray, Collections.reverseOrder());
+				recursiveTravel(digest, fArray, depth + 1);
 				if(file.listFiles().length == 0)
 				{
 					file.delete();
 				}
 			}
 		}
-	}
-	
-	
-	public void details()
-	{
-		Iterator itr = null;		   
-		System.out.println("\n##################### Directory Cleaner Log #####################\n");
-		System.out.println("Name of Directory\t\t\t:" + DirectoryCleaner.dirName);
-		System.out.println("FullPath\t\t\t\t:" + DirectoryCleaner.absolutePath);
-		System.out.println("Total Files\t\t\t\t:" + totalFiles);
-		
-		// processed files
-		System.out.println("Total Empty Files Deleted\t\t:" + emptyFiles);
-		if(emptyFiles != 0)
-		{
-			System.out.println("--------------------");
-			itr = empty.iterator();
-			while(itr.hasNext())
-			{
-				System.out.println(itr.next().toString());
-			}
-			System.out.println("--------------------");
-		}
-		
-		System.out.println("Total Duplicate Files Deleted\t\t:" + duplicateFiles);
-		if(duplicateFiles != 0)
-		{
-			System.out.println("--------------------");
-			itr = duplicate.iterator();
-			while(itr.hasNext())
-			{
-				System.out.println(itr.next().toString());
-			}
-			System.out.println("--------------------");
-		}
-		
-		// unable to process files
-		System.out.println("Total Empty Files Unable to Delete\t:" + unableEmpty.size());
-		if(unableEmpty.size() != 0)
-		{
-			System.out.println("--------------------");
-			itr = unableEmpty.iterator();
-			while(itr.hasNext())
-			{
-				System.out.println(itr.next().toString());
-			}
-			System.out.println("--------------------");
-		}
-		System.out.println("Total Duplicate Files Unable to Delete\t:" + unableDuplicate.size());
-		if(unableDuplicate.size() != 0)
-		{
-			System.out.println("--------------------");
-			itr = unableDuplicate.iterator();
-			while(itr.hasNext())
-			{
-				System.out.println(itr.next().toString());
-			}
-			System.out.println("--------------------");
-		}
-		System.out.println("Date and Time\t\t\t\t:" + DirectoryCleaner.dtf.format(DirectoryCleaner.now));  
-		System.out.println("\n#################################################################");
 	}
 }
