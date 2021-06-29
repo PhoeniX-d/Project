@@ -16,4 +16,4 @@ kill process, search process, find out dependent threads and dll etc;
 
 **File Packer-Unpacker**    
 A Java based GUI project that perform packing and unpacking of editable text files (like zip-unzip but not same)
-files are encoded using a cryptographic algorithm
+files are encoded using a cryptographic algorithm(remain to implement)
