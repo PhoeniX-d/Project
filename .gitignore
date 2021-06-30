@@ -5,3 +5,7 @@
 *.png
 demo
 *.obj
+.vs
+Debug
+x64
+x86
