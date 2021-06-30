@@ -1,7 +1,6 @@
 
 // Entry Point Function File
 #include "Strlibdll.h"
-#pragma comment(lib, "Strlibdll.lib")
 
 int main()
 {

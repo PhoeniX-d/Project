@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="StrLibDll.c">
+    <ClCompile Include="StrLibClientIm.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -154,7 +154,7 @@
     <ClCompile Include="StrLibMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="StrLib.h" />
+    <ClInclude Include="include\StrLib.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

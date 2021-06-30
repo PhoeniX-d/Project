@@ -4,7 +4,7 @@
 #include<iostream>
 #include<stdio.h>
 
-#define MAXLEN          40
+#define MAXLEN           40
 #define _ERROR           -1
 #define _IN               1
 #define _OUT              0
