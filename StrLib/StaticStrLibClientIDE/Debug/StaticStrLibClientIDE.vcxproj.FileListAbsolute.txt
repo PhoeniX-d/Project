@@ -1,3 +1,0 @@
-C:\Users\Pranav\Desktop\Programming\Projects\StrLib\StaticStrLibClientIDE\StaticStrLibClientIDE\Debug\StaticStrLibClientIDE.exe
-C:\Users\Pranav\Desktop\Programming\Projects\StrLib\StaticStrLibClientIDE\StaticStrLibClientIDE\Debug\StaticStrLibClientIDE.pdb
-C:\Users\Dell\Desktop\Programming\Projects\StrLib\StaticStrLibClientIDE\Debug\StaticStrLibClientIDE.exe

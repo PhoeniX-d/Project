@@ -1,3 +1,0 @@
-C:\Users\Pranav\Desktop\Programming\Projects\StrLib\StrlibdllClient\Debug\StrlibdllClient.exe
-C:\Users\Pranav\Desktop\Programming\Projects\StrLib\StrlibdllClient\Debug\StrlibdllClient.pdb
-C:\Users\Dell\Desktop\Programming\Projects\StrLib\IDE way\StrlibdllClientIm\Debug\StrlibdllClient.exe

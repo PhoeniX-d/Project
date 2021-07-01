@@ -1,2 +1,0 @@
-C:\Users\Pranav\Desktop\Programming\Projects\StrLib\Strlib\Debug\Strlib.exe
-C:\Users\Pranav\Desktop\Programming\Projects\StrLib\Strlib\Debug\Strlib.pdb

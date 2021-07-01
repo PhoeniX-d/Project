@@ -1,2 +1,0 @@
-C:\Users\Pranav\Desktop\Programming\Projects\StrLib\StaticStrlib\Debug\StaticStrlib.lib
-C:\Users\Pranav\Desktop\Programming\Projects\StrLib\StaticStrlib\Debug\StaticStrlib.pdb

@@ -1,3 +1,0 @@
-﻿  StrLibMain.cpp
-StaticStrlib.lib(Strlibdll.obj) : warning LNK4099: PDB 'StaticStrlib.pdb' was not found with 'StaticStrlib.lib(Strlibdll.obj)' or at 'C:\Users\Dell\Desktop\Programming\Projects\StrLib\StaticStrLibClientIDE\Debug\StaticStrlib.pdb'; linking object as if no debug info
-  StaticStrLibClientIDE.vcxproj -> C:\Users\Dell\Desktop\Programming\Projects\StrLib\StaticStrLibClientIDE\Debug\StaticStrLibClientIDE.exe
