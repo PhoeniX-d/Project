@@ -1,4 +1,5 @@
-#include "StaticCSTL.h"
+#include "StaticCustomizedSTL_IDE.h"
+
 //Entry Point Function
 int main()
 {
@@ -112,22 +113,6 @@ int main()
 		cout << "\n\n";
 		iobj2.Display();
 
-		if (iobj1 == iobj2)
-		{
-			cout << "Both Linked Lists Are Equal\n";
-		}
-		else if (iobj1 > iobj2)
-		{
-			cout << "1st Linked list is Greater than 2nd\n";
-		}
-		else if (iobj1 < iobj2)
-		{
-			cout << "2nd Linked list is Greater than 1st\n";
-		}
-		else
-		{
-			cout << "Linked List are different\n";
-		}
 		break;
 
 	case 2:

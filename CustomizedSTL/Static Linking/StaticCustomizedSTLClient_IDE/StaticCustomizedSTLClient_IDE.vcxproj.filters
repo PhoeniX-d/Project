@@ -15,12 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="StaticCSTL.cpp">
+    <ClCompile Include="StaticCustomizedSTLClient_IDE.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="StaticCSTL.h">
+    <ClInclude Include="include\StaticCustomizedSTL_IDE.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

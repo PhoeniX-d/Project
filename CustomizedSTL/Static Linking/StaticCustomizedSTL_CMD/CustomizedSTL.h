@@ -1,4 +1,3 @@
-#pragma once
 #include <iostream>
 using namespace std;
 
@@ -10,7 +9,7 @@ template <class T>
 struct node
 {
 	T Data;
-	struct node* Next;
+	struct node *Next;
 };
 
 // Generalized Structure of node For Queue
@@ -18,16 +17,16 @@ template <class T>
 struct qnode
 {
 	int P;
-	T data;
-	struct qnode* next;
+	T Data;
+	struct qnode *Next;
 };
 
 // Generalized Structure of node For GEN_STACK
 template <class T>
 struct snode
 {
-	T data;
-	struct snode* next;
+	T Data;
+	struct snode *Next;
 };
 
 // Generalized Structure of node For Doubly Linked List
@@ -35,16 +34,16 @@ template <class T>
 struct dnode
 {
 	T Data;
-	struct dnode* Next;
-	struct dnode* Prev;
+	struct dnode *Next;
+	struct dnode *Prev;
 };
 
 template <class T>
 struct tnode
 {
-	T data;
-	struct tnode<T>* lchild;
-	struct tnode<T>* rchild;
+	T Data;
+	struct tnode<T> *lchild;
+	struct tnode<T> *rchild;
 };
 
 //Abstract Class of Linked_List
@@ -75,8 +74,8 @@ template <class T>
 class GEN_SLLL : protected Linked_List<T>
 {
 private:
-	struct node<T>* Head; //Start Pointer
-	struct node<T>* Tail; //End  Pointer
+	struct node<T> *Head; //Start Pointer
+	struct node<T> *Tail; //End  Pointer
 	int size;
 
 public:
@@ -97,14 +96,7 @@ public:
 	T Largest();
 	T Smallest();
 	void ReverseList();
-	void Concat(GEN_SLLL<T>& op1, GEN_SLLL<T>& op2);
-
-	template <class X>
-	friend bool operator==(GEN_SLLL<X>& op1, GEN_SLLL<X>& op2); //Compares Linked List For Equality
-	template <class X>
-	friend bool operator>(GEN_SLLL<X>& op1, GEN_SLLL<X>& op2); //Check For Greater than
-	template <class X>
-	friend bool operator<(GEN_SLLL<X>& op1, GEN_SLLL<X>& op2); //Check for Less Than
+	void Concat(GEN_SLLL<T> &op1, GEN_SLLL<T> &op2);
 };
 
 ///////////////////////////////////////////////////////////////////////
@@ -119,8 +111,8 @@ template <class T>
 class GEN_SCLL : protected Linked_List<T>
 {
 private:
-	struct node<T>* Head;
-	struct node<T>* Tail;
+	struct node<T> *Head;
+	struct node<T> *Tail;
 	T size;
 
 public:
@@ -140,14 +132,7 @@ public:
 	T Largest();
 	T Smallest();
 	int Count();
-	void Concat(GEN_SCLL<T>& op1, GEN_SCLL<T>& op2);
-
-	template <class X>
-	friend bool operator<(GEN_SCLL<X>& op1, GEN_SCLL<X>& op2); //Check for Less Than
-	template <class X>
-	friend bool operator>(GEN_SCLL<X>& op1, GEN_SCLL<X>& op2); //Check For Greater than
-	template <class X>
-	friend bool operator==(GEN_SCLL<X>& op1, GEN_SCLL<X>& op2); //Compares Linked List For Equality
+	void Concat(GEN_SCLL<T> &op1, GEN_SCLL<T> &op2);
 };
 
 ///////////////////////////////////////////////////////////////////////
@@ -163,8 +148,8 @@ template <class T>
 class GEN_DLLL : protected Linked_List<T>
 {
 private:
-	struct dnode<T>* Head;
-	struct dnode<T>* Tail;
+	struct dnode<T> *Head;
+	struct dnode<T> *Tail;
 	int size;
 
 public:
@@ -185,13 +170,7 @@ public:
 	int LastOccurance(T);
 	T Largest();
 	T Smallest();
-	void Concat(GEN_DLLL<T>& op1, GEN_DLLL<T>& op2);
-	template <class X>
-	friend bool operator==(GEN_DLLL<X>& op1, GEN_DLLL<X>& op2); //Compares Linked List For Equality
-	template <class X>
-	friend bool operator>(GEN_DLLL<X>& op1, GEN_DLLL<X>& op2); //Check For Greater than
-	template <class X>
-	friend bool operator<(GEN_DLLL<X>& op1, GEN_DLLL<X>& op2); //Check for Less Than
+	void Concat(GEN_DLLL<T> &op1, GEN_DLLL<T> &op2);
 };
 
 ///////////////////////////////////////////////////////////////////////
@@ -207,8 +186,8 @@ template <class T>
 class GEN_DCLL : protected Linked_List<T>
 {
 private:
-	struct dnode<T>* Head;
-	struct dnode<T>* Tail;
+	struct dnode<T> *Head;
+	struct dnode<T> *Tail;
 	int size;
 
 public:
@@ -229,13 +208,7 @@ public:
 	int LastOccurance(T);
 	T Largest();
 	T Smallest();
-	void Concat(GEN_DCLL<T>& op1, GEN_DCLL<T>& op2);
-	template <class X>
-	friend bool operator==(GEN_DCLL<X>& op1, GEN_DCLL<X>& op2); //Compares Linked List For Equality
-	template <class X>
-	friend bool operator>(GEN_DCLL<X>& op1, GEN_DCLL<X>& op2); //Check For Greater than
-	template <class X>
-	friend bool operator<(GEN_DCLL<X>& op1, GEN_DCLL<X>& op2); //Check for Less Than
+	void Concat(GEN_DCLL<T> &op1, GEN_DCLL<T> &op2);
 };
 
 ///////////////////////////////////////////////////////////////////////
@@ -251,15 +224,15 @@ template <class T>
 struct Node
 {
 	T Data;
-	struct Node* Next;
+	struct Node *Next;
 };
 
 template <class T>
 class GEN_QUEUE
 {
 private:
-	struct Node<T>* Head;
-	struct Node<T>* Tail;
+	struct Node<T> *Head;
+	struct Node<T> *Tail;
 
 public:
 	GEN_QUEUE();
@@ -284,8 +257,8 @@ template <class T>
 class GEN_PRI_QUEUE
 {
 private:
-	struct qnode<T>* Front;
-	struct qnode<T>* Rear;
+	struct qnode<T> *Front;
+	struct qnode<T> *Rear;
 	int size;
 
 public:
@@ -309,19 +282,19 @@ template <class T>
 class GEN_TREE
 {
 private:
-	struct tnode<T>* Head;
-	void Insert(struct tnode<T>**, T);
-	void Inorder(struct tnode<T>*);
-	void Preorder(struct tnode<T>*);
-	void Postorder(struct tnode<T>*);
-	int Count(struct tnode<T>*);
-	bool Search(struct tnode<T>*, T);
-	void DeleteGEN_TREE(struct tnode<T>*);
-	int CountLeaf(struct tnode<T>*);
-	int CountNonLeaf(struct tnode<T>*);
-	int Level(struct tnode<T>*, T);
-	T Minimum(struct tnode<T>*);
-	T Maximum(struct tnode<T>*);
+	struct tnode<T> *Head;
+	void Insert(struct tnode<T> **, T);
+	void Inorder(struct tnode<T> *);
+	void Preorder(struct tnode<T> *);
+	void Postorder(struct tnode<T> *);
+	int Count(struct tnode<T> *);
+	bool Search(struct tnode<T> *, T);
+	void DeleteGEN_TREE(struct tnode<T> *);
+	int CountLeaf(struct tnode<T> *);
+	int CountNonLeaf(struct tnode<T> *);
+	int Level(struct tnode<T> *, T);
+	T Minimum(struct tnode<T> *);
+	T Maximum(struct tnode<T> *);
 
 public:
 	GEN_TREE();
@@ -349,26 +322,26 @@ public:
 template<class T>
 class GEN_STACK
 {
-private:
-	T* Arr;
-	int iTop;
-	int iSize;
-
-public:
-	/* Parameterized constructor with default args */
-	GEN_STACK(int);
-	/* Destructor */
-	~GEN_STACK();
-	/* IsEmpty: check stack is empty or not */
-	bool IsEmpty();
-	/* IsFull: check stack is full or not */
-	bool IsFull();
-	/* Push: Push element in stack */
-	void Push(T);
-	/* Pop: Pop element from stack */
-	T Pop();
-	/* Display elements in stack */
-	void Display();
+    private:
+        T   *Arr;
+        int iTop;
+        int iSize;
+    
+    public:
+    /* Parameterized constructor with default args */
+    GEN_STACK(int);
+    /* Destructor */
+    ~GEN_STACK();
+    /* IsEmpty: check stack is empty or not */
+    bool IsEmpty();
+    /* IsFull: check stack is full or not */
+    bool IsFull();
+    /* Push: Push element in stack */
+    void Push(T);
+    /* Pop: Pop element from stack */
+    T Pop();
+    /* Display elements in stack */
+    void Display();
 
 };// end of class GEN_STACK declaration
 

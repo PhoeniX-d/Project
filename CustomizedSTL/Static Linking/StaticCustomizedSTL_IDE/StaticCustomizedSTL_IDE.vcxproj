@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{d8a0ff77-726a-4121-9281-fd28247469b6}</ProjectGuid>
-    <RootNamespace>StaticCSTL</RootNamespace>
+    <ProjectGuid>{cee4d5ad-53f0-4fc7-9393-d64f969f427a}</ProjectGuid>
+    <RootNamespace>StaticCustomizedSTLIDE</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -122,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -151,10 +151,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="StaticCSTL.cpp" />
+    <ClCompile Include="StaticCustomizedSTL_IDE.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="StaticCSTL.h" />
+    <ClInclude Include="StaticCustomizedSTL_IDE.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

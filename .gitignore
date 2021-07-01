@@ -6,6 +6,6 @@
 demo
 *.obj
 .vs
-Debug
+Debug/
 x64
 x86

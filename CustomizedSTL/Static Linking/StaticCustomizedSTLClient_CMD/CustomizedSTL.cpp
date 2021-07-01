@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////
 //
-//	This Program Contains Following Data structures
+//	This File contains Following Data structures
 //
 //	1.Singly Linear Linked List
 //	2.Singly Circular Linked List
@@ -13,82 +13,56 @@
 //
 /////////////////////////////////////////////////////////////////////
 
-#include "StaticCSTL.h"
+#include "CustomizedSTL.h"
 
-template <class T>
-bool operator==(GEN_SLLL<T>& op1, GEN_SLLL<T>& op2) //Compares Linked List For Equality
-{
-	struct node<T>* temp1 = op1.Head;
-	struct node<T>* temp2 = op2.Head;
+// Specialization of template classes for library creation
+// for GEN_SLLL class
+template class GEN_SLLL<int>;
+template class GEN_SLLL<char>;
+template class GEN_SLLL<float>;
+template class GEN_SLLL<double>;
 
-	while ((temp1 != NULL) && (temp2 != NULL))
-	{
-		if (temp1->Data != temp2->Data)
-		{
-			break;
-		}
-		temp1 = temp1->Next;
-		temp2 = temp2->Next;
-	}
-	if ((temp1 == NULL) && (temp2 == NULL))
-	{
-		return TRUE;
-	}
-	else
-	{
-		return FALSE;
-	}
-}
+// for GEN_SCLL class
+template class GEN_SCLL<int>;
+template class GEN_SCLL<char>;
+template class GEN_SCLL<float>;
+template class GEN_SCLL<double>;
 
-template <class T>
-bool operator>(GEN_SLLL<T>& op1, GEN_SLLL<T>& op2) //Check For Greater than
-{
-	struct node<T>* temp1 = op1.Head;
-	struct node<T>* temp2 = op2.Head;
+// for GEN_DLLL class
+template class GEN_DLLL<int>;
+template class GEN_DLLL<char>;
+template class GEN_DLLL<float>;
+template class GEN_DLLL<double>;
 
-	while ((temp1 != NULL) && (temp2 != NULL))
-	{
-		if ((temp1->Data) < (temp2->Data))
-		{
-			break;
-		}
-		temp1 = temp1->Next;
-		temp2 = temp2->Next;
-	}
-	if ((temp1 == NULL) && (temp2 == NULL))
-	{
-		return TRUE;
-	}
-	else
-	{
-		return FALSE;
-	}
-}
+// for GEN_DCLL class
+template class GEN_DCLL<int>;
+template class GEN_DCLL<char>;
+template class GEN_DCLL<float>;
+template class GEN_DCLL<double>;
 
-template <class T>
-bool operator<(GEN_SLLL<T>& op1, GEN_SLLL<T>& op2) //Check for Less Than
-{
-	struct node<T>* temp1 = op1.Head;
-	struct node<T>* temp2 = op2.Head;
+// for GEN_QUEUE class
+template class GEN_QUEUE<int>;
+template class GEN_QUEUE<char>;
+template class GEN_QUEUE<float>;
+template class GEN_QUEUE<double>;
 
-	while ((temp1 != NULL) && (temp2 != NULL))
-	{
-		if ((temp1->Data) > (temp2->Data))
-		{
-			break;
-		}
-		temp1 = temp1->Next;
-		temp2 = temp2->Next;
-	}
-	if ((temp1 == NULL) && (temp2 == NULL))
-	{
-		return TRUE;
-	}
-	else
-	{
-		return FALSE;
-	}
-}
+// for GEN_STACK class
+template class GEN_STACK<int>;
+template class GEN_STACK<char>;
+template class GEN_STACK<float>;
+template class GEN_STACK<double>;
+
+// for GEN_PRI_QUEUE class
+template class GEN_PRI_QUEUE<int>;
+template class GEN_PRI_QUEUE<char>;
+template class GEN_PRI_QUEUE<float>;
+template class GEN_PRI_QUEUE<double>;
+
+// for GEN_TREE class
+template class GEN_TREE<int>;
+template class GEN_TREE<char>;
+template class GEN_TREE<float>;
+template class GEN_TREE<double>;
 
 template <class T>
 GEN_SLLL<T>::GEN_SLLL() //CONSTRUCTOR
@@ -101,10 +75,9 @@ GEN_SLLL<T>::GEN_SLLL() //CONSTRUCTOR
 template <class T>
 GEN_SLLL<T>::~GEN_SLLL() //DESTRUCTOR
 {
-	printf("Inside Destructor");
 	if (Head != NULL)
 	{
-		struct node<T>* nTemp = NULL;
+		struct node<T> *nTemp = NULL;
 		while (Head != NULL)
 		{
 			nTemp = Head;
@@ -118,7 +91,7 @@ GEN_SLLL<T>::~GEN_SLLL() //DESTRUCTOR
 template <class T>
 void GEN_SLLL<T>::InsertFirst(T tVal) //GENERIC FUNCTION TO DISPLAY SINGLY LINEAR LINKED LIST
 {
-	struct node<T>* newn = NULL;
+	struct node<T> *newn = NULL;
 	newn = new struct node<T>;
 	if (newn == NULL)
 	{
@@ -144,8 +117,8 @@ void GEN_SLLL<T>::InsertFirst(T tVal) //GENERIC FUNCTION TO DISPLAY SINGLY LINEA
 template <class T>
 void GEN_SLLL<T>::DisplayR() //GENERIC FUNCTION TO DISPLAY SINGLY LINEAR LINKED LIST IN REVERSE MANNER
 {
-	struct node<T>* temp = Head;
-	T Arr[size];
+	struct node<T> *temp = Head;
+	T* Arr = new T[size];
 	int i = 0;
 	while (temp != NULL)
 	{
@@ -156,8 +129,7 @@ void GEN_SLLL<T>::DisplayR() //GENERIC FUNCTION TO DISPLAY SINGLY LINEAR LINKED 
 	i--;
 	while (i >= 0)
 	{
-		cout << "| " << Arr[i] << " |"
-			<< "->";
+		cout <<"| "<<Arr[i]<<" |"<<"->";
 		i--;
 	}
 	cout << "NULL\n";
@@ -166,11 +138,10 @@ void GEN_SLLL<T>::DisplayR() //GENERIC FUNCTION TO DISPLAY SINGLY LINEAR LINKED 
 template <class T>
 void GEN_SLLL<T>::Display() //GENERIC FUNCTION TO DISPLAY SINGLY LINEAR LINKED LIST
 {
-	struct node<T>* temp = Head;
+	struct node<T> *temp = Head;
 	while (temp != NULL)
 	{
-		cout << "| " << temp->Data << " |"
-			<< "->";
+		cout << "| " << temp->Data << " |" << "->";
 		temp = temp->Next;
 	}
 	cout << "NULL\n";
@@ -179,13 +150,13 @@ void GEN_SLLL<T>::Display() //GENERIC FUNCTION TO DISPLAY SINGLY LINEAR LINKED L
 template <class T>
 int GEN_SLLL<T>::Count() //GENERIC FUNCTION TO COUNT NODES IN SINGLY LINEAR LINKED LIST
 {
-	return this->size;
+	return size;
 }
 
 template <class T>
 void GEN_SLLL<T>::InsertLast(T tVal) //GENERIC FUNCTION TO INSERT NODE AT LAST POSITION IN SINGLY LINEAR LINKED LIST
 {
-	struct node<T>* newn = NULL;
+	struct node<T> *newn = NULL;
 	newn = new struct node<T>;
 
 	if (newn == NULL)
@@ -226,8 +197,8 @@ void GEN_SLLL<T>::InsertAtPos(T tVal, int iPos) //GENERIC FUNCTION TO INSERT NOD
 	}
 	else
 	{
-		struct node<T>* newn = NULL;
-		struct node<T>* temp = Head;
+		struct node<T> *newn = NULL;
+		struct node<T> *temp = Head;
 
 		newn = new struct node<T>;
 		if (newn == NULL)
@@ -250,7 +221,7 @@ void GEN_SLLL<T>::InsertAtPos(T tVal, int iPos) //GENERIC FUNCTION TO INSERT NOD
 template <class T>
 void GEN_SLLL<T>::DeleteFirst() //GENERIC FUNCTION TO DELETE FIRST NODE IN SLLL
 {
-	struct node<T>* temp = Head;
+	struct node<T> *temp = Head;
 	if (Head == NULL)
 	{
 		return;
@@ -278,7 +249,7 @@ void GEN_SLLL<T>::DeleteLast() //GENERIC FUNCTION TO DELETE LAST NODE IN SLLL
 	}
 	else
 	{
-		struct node<T>* temp = Head;
+		struct node<T> *temp = Head;
 
 		while (temp->Next != Tail)
 		{
@@ -308,8 +279,8 @@ void GEN_SLLL<T>::DeleteAtPos(int iPos) //GENERIC FUNCTION TO DELETE NODE FROM G
 	}
 	else
 	{
-		struct node<T>* target = NULL;
-		struct node<T>* Navigate = Head;
+		struct node<T> *target = NULL;
+		struct node<T> *Navigate = Head;
 
 		for (int i = 1; i < (iPos - 1); i++)
 		{
@@ -325,7 +296,7 @@ void GEN_SLLL<T>::DeleteAtPos(int iPos) //GENERIC FUNCTION TO DELETE NODE FROM G
 template <class T>
 int GEN_SLLL<T>::Frequency(T tVal) //GENERIC FUNCTION TO COUNT FREQUENCY OF GIVEN DATA IN SLLL
 {
-	struct node<T>* temp = Head;
+	struct node<T> *temp = Head;
 	int iCnt = 0;
 	while (temp != NULL)
 	{
@@ -341,7 +312,7 @@ int GEN_SLLL<T>::Frequency(T tVal) //GENERIC FUNCTION TO COUNT FREQUENCY OF GIVE
 template <class T>
 int GEN_SLLL<T>::FirstOccurance(T tVal) //GENERIC FUNCTION TO SEARCH FIRST OCCURANCE  OF GIVEN DATA IN SLLL
 {
-	struct node<T>* temp = Head;
+	struct node<T> *temp = Head;
 	int iCnt = 1, iPos = 0;
 	while (temp != NULL)
 	{
@@ -359,7 +330,7 @@ int GEN_SLLL<T>::FirstOccurance(T tVal) //GENERIC FUNCTION TO SEARCH FIRST OCCUR
 template <class T>
 int GEN_SLLL<T>::LastOccurance(T tVal) //GENERIC FUNCTION TO SEARCH LAST OCCURANCE OF GIVEN DATA IN SLLL
 {
-	struct node<T>* temp = Head;
+	struct node<T> *temp = Head;
 	int iCnt = 1, iPos = 0;
 	while (temp != NULL)
 	{
@@ -376,7 +347,7 @@ int GEN_SLLL<T>::LastOccurance(T tVal) //GENERIC FUNCTION TO SEARCH LAST OCCURAN
 template <class T>
 T GEN_SLLL<T>::Largest() //GENERIC FUNCTION TO FIND LARGEST OF GIVEN DATA IN SLLL
 {
-	struct node<T>* temp = Head;
+	struct node<T> *temp = Head;
 	int tMax = 0;
 	tMax = temp->Data;
 	while (temp != NULL)
@@ -393,7 +364,7 @@ T GEN_SLLL<T>::Largest() //GENERIC FUNCTION TO FIND LARGEST OF GIVEN DATA IN SLL
 template <class T>
 T GEN_SLLL<T>::Smallest() //GENERIC FUNCTION TO FIND SMALLEST OF GIVEN DATA IN SLLL
 {
-	struct node<T>* temp = Head;
+	struct node<T> *temp = Head;
 	int tMin = 0;
 	tMin = temp->Data;
 	while (temp != NULL)
@@ -410,9 +381,9 @@ T GEN_SLLL<T>::Smallest() //GENERIC FUNCTION TO FIND SMALLEST OF GIVEN DATA IN S
 template <class T>
 void GEN_SLLL<T>::ReverseList() //GENERIC FUNCTION TO REVERSE LINKED LIST IN PLACE
 {
-	struct node<T>* NEXT = NULL;
-	struct node<T>* curr = Head;
-	struct node<T>* PREV = NULL;
+	struct node<T> *NEXT = NULL;
+	struct node<T> *curr = Head;
+	struct node<T> *PREV = NULL;
 
 	if (Head == NULL)
 	{
@@ -432,9 +403,9 @@ void GEN_SLLL<T>::ReverseList() //GENERIC FUNCTION TO REVERSE LINKED LIST IN PLA
 }
 
 template <class T>
-void GEN_SLLL<T>::Concat(GEN_SLLL<T>& op1, GEN_SLLL<T>& op2) ////GENERIC FUNCTION TO CONCAT TWO LINKED LIST
+void GEN_SLLL<T>::Concat(GEN_SLLL<T> &op1, GEN_SLLL<T> &op2) ////GENERIC FUNCTION TO CONCAT TWO LINKED LIST
 {
-	struct node<T>* temp = op2.Head;
+	struct node<T> *temp = op2.Head;
 
 	if ((op1.Head == NULL) && (op2.Head == NULL))
 	{
@@ -442,112 +413,13 @@ void GEN_SLLL<T>::Concat(GEN_SLLL<T>& op1, GEN_SLLL<T>& op2) ////GENERIC FUNCTIO
 	}
 	while (temp != NULL)
 	{
-		struct node<T>* newn = new struct node<T>;
+		struct node<T> *newn = new struct node<T>;
 		newn->Next = NULL;
 		newn->Data = temp->Data;
 		op1.Tail->Next = newn;
 		op1.Tail = newn;
 		temp = temp->Next;
 		op1.size++;
-	}
-}
-
-
-template <class T>
-bool operator==(GEN_SCLL<T>& op1, GEN_SCLL<T>& op2) //Compares Linked List For Equality
-{
-	struct node<T>* temp1 = op1.Head;
-	struct node<T>* temp2 = op2.Head;
-
-	if ((temp1 == NULL) || (temp2 == NULL))
-	{
-		cout << "Can't Compare\n";
-		return FALSE;
-	}
-
-	do
-	{
-		if (temp1->Data != temp2->Data)
-		{
-			break;
-		}
-
-		temp1 = temp1->Next;
-		temp2 = temp2->Next;
-
-	} while ((temp1 != op1.Tail->Next) && (temp2 != op2.Tail->Next));
-
-	if ((temp1 == op1.Tail->Next) && (temp2 == op2.Tail->Next))
-	{
-		return TRUE;
-	}
-	else
-	{
-		return FALSE;
-	}
-}
-
-template <class T>
-bool operator>(GEN_SCLL<T>& op1, GEN_SCLL<T>& op2) //Check For Greater than
-{
-	struct node<T>* temp1 = op1.Head;
-	struct node<T>* temp2 = op2.Head;
-
-	if ((temp1 == NULL) || (temp2 == NULL))
-	{
-		cout << "Can't Compare\n";
-		return FALSE;
-	}
-
-	do
-	{
-		if ((temp1->Data) < (temp2->Data))
-		{
-			break;
-		}
-		temp1 = temp1->Next;
-		temp2 = temp2->Next;
-	} while ((temp1 != op1.Tail->Next) && (temp2 != op2.Tail->Next));
-
-	if ((temp1 == NULL) && (temp2 == NULL))
-	{
-		return TRUE;
-	}
-	else
-	{
-		return FALSE;
-	}
-}
-
-template <class T>
-bool operator<(GEN_SCLL<T>& op1, GEN_SCLL<T>& op2) //Check for Less Than
-{
-	struct node<T>* temp1 = op1.Head;
-	struct node<T>* temp2 = op2.Head;
-
-	if ((temp1 == NULL) || (temp2 == NULL))
-	{
-		cout << "Can't Compare\n";
-		return FALSE;
-	}
-
-	do
-	{
-		if ((temp1->Data) > (temp2->Data))
-		{
-			break;
-		}
-		temp1 = temp1->Next;
-		temp2 = temp2->Next;
-	} while ((temp1 != op1.Tail->Next) && (temp2 != op2.Tail->Next));
-
-	if ((temp1 == op1.Tail->Next) && (temp2 == op2.Tail->Next))
-	{
-		return TRUE;
-	}
-	else
-	{
-		return FALSE;
 	}
 }
 
@@ -562,7 +434,7 @@ GEN_SCLL<T>::GEN_SCLL()
 template <class T>
 GEN_SCLL<T>::~GEN_SCLL()
 {
-	struct node<T>* temp = NULL;
+	struct node<T> *temp = NULL;
 	if ((Head != NULL) && (Tail != NULL))
 	{
 		do
@@ -579,7 +451,7 @@ GEN_SCLL<T>::~GEN_SCLL()
 template <class T>
 void GEN_SCLL<T>::Display()
 {
-	struct node<T>* temp = Head;
+	struct node<T> *temp = Head;
 	if ((Head == NULL) && (Tail == NULL))
 	{
 		return;
@@ -594,13 +466,13 @@ void GEN_SCLL<T>::Display()
 template <class T>
 int GEN_SCLL<T>::Count()
 {
-	return this->size;
+	return size;
 }
 
 template <class T>
 void GEN_SCLL<T>::InsertFirst(T tVal)
 {
-	struct node<T>* newn = NULL;
+	struct node<T> *newn = NULL;
 	newn = new struct node<T>;
 
 	newn->Next = NULL;
@@ -623,7 +495,7 @@ void GEN_SCLL<T>::InsertFirst(T tVal)
 template <class T>
 void GEN_SCLL<T>::InsertLast(T tVal)
 {
-	struct node<T>* newn = NULL;
+	struct node<T> *newn = NULL;
 
 	newn = new struct node<T>;
 	newn->Next = NULL;
@@ -681,7 +553,7 @@ void GEN_SCLL<T>::DeleteLast()
 	}
 	else
 	{
-		struct node<T>* temp = Head;
+		struct node<T> *temp = Head;
 		while (temp->Next != Tail)
 		{
 			temp = temp->Next;
@@ -710,8 +582,8 @@ void GEN_SCLL<T>::InsertAtPos(T tVal, int iPos)
 	}
 	else
 	{
-		struct node<T>* newn = NULL;
-		struct node<T>* temp = Head;
+		struct node<T> *newn = NULL;
+		struct node<T> *temp = Head;
 
 		newn = new struct node<T>;
 		if (newn == NULL)
@@ -749,8 +621,8 @@ void GEN_SCLL<T>::DeleteAtPos(int iPos)
 	}
 	else
 	{
-		struct node<T>* temp = Head;
-		struct node<T>* target = NULL;
+		struct node<T> *temp = Head;
+		struct node<T> *target = NULL;
 
 		for (int i = 1; i < (iPos - 1); i++)
 		{
@@ -766,7 +638,7 @@ void GEN_SCLL<T>::DeleteAtPos(int iPos)
 template <class T>
 int GEN_SCLL<T>::Frequency(T tVal)
 {
-	struct node<T>* temp = Head;
+	struct node<T> *temp = Head;
 	int iCnt = 0;
 	do
 	{
@@ -782,7 +654,7 @@ int GEN_SCLL<T>::Frequency(T tVal)
 template <class T>
 int GEN_SCLL<T>::FirstOccurance(T tVal)
 {
-	struct node<T>* temp = Head;
+	struct node<T> *temp = Head;
 	int iCnt = 1, iPos = 0;
 	do
 	{
@@ -800,7 +672,7 @@ int GEN_SCLL<T>::FirstOccurance(T tVal)
 template <class T>
 int GEN_SCLL<T>::LastOccurance(T tVal)
 {
-	struct node<T>* temp = Head;
+	struct node<T> *temp = Head;
 	int iCnt = 1, iPos = 0;
 	do
 	{
@@ -817,7 +689,7 @@ int GEN_SCLL<T>::LastOccurance(T tVal)
 template <class T>
 T GEN_SCLL<T>::Largest()
 {
-	struct node<T>* temp = Head;
+	struct node<T> *temp = Head;
 	int tMax = 0;
 	tMax = temp->Data;
 	do
@@ -834,7 +706,7 @@ T GEN_SCLL<T>::Largest()
 template <class T>
 T GEN_SCLL<T>::Smallest()
 {
-	struct node<T>* temp = Head;
+	struct node<T> *temp = Head;
 	int tMin = 0;
 	tMin = temp->Data;
 	do
@@ -849,9 +721,9 @@ T GEN_SCLL<T>::Smallest()
 }
 
 template <class T>
-void GEN_SCLL<T>::Concat(GEN_SCLL<T>& op1, GEN_SCLL<T>& op2)
+void GEN_SCLL<T>::Concat(GEN_SCLL<T> &op1, GEN_SCLL<T> &op2)
 {
-	struct node<T>* temp = op1.Head;
+	struct node<T> *temp = op1.Head;
 
 	if ((op1.Head == NULL) && (op2.Head == NULL))
 	{
@@ -868,81 +740,6 @@ void GEN_SCLL<T>::Concat(GEN_SCLL<T>& op1, GEN_SCLL<T>& op2)
 }
 
 template <class T>
-bool operator==(GEN_DLLL<T>& op1, GEN_DLLL<T>& op2) //Compares Linked List For Equality
-{
-	struct dnode<T>* temp1 = op1.Head;
-	struct dnode<T>* temp2 = op2.Head;
-
-	while ((temp1 != NULL) && (temp2 != NULL))
-	{
-		if (temp1->Data != temp2->Data)
-		{
-			break;
-		}
-		temp1 = temp1->Next;
-		temp2 = temp2->Next;
-	}
-	if ((temp1 == NULL) && (temp2 == NULL))
-	{
-		return TRUE;
-	}
-	else
-	{
-		return FALSE;
-	}
-}
-
-template <class T>
-bool operator>(GEN_DLLL<T>& op1, GEN_DLLL<T>& op2) //Check For Greater than
-{
-	struct dnode<T>* temp1 = op1.Head;
-	struct dnode<T>* temp2 = op2.Head;
-
-	while ((temp1 != NULL) && (temp2 != NULL))
-	{
-		if ((temp1->Data) < (temp2->Data))
-		{
-			break;
-		}
-		temp1 = temp1->Next;
-		temp2 = temp2->Next;
-	}
-	if ((temp1 == NULL) && (temp2 == NULL))
-	{
-		return TRUE;
-	}
-	else
-	{
-		return FALSE;
-	}
-}
-
-template <class T>
-bool operator<(GEN_DLLL<T>& op1, GEN_DLLL<T>& op2) //Check for Less Than
-{
-	struct dnode<T>* temp1 = op1.Head;
-	struct dnode<T>* temp2 = op2.Head;
-
-	while ((temp1 != NULL) && (temp2 != NULL))
-	{
-		if ((temp1->Data) > (temp2->Data))
-		{
-			break;
-		}
-		temp1 = temp1->Next;
-		temp2 = temp2->Next;
-	}
-	if ((temp1 == NULL) && (temp2 == NULL))
-	{
-		return TRUE;
-	}
-	else
-	{
-		return FALSE;
-	}
-}
-
-template <class T>
 GEN_DLLL<T>::GEN_DLLL()
 {
 	Head = NULL;
@@ -953,7 +750,7 @@ GEN_DLLL<T>::GEN_DLLL()
 template <class T>
 GEN_DLLL<T>::~GEN_DLLL()
 {
-	struct dnode<T>* temp = NULL;
+	struct dnode<T> *temp = NULL;
 	while (Head != NULL)
 	{
 		temp = Head;
@@ -965,13 +762,13 @@ GEN_DLLL<T>::~GEN_DLLL()
 template <class T>
 void GEN_DLLL<T>::Display()
 {
-	struct dnode<T>* temp = Head;
+	struct dnode<T> *temp = Head;
 	cout << "\nNULL";
 	while (temp != NULL)
 	{
 		cout << "<-"
-			<< "|" << temp->Data << "|"
-			<< "->";
+			 << "|" << temp->Data << "|"
+			 << "->";
 		temp = temp->Next;
 	}
 	cout << "NULL\n";
@@ -980,13 +777,13 @@ void GEN_DLLL<T>::Display()
 template <class T>
 void GEN_DLLL<T>::DisplayB()
 {
-	struct dnode<T>* temp = Tail;
+	struct dnode<T> *temp = Tail;
 	cout << "\nNULL";
 	while (temp != NULL)
 	{
 		cout << "<-"
-			<< "|" << temp->Data << "|"
-			<< "->";
+			 << "|" << temp->Data << "|"
+			 << "->";
 		temp = temp->Prev;
 	}
 	cout << "NULL\n";
@@ -995,13 +792,13 @@ void GEN_DLLL<T>::DisplayB()
 template <class T>
 int GEN_DLLL<T>::Count()
 {
-	return this->size;
+	return size;
 }
 
 template <class T>
 void GEN_DLLL<T>::InsertFirst(T tVal)
 {
-	struct dnode<T>* newn = NULL;
+	struct dnode<T> *newn = NULL;
 	newn = new struct dnode<T>;
 	if (newn == NULL)
 	{
@@ -1028,7 +825,7 @@ void GEN_DLLL<T>::InsertFirst(T tVal)
 template <class T>
 void GEN_DLLL<T>::InsertLast(T tVal)
 {
-	struct dnode<T>* newn = NULL;
+	struct dnode<T> *newn = NULL;
 	newn = new struct dnode<T>;
 	if (newn == NULL)
 	{
@@ -1115,8 +912,8 @@ void GEN_DLLL<T>::InsertAtPos(T tVal, int iPos)
 	}
 	else
 	{
-		struct dnode<T>* newn = NULL;
-		struct dnode<T>* temp = Head;
+		struct dnode<T> *newn = NULL;
+		struct dnode<T> *temp = Head;
 		newn = new struct dnode<T>;
 		if (newn == NULL)
 		{
@@ -1155,7 +952,7 @@ void GEN_DLLL<T>::DeleteAtPos(int iPos)
 	}
 	else
 	{
-		struct dnode<T>* temp = Head;
+		struct dnode<T> *temp = Head;
 
 		for (int i = 1; i < (iPos - 1); i++)
 		{
@@ -1171,7 +968,7 @@ void GEN_DLLL<T>::DeleteAtPos(int iPos)
 template <class T>
 int GEN_DLLL<T>::Frequency(T tVal)
 {
-	struct dnode<T>* temp = Head;
+	struct dnode<T> *temp = Head;
 	int iCnt = 0;
 	while (temp != NULL)
 	{
@@ -1187,7 +984,7 @@ int GEN_DLLL<T>::Frequency(T tVal)
 template <class T>
 int GEN_DLLL<T>::FirstOccurance(T tVal)
 {
-	struct dnode<T>* temp = Head;
+	struct dnode<T> *temp = Head;
 	int iCnt = 1, iPos = 0;
 	while (temp != NULL)
 	{
@@ -1205,7 +1002,7 @@ int GEN_DLLL<T>::FirstOccurance(T tVal)
 template <class T>
 int GEN_DLLL<T>::LastOccurance(T tVal)
 {
-	struct dnode<T>* temp = Head;
+	struct dnode<T> *temp = Head;
 	int iCnt = 1, iPos = 0;
 	while (temp != NULL)
 	{
@@ -1222,7 +1019,7 @@ int GEN_DLLL<T>::LastOccurance(T tVal)
 template <class T>
 T GEN_DLLL<T>::Largest()
 {
-	struct dnode<T>* temp = Head;
+	struct dnode<T> *temp = Head;
 	int tMax = 0;
 	tMax = temp->Data;
 	while (temp != NULL)
@@ -1239,7 +1036,7 @@ T GEN_DLLL<T>::Largest()
 template <class T>
 T GEN_DLLL<T>::Smallest()
 {
-	struct dnode<T>* temp = Head;
+	struct dnode<T> *temp = Head;
 	int tMin = 0;
 	tMin = temp->Data;
 	while (temp != NULL)
@@ -1254,9 +1051,9 @@ T GEN_DLLL<T>::Smallest()
 }
 
 template <class T>
-void GEN_DLLL<T>::Concat(GEN_DLLL<T>& op1, GEN_DLLL<T>& op2)
+void GEN_DLLL<T>::Concat(GEN_DLLL<T> &op1, GEN_DLLL<T> &op2)
 {
-	struct dnode<T>* temp = op1.Head;
+	struct dnode<T> *temp = op1.Head;
 
 	if ((op1.Head == NULL) && (op2.Head == NULL))
 	{
@@ -1274,117 +1071,17 @@ void GEN_DLLL<T>::Concat(GEN_DLLL<T>& op1, GEN_DLLL<T>& op2)
 }
 
 template <class T>
-bool operator==(GEN_DCLL<T>& op1, GEN_DCLL<T>& op2) //Compares Linked List For Equality
-{
-	struct dnode<T>* temp1 = op1.Head;
-	struct dnode<T>* temp2 = op2.Head;
-
-	if ((temp1 == NULL) || (temp2 == NULL))
-	{
-		cout << "Can't Compare\n";
-		return FALSE;
-	}
-
-	do
-	{
-		if (temp1->Data != temp2->Data)
-		{
-			break;
-		}
-		temp1 = temp1->Next;
-		temp2 = temp2->Next;
-	} while ((temp1 != op1.Tail->Next) && (temp2 != op2.Tail->Next));
-
-	if ((temp1 == op1.Tail->Next) && (temp2 == op2.Tail->Next))
-	{
-		return TRUE;
-	}
-	else
-	{
-		return FALSE;
-	}
-}
-
-template <class T>
-bool operator>(GEN_DCLL<T>& op1, GEN_DCLL<T>& op2) //Check For Greater than
-{
-	struct dnode<T>* temp1 = op1.Head;
-	struct dnode<T>* temp2 = op2.Head;
-
-	if ((temp1 == NULL) || (temp2 == NULL))
-	{
-		cout << "Can't Compare\n";
-		return FALSE;
-	}
-
-	do
-	{
-		if ((temp1->Data) < (temp2->Data))
-		{
-			break;
-		}
-
-		temp1 = temp1->Next;
-		temp2 = temp2->Next;
-	} while ((temp1 != op1.Tail->Next) && (temp2 != op2.Tail->Next));
-
-	cout << op1.Tail->Data;
-	cout << op1.Tail->Data;
-
-	if ((temp1 == op1.Tail->Next) && (temp2 == op2.Tail->Next))
-	{
-		return TRUE;
-	}
-	else
-	{
-		return FALSE;
-	}
-}
-
-template <class T>
-bool operator<(GEN_DCLL<T>& op1, GEN_DCLL<T>& op2) //Check for Less Than
-{
-	struct dnode<T>* temp1 = op1.Head;
-	struct dnode<T>* temp2 = op2.Head;
-
-	if ((temp1 == NULL) || (temp2 == NULL))
-	{
-		cout << "Can't Compare\n";
-		return FALSE;
-	}
-
-	do
-	{
-		if ((temp1->Data) > (temp2->Data))
-		{
-			break;
-		}
-		temp1 = temp1->Next;
-		temp2 = temp2->Next;
-	} while ((temp1 != op1.Tail->Next) && (temp2 != op2.Tail->Next));
-
-	if ((temp1 == op1.Tail->Next) && (temp2 == op2.Tail->Next))
-	{
-		return TRUE;
-	}
-	else
-	{
-		return FALSE;
-	}
-}
-
-template <class T>
 GEN_DCLL<T>::GEN_DCLL()
 {
-	this->Head = NULL;
-	this->Tail = NULL;
-	this->size = 0;
+	Head = NULL;
+	Tail = NULL;
+	size = 0;
 }
 
 template <class T>
 GEN_DCLL<T>::~GEN_DCLL()
 {
-	struct dnode<T>* temp = NULL;
+	struct dnode<T> *temp = NULL;
 	if ((Head != NULL) && (Tail != NULL))
 	{
 		do
@@ -1401,7 +1098,7 @@ GEN_DCLL<T>::~GEN_DCLL()
 template <class T>
 void GEN_DCLL<T>::InsertFirst(T tVal)
 {
-	struct dnode<T>* newn = new struct dnode<T>;
+	struct dnode<T> *newn = new struct dnode<T>;
 
 	newn->Next = NULL;
 	newn->Prev = NULL;
@@ -1426,7 +1123,7 @@ void GEN_DCLL<T>::InsertFirst(T tVal)
 template <class T>
 void GEN_DCLL<T>::InsertLast(T tVal)
 {
-	struct dnode<T>* newn = new struct dnode<T>;
+	struct dnode<T> *newn = new struct dnode<T>;
 
 	newn->Next = NULL;
 	newn->Prev = NULL;
@@ -1451,7 +1148,7 @@ void GEN_DCLL<T>::InsertLast(T tVal)
 template <class T>
 void GEN_DCLL<T>::Display()
 {
-	struct dnode<T>* temp = Head;
+	struct dnode<T> *temp = Head;
 	/*for(int i=1;i<=size;i++)
 	{
 		cout<<"<-|"<<temp->Data<<"|->";
@@ -1474,7 +1171,7 @@ void GEN_DCLL<T>::Display()
 template <class T>
 void GEN_DCLL<T>::DisplayR()
 {
-	struct dnode<T>* temp = Tail;
+	struct dnode<T> *temp = Tail;
 	/*for(int i=1;i<=size;i++)
 	{
 		cout<<"<-|"<<temp->Data<<"|->";
@@ -1559,8 +1256,8 @@ void GEN_DCLL<T>::InsertAtPos(T tVal, int iPos)
 	}
 	else
 	{
-		struct dnode<T>* newn = NULL;
-		struct dnode<T>* temp = Head;
+		struct dnode<T> *newn = NULL;
+		struct dnode<T> *temp = Head;
 		newn = new struct dnode<T>;
 
 		newn->Next = NULL;
@@ -1597,7 +1294,7 @@ void GEN_DCLL<T>::DeleteAtPos(int iPos)
 	}
 	else
 	{
-		struct dnode<T>* temp = Head;
+		struct dnode<T> *temp = Head;
 		for (int i = 1; i < iPos; i++)
 		{
 			temp = temp->Next;
@@ -1612,13 +1309,13 @@ void GEN_DCLL<T>::DeleteAtPos(int iPos)
 template <class T>
 int GEN_DCLL<T>::Count()
 {
-	return this->size;
+	return size;
 }
 
 template <class T>
 int GEN_DCLL<T>::Frequency(T tVal)
 {
-	struct dnode<T>* temp = Head;
+	struct dnode<T> *temp = Head;
 	int iCnt = 0;
 	do
 	{
@@ -1634,7 +1331,7 @@ int GEN_DCLL<T>::Frequency(T tVal)
 template <class T>
 int GEN_DCLL<T>::FirstOccurance(T tVal)
 {
-	struct dnode<T>* temp = Head;
+	struct dnode<T> *temp = Head;
 	int iCnt = 1, iPos = 0;
 	do
 	{
@@ -1652,7 +1349,7 @@ int GEN_DCLL<T>::FirstOccurance(T tVal)
 template <class T>
 int GEN_DCLL<T>::LastOccurance(T tVal)
 {
-	struct dnode<T>* temp = Head;
+	struct dnode<T> *temp = Head;
 	int iCnt = 1, iPos = 0;
 	do
 	{
@@ -1669,7 +1366,7 @@ int GEN_DCLL<T>::LastOccurance(T tVal)
 template <class T>
 T GEN_DCLL<T>::Largest()
 {
-	struct dnode<T>* temp = Head;
+	struct dnode<T> *temp = Head;
 	int tMax = 0;
 	tMax = temp->Data;
 	do
@@ -1686,7 +1383,7 @@ T GEN_DCLL<T>::Largest()
 template <class T>
 T GEN_DCLL<T>::Smallest()
 {
-	struct dnode<T>* temp = Head;
+	struct dnode<T> *temp = Head;
 	int tMin = 0;
 	tMin = temp->Data;
 	do
@@ -1701,15 +1398,15 @@ T GEN_DCLL<T>::Smallest()
 }
 
 template <class T>
-void GEN_DCLL<T>::Concat(GEN_DCLL<T>& op1, GEN_DCLL<T>& op2) ////GENERIC FUNCTION TO CONCAT TWO LINKED LIST
+void GEN_DCLL<T>::Concat(GEN_DCLL<T> &op1, GEN_DCLL<T> &op2) ////GENERIC FUNCTION TO CONCAT TWO LINKED LIST
 {
-	struct dnode<T>* temp = op1.Head;
+	struct dnode<T> *temp = op1.Head;
 
 	if ((op1.Head == NULL) && (op2.Head == NULL))
 	{
 		return;
 	}
-	op1.Tail->next = op2.Head;
+	op1.Tail->Next = op2.Head;
 	op2.Head->Prev = op1.Tail;
 
 	while (op1.Tail != op2.Tail)
@@ -1717,7 +1414,7 @@ void GEN_DCLL<T>::Concat(GEN_DCLL<T>& op1, GEN_DCLL<T>& op2) ////GENERIC FUNCTIO
 		op1.Tail = op1.Tail->Next;
 	}
 
-	op1.Tail->next = op1.Head;
+	op1.Tail->Next = op1.Head;
 	op1.Head->Prev = op1.Tail;
 
 	op1.size = op1.size + op2.size;
@@ -1733,7 +1430,7 @@ GEN_QUEUE<T>::GEN_QUEUE()
 template <class T>
 GEN_QUEUE<T>::~GEN_QUEUE()
 {
-	struct Node<T>* temp = NULL;
+	struct Node<T> *temp = NULL;
 	while (Head != NULL)
 	{
 		temp = Head;
@@ -1745,7 +1442,7 @@ GEN_QUEUE<T>::~GEN_QUEUE()
 template <class T>
 void GEN_QUEUE<T>::Enqueue(T tVal)
 {
-	struct Node<T>* newn = NULL;
+	struct Node<T> *newn = NULL;
 
 	newn = (struct Node<T> *)malloc(sizeof(struct Node<T>));
 	newn->Next = NULL;
@@ -1783,7 +1480,7 @@ T GEN_QUEUE<T>::Dequeue()
 	else
 	{
 		T temp;
-		struct Node<T>* p = Head;
+		struct Node<T> *p = Head;
 		temp = Head->Data;
 		Head = Head->Next;
 		free(p);
@@ -1794,7 +1491,7 @@ T GEN_QUEUE<T>::Dequeue()
 template <class T>
 void GEN_QUEUE<T>::Display()
 {
-	struct Node<T>* temp = Head;
+	struct Node<T> *temp = Head;
 	while (temp != NULL)
 	{
 		cout << temp->Data << "\t";
@@ -1806,7 +1503,7 @@ template <class T>
 int GEN_QUEUE<T>::Count()
 {
 	int iCnt = 0;
-	struct Node<T>* temp = Head;
+	struct Node<T> *temp = Head;
 	while (temp != NULL)
 	{
 		iCnt++;
@@ -1826,11 +1523,11 @@ GEN_PRI_QUEUE<T>::GEN_PRI_QUEUE()
 template <class T>
 GEN_PRI_QUEUE<T>::~GEN_PRI_QUEUE()
 {
-	struct qnode<T>* temp = NULL;
+	struct qnode<T> *temp = NULL;
 	while (Front != NULL)
 	{
 		temp = Front;
-		Front = Front->next;
+		Front = Front->Next;
 		delete temp;
 	}
 }
@@ -1838,11 +1535,11 @@ GEN_PRI_QUEUE<T>::~GEN_PRI_QUEUE()
 template <class T>
 void GEN_PRI_QUEUE<T>::Display()
 {
-	struct qnode<T>* temp = Front;
+	struct qnode<T> *temp = Front;
 	while (temp != NULL)
 	{
-		cout << "|" << temp->data << ":" << temp->P << "|->";
-		temp = temp->next;
+		cout << "|" << temp->Data << ":" << temp->P << "|->";
+		temp = temp->Next;
 	}
 	cout << "NULL\n";
 }
@@ -1850,11 +1547,11 @@ void GEN_PRI_QUEUE<T>::Display()
 template <class T>
 void GEN_PRI_QUEUE<T>::Enqueue(T tVal, int iP)
 {
-	struct qnode<T>* newn = NULL;
+	struct qnode<T> *newn = NULL;
 
 	newn = new struct qnode<T>;
-	newn->data = tVal;
-	newn->next = NULL;
+	newn->Data = tVal;
+	newn->Next = NULL;
 	newn->P = iP;
 
 	if ((Front == NULL) && (Rear == NULL))
@@ -1864,8 +1561,8 @@ void GEN_PRI_QUEUE<T>::Enqueue(T tVal, int iP)
 	}
 	else
 	{
-		Rear->next = newn;
-		Rear = Rear->next;
+		Rear->Next = newn;
+		Rear = Rear->Next;
 	}
 	size++;
 }
@@ -1880,7 +1577,7 @@ T GEN_PRI_QUEUE<T>::Dequeue()
 	}
 	else if (Front == Rear)
 	{
-		T tVal = Front->data;
+		T tVal = Front->Data;
 		delete Front;
 		Front = NULL;
 		Rear = NULL;
@@ -1891,8 +1588,8 @@ T GEN_PRI_QUEUE<T>::Dequeue()
 	{
 		int iCnt = 0;
 		int iPos = 0, Pri = 0;
-		struct qnode<T>* temp = Front;
-		struct qnode<T>* target = NULL;
+		struct qnode<T> *temp = Front;
+		struct qnode<T> *target = NULL;
 		Pri = temp->P;
 		while (temp != NULL)
 		{
@@ -1902,13 +1599,13 @@ T GEN_PRI_QUEUE<T>::Dequeue()
 				Pri = temp->P;
 				iPos = iCnt;
 			}
-			temp = temp->next;
+			temp = temp->Next;
 		}
 		if (iPos == 1)
 		{
-			T tVal = Front->data;
+			T tVal = Front->Data;
 			temp = Front;
-			Front = Front->next;
+			Front = Front->Next;
 			delete temp;
 			size--;
 			return tVal;
@@ -1918,12 +1615,12 @@ T GEN_PRI_QUEUE<T>::Dequeue()
 			temp = Front;
 			for (int i = 1; i < size - 1; i++)
 			{
-				temp = temp->next;
+				temp = temp->Next;
 			}
-			T tVal = Rear->data;
+			T tVal = Rear->Data;
 			delete Rear;
 			Rear = temp;
-			Rear->next = NULL;
+			Rear->Next = NULL;
 			size--;
 			return tVal;
 		}
@@ -1932,11 +1629,11 @@ T GEN_PRI_QUEUE<T>::Dequeue()
 			temp = Front;
 			for (int i = 1; i < iPos - 1; i++)
 			{
-				temp = temp->next;
+				temp = temp->Next;
 			}
-			target = temp->next;
-			T tVal = target->data;
-			temp->next = target->next;
+			target = temp->Next;
+			T tVal = target->Data;
+			temp->Next = target->Next;
 			delete target;
 			size--;
 			return tVal;
@@ -1949,7 +1646,7 @@ int GEN_PRI_QUEUE<T>::Count()
 {
 	return size;
 }
-////////////////////////////////////////////////////////////
+ ////////////////////////////////////////////////////////////
 //
 //  Name        :GEN_STACK
 //  Input       :int
@@ -1960,11 +1657,11 @@ int GEN_PRI_QUEUE<T>::Count()
 //
 ////////////////////////////////////////////////////////////
 template<class T>
-GEN_STACK<T>::GEN_STACK(int iNum)
+GEN_STACK<T>::GEN_STACK(int iNum) 
 {
-	this->iSize = iNum;
-	this->iTop = -1;
-	this->Arr = new T[this->iSize];
+    iSize = iNum;
+    iTop = -1;
+    Arr = new T[iSize];
 }// end of constructor
 
 ////////////////////////////////////////////////////////////
@@ -1980,7 +1677,7 @@ GEN_STACK<T>::GEN_STACK(int iNum)
 template<class T>
 GEN_STACK<T>::~GEN_STACK()
 {
-	delete[] Arr;
+   delete[] Arr;
 }// end of destructor
 
 ////////////////////////////////////////////////////////////
@@ -1996,14 +1693,14 @@ GEN_STACK<T>::~GEN_STACK()
 template<class T>
 bool GEN_STACK<T>::IsEmpty()
 {
-	if (this->iTop == -1)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+    if(iTop == -1)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }    
 }// end of IsEmpty
 
 ////////////////////////////////////////////////////////////
@@ -2019,14 +1716,14 @@ bool GEN_STACK<T>::IsEmpty()
 template<class T>
 bool GEN_STACK<T>::IsFull()
 {
-	if (this->iTop == iSize)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+    if(iTop == iSize)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }    
 }// end of IsFull
 
 ////////////////////////////////////////////////////////////
@@ -2042,17 +1739,17 @@ bool GEN_STACK<T>::IsFull()
 template<class T>
 void GEN_STACK<T>::Display()
 {
-	if (IsEmpty())
-	{
-		cout << "Cannot display stack is empty!!\n";
-		return;
-	}
-	int i = 0;
-	cout << "Top--->";
-	for (i = this->iSize - 1; i >= 0; i--)
-	{
-		cout << "\t| " << this->Arr[i] << " |" << endl;
-	}
+    if(IsEmpty())
+    {
+        cout << "Cannot display stack is empty!!\n";
+        return;
+    }
+    int i = 0;
+    cout << "Top--->";
+    for(i = iSize -1; i >= 0; i--)
+    {
+        cout << "\t| " << Arr[i] << " |" << endl;
+    }
 }// end of Display
 
 ////////////////////////////////////////////////////////////
@@ -2068,13 +1765,13 @@ void GEN_STACK<T>::Display()
 template<class T>
 void GEN_STACK<T>::Push(T tData)
 {
-	if (IsFull())
-	{
-		cout << "Stack is Full\n";
-		return;
-	}
-	this->iTop++;
-	this->Arr[iTop] = tData;
+    if(IsFull())
+    {
+        cout << "Stack is Full\n";
+        return;
+    }
+    iTop++;
+    Arr[iTop] = tData;
 }// end of Push
 
 ////////////////////////////////////////////////////////////
@@ -2090,14 +1787,14 @@ void GEN_STACK<T>::Push(T tData)
 template<class T>
 T GEN_STACK<T>::Pop()
 {
-	if (IsEmpty())
-	{
-		cout << "Stack is Empty\n";
-		return T(-1);
-	}
-	T tData = 0;
-	tData = this->Arr[iTop--];
-	return tData;
+    if(IsEmpty())
+    {
+        cout << "Stack is Empty\n";
+        return T(-1);
+    }
+    T tData = 0;
+    tData = Arr[iTop--];
+    return tData;
 }// end of Push
 
 template <class T>
@@ -2107,16 +1804,16 @@ GEN_TREE<T>::GEN_TREE()
 }
 
 template <class T>
-void GEN_TREE<T>::Insert(struct tnode<T>** First, T iNo)
+void GEN_TREE<T>::Insert(struct tnode<T> **First, T iNo)
 {
-	struct tnode<T>* newn = NULL;
-	struct tnode<T>* temp = NULL;
+	struct tnode<T> *newn = NULL;
+	struct tnode<T> *temp = NULL;
 
 	newn = (struct tnode<T> *)malloc(sizeof(struct tnode<T>));
 
 	newn->rchild = NULL;
 	newn->lchild = NULL;
-	newn->data = iNo;
+	newn->Data = iNo;
 
 	if (*First == NULL)
 	{
@@ -2128,7 +1825,7 @@ void GEN_TREE<T>::Insert(struct tnode<T>** First, T iNo)
 
 		while (1)
 		{
-			if (iNo > temp->data)
+			if (iNo > temp->Data)
 			{
 				if (temp->rchild == NULL)
 				{
@@ -2137,7 +1834,7 @@ void GEN_TREE<T>::Insert(struct tnode<T>** First, T iNo)
 				}
 				temp = temp->rchild;
 			}
-			else if (iNo < temp->data)
+			else if (iNo < temp->Data)
 			{
 				if (temp->lchild == NULL)
 				{
@@ -2146,7 +1843,7 @@ void GEN_TREE<T>::Insert(struct tnode<T>** First, T iNo)
 				}
 				temp = temp->lchild;
 			}
-			else if (iNo == temp->data)
+			else if (iNo == temp->Data)
 			{
 				free(newn);
 				break;
@@ -2156,52 +1853,52 @@ void GEN_TREE<T>::Insert(struct tnode<T>** First, T iNo)
 }
 
 template <class T>
-void GEN_TREE<T>::Inorder(struct tnode<T>* First)
+void GEN_TREE<T>::Inorder(struct tnode<T> *First)
 {
 	if (First != NULL)
 	{
 		Inorder(First->lchild);
-		cout << First->data << " ";
+		cout << First->Data << " ";
 		Inorder(First->rchild);
 	}
 }
 
 template <class T>
-void GEN_TREE<T>::Preorder(struct tnode<T>* First)
+void GEN_TREE<T>::Preorder(struct tnode<T> *First)
 {
 	if (First != NULL)
 	{
-		cout << First->data << " ";
+		cout << First->Data << " ";
 		Preorder(First->lchild);
 		Preorder(First->rchild);
 	}
 }
 
 template <class T>
-void GEN_TREE<T>::Postorder(struct tnode<T>* First)
+void GEN_TREE<T>::Postorder(struct tnode<T> *First)
 {
 	if (First != NULL)
 	{
 		Postorder(First->lchild);
 		Postorder(First->rchild);
-		cout << First->data << " ";
+		cout << First->Data << " ";
 	}
 }
 
 template <class T>
-bool GEN_TREE<T>::Search(struct tnode<T>* First, T iNo)
+bool GEN_TREE<T>::Search(struct tnode<T> *First, T iNo)
 {
 	while (First != NULL)
 	{
-		if (iNo == First->data)
+		if (iNo == First->Data)
 		{
 			break;
 		}
-		else if (iNo > First->data)
+		else if (iNo > First->Data)
 		{
 			First = First->rchild;
 		}
-		else if (iNo < First->data)
+		else if (iNo < First->Data)
 		{
 			First = First->lchild;
 		}
@@ -2217,7 +1914,7 @@ bool GEN_TREE<T>::Search(struct tnode<T>* First, T iNo)
 }
 
 template <class T>
-int GEN_TREE<T>::Count(struct tnode<T>* First)
+int GEN_TREE<T>::Count(struct tnode<T> *First)
 {
 	static int iCnt = 0;
 	if (First != NULL)
@@ -2230,7 +1927,7 @@ int GEN_TREE<T>::Count(struct tnode<T>* First)
 }
 
 template <class T>
-int GEN_TREE<T>::CountLeaf(struct tnode<T>* First)
+int GEN_TREE<T>::CountLeaf(struct tnode<T> *First)
 {
 	static int iCnt = 0;
 	if (First != NULL)
@@ -2246,7 +1943,7 @@ int GEN_TREE<T>::CountLeaf(struct tnode<T>* First)
 }
 
 template <class T>
-int GEN_TREE<T>::CountNonLeaf(struct tnode<T>* First)
+int GEN_TREE<T>::CountNonLeaf(struct tnode<T> *First)
 {
 	static int iCnt = 0;
 	if (First != NULL)
@@ -2262,41 +1959,41 @@ int GEN_TREE<T>::CountNonLeaf(struct tnode<T>* First)
 }
 
 template <class T>
-T GEN_TREE<T>::Minimum(struct tnode<T>* First)
+T GEN_TREE<T>::Minimum(struct tnode<T> *First)
 {
 	while (First->lchild != NULL)
 	{
 		First = First->lchild;
 	}
-	return First->data;
+	return First->Data;
 }
 
 template <class T>
-T GEN_TREE<T>::Maximum(struct tnode<T>* First)
+T GEN_TREE<T>::Maximum(struct tnode<T> *First)
 {
 	while (First->rchild != NULL)
 	{
 		First = First->rchild;
 	}
-	return First->data;
+	return First->Data;
 }
 
 template <class T>
-int GEN_TREE<T>::Level(struct tnode<T>* First, T iNo)
+int GEN_TREE<T>::Level(struct tnode<T> *First, T iNo)
 {
 	int level = 0;
 	while (First != NULL)
 	{
-		if (iNo == First->data)
+		if (iNo == First->Data)
 		{
 			break;
 		}
-		else if (iNo > First->data)
+		else if (iNo > First->Data)
 		{
 			First = First->rchild;
 			level++;
 		}
-		else if (iNo < First->data)
+		else if (iNo < First->Data)
 		{
 			First = First->lchild;
 			level++;
@@ -2313,14 +2010,14 @@ int GEN_TREE<T>::Level(struct tnode<T>* First, T iNo)
 }
 
 template <class T>
-void GEN_TREE<T>::DeleteGEN_TREE(struct tnode<T>* First)
+void GEN_TREE<T>::DeleteGEN_TREE(struct tnode<T> *First)
 {
 	if (First != NULL)
 	{
 		DeleteGEN_TREE(First->lchild);
 		DeleteGEN_TREE(First->rchild);
-		cout << "Deleted item\t" << First->data << " "
-			<< "\n";
+		cout << "Deleted item\t" << First->Data << " "
+			 << "\n";
 		free(First);
 	}
 }
@@ -2334,66 +2031,66 @@ void GEN_TREE<T>::Insert(T tVal)
 template <class T>
 int GEN_TREE<T>::Count()
 {
-	return Count(this->Head);
+	return Count(Head);
 }
 
 template <class T>
 int GEN_TREE<T>::CountLeaf()
 {
-	return CountLeaf(this->Head);
+	return CountLeaf(Head);
 }
 
 template <class T>
 int GEN_TREE<T>::CountNonLeaf()
 {
-	return CountNonLeaf(this->Head);
+	return CountNonLeaf(Head);
 }
 
 template <class T>
 int GEN_TREE<T>::Level(T tVal)
 {
-	return Level(this->Head, tVal);
+	return Level(Head, tVal);
 }
 template <class T>
 void GEN_TREE<T>::Inorder()
 {
-	Inorder(this->Head);
+	Inorder(Head);
 }
 
 template <class T>
 void GEN_TREE<T>::Preorder()
 {
-	Preorder(this->Head);
+	Preorder(Head);
 }
 
 template <class T>
 void GEN_TREE<T>::Postorder()
 {
-	Postorder(this->Head);
+	Postorder(Head);
 }
 
 template <class T>
 bool GEN_TREE<T>::Search(T tVal)
 {
-	return Search(this->Head, tVal);
+	return Search(Head, tVal);
 }
 
 template <class T>
 T GEN_TREE<T>::Maximum()
 {
-	return Maximum(this->Head);
+	return Maximum(Head);
 }
 
 template <class T>
 T GEN_TREE<T>::Minimum()
 {
-	return Minimum(this->Head);
+	return Minimum(Head);
 }
 
 template <class T>
 void GEN_TREE<T>::DeleteGEN_TREE()
 {
-	DeleteGEN_TREE(this->Head);
+	DeleteGEN_TREE(Head);
 }
 
 ///////////////////////////////////////////// End of CSTL.cpp ////////////////////////////////////////////
