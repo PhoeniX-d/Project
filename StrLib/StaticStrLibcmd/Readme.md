@@ -1,14 +1,16 @@
-**Cmdline way:**    
-Contains code for creating a dll and link it with Implicit and Explicit linking using command line and how to use it (Implicit/Explicit)      
-**IDE way:**    
-Contains code for creating a dll and link it with Implicit and Explicit linking using IDE and how to use it (Implicit/Explicit)  
-**StaticStrLibClientCmd:**      
-Contains code for creating static library using command line   
-**StaticStrLibClientIDE:**      
-Contains code of how to use static library using IDE    
-**StaticStrLibcmd:**      
-Contains code of creating a static library using command line    
-**StaticStrLibIDE:**     
-Contains code of creating a static library using IDE    
-**StrLib:**      
-Contains code general string functions  
+## Step : 1  
+**1. Build static library using command line**  
+Compile file which is going to be our static library:
+```
+cl.exe /c /EHsc [NameofStaticLibFile.cpp]
+```
+Now create library:
+```
+lib [NameodStaticLibFile.obj]
+```
+
+**2. After building lib you will get .lib**
+```
+NameofStaticLibFile.lib
+```
+## Note : Based on Requirement you have to select either x86 or x64 command prompt to create static library
