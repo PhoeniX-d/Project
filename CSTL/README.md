@@ -1,4 +1,5 @@
-**1. Static Linking**
+**1. Static Linking**  
+    
     A] Creation
     command to create a static library
     ```
@@ -6,7 +7,7 @@
     ```
     ```
     $ ar -rcv libNameOfLib.a NameOfLib.o
-    ```
+    ```  
     
     After this NameOfLib.a i.e static library will get generated
     
@@ -14,8 +15,11 @@
     Command to use static library
     ```
     a. $ g++ ClientApp.cpp -o Client libNameOfLib.a
+    ```
+    ```
        $ ./Client
     ```
+    
     b. You have to put .a file into standard libary path like /usr/lib/ then use following command
     ```
        $ g++ ClientApp.cpp -o CLient -lNameOfLib
