@@ -1,29 +1,30 @@
-//////////////////////////
-//			//
-//	Linux		//
-//			//
-//////////////////////////
-
-1. Static Linking
-    A] Creation
+## LINUX
+**1. Static Linking**  
+    
+	A] Creation
+	
     command to create a static library
-    $ g++ -c NameOfLib.cpp
-    $ ar -rcv libNameOfLib.a NameOfLib.o
+    ```g++ -c NameOfLib.cpp```
+    ```ar -rcv libNameOfLib.a NameOfLib.o```
     
     After this NameOfLib.a i.e static library will get generated
     
     B] Usage
-    Command to use static library
-    a. $ g++ ClientApp.cpp -o Client libNameOfLib.a
-       $ ./Client
+    
+	Command to use static library
+    a.  
+	   ```g++ ClientApp.cpp -o Client libNameOfLib.a```
+       ```./Client```
 
     b. You have to put .a file into standard libary path like /usr/lib/ then use following command
-       $ g++ ClientApp.cpp -o CLient -lNameOfLib
-       $ ./Client
+       
+	   ```g++ ClientApp.cpp -o CLient -lNameOfLib```
+       ```./Client```
     
     c. If you want to give your own library path then use option -L
-       $ g++ ClientApp.cpp -o Client -L [Directory where .a file is present] -lNameOfLib
-       $ ./Client  
+       
+	   ```g++ ClientApp.cpp -o Client -L [Directory where .a file is present] -lNameOfLib```
+       ```./Client```
    
 2.  Dynamic Linking  
     A] Creation
@@ -41,11 +42,7 @@
     It will generate executable named as Client
    
 
-//////////////////////////
-//			//
-//	Windows		//
-//			//
-//////////////////////////
+## Windows
 
 1. Static Linking
     
