@@ -75,12 +75,18 @@ class GUITemplate extends JFrame implements ActionListener {
 	Dimension fSize;
 	// To store username and password and to serialize it into a file
 	static HashMap<String, String> creds = new HashMap<String, String>();
-	File serializeFile;
-	ObjectInputStream mapInput;
-	ObjectOutputStream mapOutput;
-	FileInputStream serializeFis = null;
-	FileOutputStream deserializeFos = null;
-
+	static File serializeFile;
+	static ObjectInputStream mapInput;
+	static ObjectOutputStream mapOutput;
+	static FileInputStream serializeFis = null;
+	static FileOutputStream deserializeFos = null;
+	static FilePackerUnpackerLogin fpul = null;
+	static RegisterUser rUser = null;
+	
+	static
+	{
+		getCredentials();
+	}
 	public GUITemplate() {
 		try {
 			setIconImage(Toolkit.getDefaultToolkit().getImage("filepackerunpacker.jpg"));
@@ -185,5 +191,23 @@ class GUITemplate extends JFrame implements ActionListener {
 		top.add(dayLabel);
 		top.add(dateLabel);
 		top.add(timeLabel);
+	}
+	
+	public static void getCredentials() {
+		serializeFile = new File("credentials");
+		if (serializeFile.exists() && serializeFile.isFile()) {
+			try {
+				serializeFis = new FileInputStream("credentials");
+				mapInput = new ObjectInputStream(serializeFis);
+				creds = (HashMap<String, String>) mapInput.readObject();
+				serializeFis.close();
+				mapInput.close();
+				serializeFis = null;
+				mapInput = null;
+			} catch (Exception e) {
+				FilePackerUnpacker.log.info("Exception in FilePackerUnpackerLogin:Serialization");
+				JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
 	}
 }

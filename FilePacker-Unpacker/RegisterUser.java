@@ -25,7 +25,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
-public class RegisterUser extends GUITemplate implements ActionListener, KeyListener, Runnable {
+public class RegisterUser extends GUITemplate implements ActionListener, KeyListener {
 	JButton create, previous;
 	JLabel topLabel, status, name, pwd, confirmPwd, warning;
 	JTextField nameField;
@@ -36,7 +36,6 @@ public class RegisterUser extends GUITemplate implements ActionListener, KeyList
 	public RegisterUser() throws Exception {
 		FilePackerUnpacker.log.info("User Entered into Register window");
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		Thread t = new Thread(this);
 		topLabel = new JLabel("Register New User");
 		topLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		topLabel.setBounds(185, 23, 320, 30);
@@ -95,14 +94,6 @@ public class RegisterUser extends GUITemplate implements ActionListener, KeyList
 		content.add(confirmpwdField);
 		confirmpwdField.setEchoChar((char) 0);
 		confirmpwdField.setToolTipText("Confirm Entered password");
-
-		warning = new JLabel();
-		warning.setBounds(300, 190, 300, 30);
-		warning.setHorizontalAlignment(SwingConstants.LEFT);
-		warning.setForeground(Color.RED);
-		warning.setFont(new Font("Courier New", Font.BOLD, 17));
-		content.add(warning);
-		t.start();
 
 		show2 = new JCheckBox("Show", true);
 		show2.setBounds(580, 155, 65, 25);
@@ -178,12 +169,11 @@ public class RegisterUser extends GUITemplate implements ActionListener, KeyList
 
 		if (ae.getSource() == previous) {
 			try {
-				this.dispose();
-				FilePackerUnpackerLogin nextPage = new FilePackerUnpackerLogin();
-				nextPage.setVisible(true);
+				GUITemplate.rUser.setVisible(false);
+				GUITemplate.fpul.setVisible(true);
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
-						nextPage.unameField.requestFocus();
+						GUITemplate.fpul.unameField.requestFocus();
 					}
 				});
 			} catch (Exception e) {
@@ -211,6 +201,8 @@ public class RegisterUser extends GUITemplate implements ActionListener, KeyList
 					creds = (HashMap<String, String>) mapInput.readObject();
 					serializeFis.close();
 					mapInput.close();
+					serializeFis = null;
+					mapInput = null;
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
 				}
@@ -237,10 +229,10 @@ public class RegisterUser extends GUITemplate implements ActionListener, KeyList
 					mapOutput.writeObject(creds);
 					deserializeFos.close();
 					mapOutput.close();
-					FilePackerUnpackerLogin nextPage = new FilePackerUnpackerLogin();
+					GUITemplate.fpul.setVisible(true);
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
-							nextPage.unameField.requestFocus();
+							GUITemplate.fpul.unameField.requestFocus();
 						}
 					});
 				} catch (Exception e) {
@@ -264,20 +256,5 @@ public class RegisterUser extends GUITemplate implements ActionListener, KeyList
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-	}
-
-	public void run() {
-		for (;;) {
-			if (nameField.isFocusOwner() || pwdField.isFocusOwner() || confirmpwdField.isFocusOwner()) {
-				if (Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK)) {
-					warning.setText("Warning : CAPS LOCK is on");
-					;
-				} else {
-					warning.setText("");
-				}
-			} else {
-				warning.setText("");
-			}
-		}
 	}
 }

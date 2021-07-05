@@ -109,13 +109,12 @@ class FilePackerUnpackerFront extends GUITemplate implements ActionListener {
 		}
 
 		if (ae.getSource() == logout) {
-			try {
-				FilePackerUnpackerLogin nextPage = new FilePackerUnpackerLogin();
+			try {	
 				this.setVisible(false);
-				nextPage.setVisible(true);
+				GUITemplate.fpul.setVisible(true);
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
-						nextPage.unameField.requestFocus();
+						GUITemplate.fpul.unameField.requestFocus();
 					}
 				});
 			} catch (Exception e) {

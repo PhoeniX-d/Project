@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
-class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, KeyListener, Runnable {
+class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, KeyListener {
 	JButton submit, clear, register;
 	JLabel topLabel, status, username, password, warning;
 	JCheckBox show;
@@ -29,11 +29,13 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 	JTextField unameField;
 	static String userValue, pwdValue;
 	static int attempt = 5;
-
 	public FilePackerUnpackerLogin() {
+		initialize();
+	}
+	
+	void initialize()
+	{
 		FilePackerUnpacker.log.info("Creating login window..");
-		Thread t = new Thread(this);
-		getCredentials();
 		topLabel = new JLabel("File Packer and Unpacker");
 		topLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		topLabel.setBounds(185, 23, 320, 30);
@@ -87,14 +89,6 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 		password.setBounds(100, 147, 120, 30);
 		content.add(password);
 
-		warning = new JLabel();
-		warning.setBounds(325, 193, 300, 30);
-		warning.setHorizontalAlignment(SwingConstants.CENTER);
-		warning.setForeground(Color.RED);
-		warning.setFont(new Font("Courier New", Font.BOLD, 17));
-		content.add(warning);
-		t.start();
-
 		submit = new JButton("Submit");
 		submit.setFont(new Font("Courier New", Font.BOLD, 17));
 		submit.setBounds(100, 238, 145, 23);
@@ -120,7 +114,7 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 		show.addActionListener(this);
 		FilePackerUnpacker.log.info("Login window created..");
 	}
-
+	
 	public boolean isValid(String username, String password) {
 		if (username.length() < 8 || password.length() < 8) {
 			return false;
@@ -171,7 +165,6 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 	public void actionPerformed(ActionEvent ae) {
 		userValue = unameField.getText();
 		pwdValue = new String(passwordField.getPassword());
-
 		if (ae.getSource() == minimize) {
 			this.setState(JFrame.ICONIFIED);
 		}
@@ -202,12 +195,12 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 
 		if (ae.getSource() == register) {
 			try {
-				RegisterUser reg = new RegisterUser();
-				this.setVisible(false);
-				reg.setVisible(true);
+				GUITemplate.rUser = new RegisterUser();
+				GUITemplate.fpul.setVisible(false);
+				GUITemplate.rUser.setVisible(true);
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
-						reg.nameField.requestFocus();
+						GUITemplate.rUser.nameField.requestFocus();
 					}
 				});
 			} catch (Exception e) {
@@ -236,36 +229,5 @@ class FilePackerUnpackerLogin extends GUITemplate implements ActionListener, Key
 	}
 
 	public void keyTyped(KeyEvent e) {
-	}
-
-	public void getCredentials() {
-		serializeFile = new File("credentials");
-		if (serializeFile.exists() && serializeFile.isFile()) {
-			try {
-				serializeFis = new FileInputStream("credentials");
-				mapInput = new ObjectInputStream(serializeFis);
-				creds = (HashMap<String, String>) mapInput.readObject();
-				serializeFis.close();
-				mapInput.close();
-			} catch (Exception e) {
-				FilePackerUnpacker.log.info("Exception in FilePackerUnpackerLogin:Serialization");
-				JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
-			}
-		}
-	}
-
-	public void run() {
-		for (;;) {
-			if (unameField.isFocusOwner() || passwordField.isFocusOwner()) {
-				if (Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK)) {
-					warning.setText("Warning : CAPS LOCK is on");
-					;
-				} else {
-					warning.setText("");
-				}
-			} else {
-				warning.setText("");
-			}
-		}
 	}
 }

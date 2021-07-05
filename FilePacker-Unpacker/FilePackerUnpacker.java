@@ -21,13 +21,10 @@ public class FilePackerUnpacker {
 			logHandler.setFormatter(formatter);
 			log.info("Application Started, Now Creating frame for login window");
 
-			FilePackerUnpackerLogin frame = new FilePackerUnpackerLogin();
-			frame.setVisible(true);
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					frame.unameField.requestFocus();
-				}
-			});
+			GUITemplate.fpul = new FilePackerUnpackerLogin();
+			GUITemplate.fpul.setVisible(true);
+			//Thread t = new Thread(GUITemplate.fpul);
+			//t.start();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
