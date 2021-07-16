@@ -7,5 +7,6 @@ demo
 *.obj
 .vs/
 Debug/
-x64
-x86
+Release/
+x64/
+x86/
