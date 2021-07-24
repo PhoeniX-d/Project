@@ -10,7 +10,6 @@ Debug/
 Release/
 x64/
 x86/
-.*
 .classpath
 .projects
 .settings/
