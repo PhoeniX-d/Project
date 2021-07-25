@@ -29,10 +29,11 @@ public class UserDAO {
 	private GetConnection getCon;
 
 	public UserDAO() {
+		getCon = new GetConnection();
 		getCon.getConnection();
 	}
 
-	private int generateUID() {
+	public int generateUID() {
 		// To generate random unique user id
 		Random random = new Random();
 		String uid = String.format("%04d", random.nextInt(10000));
@@ -60,7 +61,7 @@ public class UserDAO {
 	public void insertUser(UserBean user) {
 		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(INSERT_NEW_USER)) {
 			// inserting user id
-			pst.setInt(1, generateUID());
+			pst.setInt(1, user.getuId());
 
 			// inserting user name
 			pst.setString(2, user.getuName());

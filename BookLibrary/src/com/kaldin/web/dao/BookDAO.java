@@ -32,7 +32,7 @@ public class BookDAO {
 		getCon.getConnection();
 	}
 
-	private int generatebid() {
+	public int generateBID() {
 		// To generate random unique book id
 		Random random = new Random();
 		String bid = String.format("%05d", random.nextInt(100000));
@@ -57,10 +57,10 @@ public class BookDAO {
 	}
 
 	// code to insert values into BOOKs database
-	public void insertBOOK(BookBean book) {
+	public void insertBook(BookBean book) {
 		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(INSERT_NEW_BOOK)) {
 			// inserting book's id
-			pst.setInt(1, generatebid());
+			pst.setInt(1, generateBID());
 
 			// inserting book's name
 			pst.setString(2, book.getbName());
@@ -84,8 +84,8 @@ public class BookDAO {
 	}
 
 	// code to fetch values of a particular BOOK from database
-	public BookBean selectBOOK(String bookName) {
-		BookBean BOOK = null;
+	public BookBean selectBook(String bookName) {
+		BookBean book = null;
 		int bid = getId(bookName);
 		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(SELECT_A_BOOK)) {
 			pst.setInt(1, bid);
@@ -99,12 +99,12 @@ public class BookDAO {
 				String category = rs.getString(4);
 				double price = rs.getDouble(5);
 				int pages = rs.getInt(6);
-				BOOK = new BookBean(bid, name, author, category, price, pages);
+				book = new BookBean(bid, name, author, category, price, pages);
 			}
 		} catch (SQLException e) {
 			printSQLException(e);
 		}
-		return BOOK;
+		return book;
 	}
 
 	// code to fetch all Books information
