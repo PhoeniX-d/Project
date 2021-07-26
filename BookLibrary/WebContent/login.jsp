@@ -14,10 +14,11 @@
 </head>
 <body>
 	<div class="container">
-	<p class="text-center">${message}</p>
+		<p class="text-center">${message}</p>
 		<div class="regbox box">
 			<h1>User Login</h1>
-			<form id="login-form" class="form" action="loginServlet" method="post">
+			<form id="login-form" class="form" action="loginServlet"
+				method="post">
 				<div class="form-group">
 					<label for="username" class="text-info">Username:</label><br>
 					<input type="text" name="username" required class="form-control">
@@ -27,10 +28,10 @@
 					<input type="text" name="password" required class="form-control">
 				</div>
 				<div class="form-group">
-					<input type="submit" name="submit" class="btn btn-outline-success my-2 my-sm-0"
-						value="Login"><br>
-						<h6 class="text-center">New User Register</h6>
-				<a href="registration.jsp">Here</a>
+					<input type="submit" name="submit"
+						class="btn btn-success float-left" value="Login"><br>
+					<a href="registration.jsp">Register Here</a> <a
+						 href="users-list.jsp">Users list</a>
 				</div>
 			</form>
 		</div>
