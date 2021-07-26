@@ -23,12 +23,13 @@ public class BookDAO {
 	private static final String SELECT_A_BOOK = "select * from books where bid = ?;";
 	private static final String SELECT_ALL_BOOKS = "select * from books;";
 	private static final String INSERT_NEW_BOOK = "insert into books values(?, ?, ?, ?, ?, ?);";
-	private static final String DELETE_A_BOOK = "delete from books where id = ?;";
-	private static final String GET_ID = "select id from books where bname = ?;";
+	private static final String DELETE_A_BOOK = "delete from books where bid = ?;";
+	private static final String GET_ID = "select bid from books where bname = ?;";
 	private static final String UPDATE_BOOK = "update books set bname = ?, bauthor = ?, bcategory = ?, bprice = ?, bpages = ? where bid = ?;";
 	private GetConnection getCon;
 
 	public BookDAO() {
+		getCon = new GetConnection();
 		getCon.getConnection();
 	}
 
@@ -112,7 +113,6 @@ public class BookDAO {
 		List<BookBean> books = new ArrayList<>();
 		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(SELECT_ALL_BOOKS)) {
 			ResultSet rs = pst.executeQuery();
-
 			// | bid | bname| bauthor | bcategory | bprice | bpages |
 			while (rs.next()) {
 				int bid = rs.getInt(1);

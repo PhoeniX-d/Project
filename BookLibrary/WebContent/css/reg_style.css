@@ -1,0 +1,134 @@
+body {
+	background-image: url(../images/thomas-lefebvre-gp8BLyaTaA0-unsplash.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+	font-family: 'Lato', sans-serif;
+	margin: 0;
+	padding: 0;
+	height: 75%;
+	box-sizing: border-box;
+}
+
+.container {
+	width: 80%;
+	height: 100%;
+	margin: 0 auto;
+}
+
+.box, .regbox {
+	width: 420px;
+	height: 600px;
+	background: #2f3542;
+	margin: 0;
+	padding: 30px;
+	top: 50%;
+	left: 50%;
+	color: #fff;
+	border-radius: 15px;
+	position: absolute;
+	transform: translate(-50%, -50%);
+	box-sizing: border-box;
+}
+
+.box h1 {
+	margin: 0;
+	padding: 30px;
+	text-align: center;
+	font-size: 30px;
+}
+
+.box p {
+	margin: 0;
+	padding: 0;
+	font-weight: bold;
+}
+
+.box input {
+	width: 100%;
+	margin-bottom: 15px;
+	border-radius: 5px;
+}
+
+.box input[type="text"], .box input[type="password"] {
+	border: none;
+	background: transparent;
+	border-bottom: 1px solid #fff;
+	outline: none;
+	height: 35px;
+	color: #fff;
+	font-size: 15px;
+}
+
+.box input[type="submit"] {
+	display: block;
+	border: none;
+	outline: none;
+	height: 35px;
+	font-size: 20px;
+	border-radius: 20px;
+}
+
+.box input[type="submit"]:hover {
+	border: none;
+	outline: none;
+	height: 35px;
+	font-size: 20px;
+	border-radius: 20px;
+	cursor: pointer;
+	transition: .3s ease-out;
+}
+
+.box a {
+	text-decoration: none;
+	color: #fff;
+	font-size: 16px;
+	line-height: 20px;
+	text-align: center;
+    display:block;
+}
+
+.box a:hover {
+	color: #00ff00;
+}
+
+.regbox h1 {
+	margin-top: 30px;
+	padding: 20px 0;
+	text-align: center;
+	font-size: 30px;
+}
+
+.regbox input {
+	width: 100%;
+	margin-bottom: 15px;
+	border-radius: 5px;
+}
+
+.regbox input[type="text"], .regbox input[type="password"] {
+	border: none;
+	background: transparent;
+	border-bottom: 1px solid #fff;
+	outline: none;
+	height: 35px;
+	color: #fff;
+	font-size: 15px;
+}
+
+.regbox input[type="submit"] {
+	display: block;
+	border: none;
+	outline: none;
+	height: 35px;
+	font-size: 20px;
+	border-radius: 20px;
+}
+
+.regbox input[type="submit"]:hover {
+	border: none;
+	outline: none;
+	height: 35px;
+	font-size: 20px;
+	border-radius: 20px;
+	cursor: pointer;
+	transition: .3s ease-out;
+}

@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-<title>User Management Application</title>
+<title>Book Library</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -15,12 +15,12 @@
 		<nav class="navbar navbar-expand-md navbar-dark"
 			style="background-color: green;">
 			<div>
-				<a href="https://www.javaguides.net" class="navbar-brand"> User
+				<a href="https://www.javaguides.net" class="navbar-brand"> User's
 					Books Library </a>
 			</div>
 
 			<ul class="navbar-nav">
-				<li><a href="<%=request.getContextPath()%>/users/list"
+				<li><a href="<%=request.getContextPath()%>/book/list"
 					class="nav-link">Users</a></li>
 			</ul>
 		</nav>
@@ -35,7 +35,7 @@
 			<hr>
 			<div class="container text-left">
 
-				<a href="<%=request.getContextPath()%>/users/new" class="btn btn-success">Add
+				<a href="<%=request.getContextPath()%>/book/new" class="btn btn-success">Add
 					New User</a>
 			</div>
 			<br>
@@ -44,23 +44,27 @@
 					<tr>
 						<th>ID</th>
 						<th>Name</th>
-						<th>Mail</th>
-						<th>Mobile</th>
+						<th>Author</th>
+						<th>Category</th>
+						<th>Price</th>
+						<th>Pages</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					<!--   for (Todo todo: todos) {  -->
-					<c:forEach var="user" items="${listUsers}">
+					<c:forEach var="book" items="${listBooks}">
 
 						<tr>
-							<td><c:out value="${user.uId}" /></td>
-							<td><c:out value="${user.uName}" /></td>
-							<td><c:out value="${user.uEmail}" /></td>
-							<td><c:out value="${user.uMob}" /></td>
-							<td><a href="edit?email=<c:out value='${user.uId}' />">Edit</a>
+							<td><c:out value="${book.bId}" /></td>
+							<td><c:out value="${book.bName}" /></td>
+							<td><c:out value="${book.bAuthor}" /></td>
+							<td><c:out value="${book.bCategory}" /></td>
+							<td><c:out value="${book.bPrice}" /></td>
+							<td><c:out value="${book.bPageCounts}" /></td>
+							<td><a href="edit?bname=<c:out value='${book.bName}' />">Edit</a>
 								&nbsp;&nbsp;&nbsp;&nbsp; <a
-								href="delete?email=<c:out value='${user.uEmail}' />">Delete</a></td>
+								href="delete?bname=<c:out value='${book.bName}' />">Delete</a></td>
 						</tr>
 					</c:forEach>
 					<!-- } -->

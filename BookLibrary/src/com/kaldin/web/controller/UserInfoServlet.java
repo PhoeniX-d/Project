@@ -22,7 +22,7 @@ import com.kaldin.web.model.UserBean;
  * 
  */
 
-@WebServlet("/")
+@WebServlet("/users/*")
 public class UserInfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDAO userDAO;
@@ -38,7 +38,7 @@ public class UserInfoServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String action = request.getServletPath();
+		String action = request.getPathInfo();
 		System.out.println(action);
 		try {
 			switch (action) {
@@ -67,56 +67,59 @@ public class UserInfoServlet extends HttpServlet {
 			throw new ServletException(e);
 		}
 	}
-	
-	private void insertUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException{
-		int uid = userDAO.generateUID();
-		String uname = request.getParameter("name");
-		String upwd = request.getParameter("upwd");
-		String uemail = request.getParameter("email");
-		long umob = Long.parseLong(request.getParameter("mob"));
-		UserBean user = new UserBean(uid, uname, upwd, uemail, umob);
-		userDAO.insertUser(user);
-		response.sendRedirect("list");
+
+	private void insertUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+//		int uid = userDAO.generateUID();
+//		String uname = request.getParameter("uname");
+//		System.out.println(uname);
+//		String upwd = request.getParameter("upwd");
+//		System.out.println(upwd);
+//		String uemail = request.getParameter("uemail");
+//		System.out.println(uemail);
+//		long umob = Long.parseLong(request.getParameter("umob"));
+//		System.out.println(umob);
+//		UserBean user = new UserBean(uid, uname, upwd, uemail, umob);
+//		userDAO.insertUser(user);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
+		dispatcher.forward(request, response);
 	}
-	
+
 	private void listUser(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		List<UserBean> listUser = userDAO.selectAllUsers();
-		request.setAttribute("listUser", listUser);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("users-list.jsp");
+		List<UserBean> listUsers = userDAO.selectAllUsers();
+		request.setAttribute("listUsers", listUsers);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/users-list.jsp");
 		dispatcher.forward(request, response);
 	}
 
 	private void showNewForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("user-form.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/register-user.jsp");
 		dispatcher.forward(request, response);
 	}
 
 	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, ServletException, IOException {
-		String userEmail = request.getParameter("email");
+		String userEmail = request.getParameter("uemail");
 		UserBean existingUser = userDAO.selectUser(userEmail);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("user-form.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/register-user.jsp");
 		request.setAttribute("user", existingUser);
 		dispatcher.forward(request, response);
 	}
-	
-	private void updateUser(HttpServletRequest request, HttpServletResponse response) 
-			throws SQLException, IOException {
-		String uname = request.getParameter("name");
+
+	private void updateUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		String uname = request.getParameter("uname");
 		String upwd = request.getParameter("upwd");
-		String userEmail = request.getParameter("email");
+		String userEmail = request.getParameter("uemail");
 		int uid = userDAO.getId(userEmail);
-		long umob = Long.parseLong(request.getParameter("mob"));
+		long umob = Long.parseLong(request.getParameter("umob"));
 		UserBean user = new UserBean(uid, uname, upwd, userEmail, umob);
 		userDAO.updateUser(user);
 		response.sendRedirect("list");
 	}
 
-	private void deleteUser(HttpServletRequest request, HttpServletResponse response) 
-			throws SQLException, IOException {
-		String userEmail = request.getParameter("email");
+	private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+		String userEmail = request.getParameter("uemail");
 		userDAO.deleteAUser(userEmail);
 		response.sendRedirect("list");
 	}

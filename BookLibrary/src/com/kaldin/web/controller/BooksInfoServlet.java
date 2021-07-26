@@ -22,7 +22,7 @@ import com.kaldin.web.model.BookBean;
  * 
  */
 
-@WebServlet("/BooksInfoServlet")
+@WebServlet("/book/*")
 public class BooksInfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private BookDAO bookDAO;
@@ -38,7 +38,11 @@ public class BooksInfoServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String action = request.getServletPath();
+		doProcess(request, response);
+	}
+	
+	private void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String action = request.getPathInfo();
 		System.out.println(action);
 		try {
 			switch (action) {
@@ -47,6 +51,7 @@ public class BooksInfoServlet extends HttpServlet {
 				showNewForm(request, response);
 				break;
 			case "/insert":
+				System.out.println("Inside Insert");
 				insertBook(request, response);
 				break;
 			case "/delete":
@@ -82,15 +87,15 @@ public class BooksInfoServlet extends HttpServlet {
 
 	private void listBook(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		List<BookBean> listBook = bookDAO.selectAllBooks();
-		request.setAttribute("listBook", listBook);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("books-list.jsp");
+		List<BookBean> listBooks = bookDAO.selectAllBooks();
+		request.setAttribute("listBooks", listBooks);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/books-list.jsp");
 		dispatcher.forward(request, response);
 	}
 
 	private void showNewForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("book-form.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/book-form.jsp");
 		dispatcher.forward(request, response);
 	}
 
@@ -98,7 +103,7 @@ public class BooksInfoServlet extends HttpServlet {
 			throws SQLException, ServletException, IOException {
 		String BookEmail = request.getParameter("email");
 		BookBean existingBook = bookDAO.selectBook(BookEmail);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("book-form.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/book-form.jsp");
 		request.setAttribute("Book", existingBook);
 		dispatcher.forward(request, response);
 	}
@@ -116,8 +121,9 @@ public class BooksInfoServlet extends HttpServlet {
 	}
 
 	private void deleteBook(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-		String BookEmail = request.getParameter("email");
-		bookDAO.deleteABook(BookEmail);
+		String bookName = request.getParameter("bname");
+		System.out.println(bookName);
+		bookDAO.deleteABook(bookName);
 		response.sendRedirect("list");
 	}
 }

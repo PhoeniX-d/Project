@@ -1,6 +1,7 @@
 package com.kaldin.web.dao;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,14 +24,31 @@ public class UserDAO {
 	private static final String SELECT_A_USER = "select * from users where uid = ?;";
 	private static final String SELECT_ALL_USERS = "select * from users;";
 	private static final String INSERT_NEW_USER = "insert into users values(?, ?, ?, ?, ?);";
-	private static final String DELETE_A_USER = "delete from users where id = ?;";
-	private static final String GET_ID = "select id from users where uemail = ?;";
+	private static final String DELETE_A_USER = "delete from users where uid = ?;";
+	private static final String GET_ID = "select uid from users where uemail = ?;";
+	private static final String GET_NAME = "select uname from users where uemail = ?;";
 	private static final String UPDATE_USER = "update users set uname = ?, upwd = ?, uemail = ?, umob = ? where uid = ?;";
+	private static final String CHECK_CREDS = "select * from users where uemail = ? and upwd = ?;";
 	private GetConnection getCon;
 
 	public UserDAO() {
 		getCon = new GetConnection();
 		getCon.getConnection();
+	}
+	
+	// code to validate user credentials
+	public boolean check(String uemail, String upwd) {
+		try(Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(CHECK_CREDS)) {
+			pst.setString(1, uemail);
+			pst.setString(2, upwd);
+			ResultSet rs = pst.executeQuery();
+			if(rs.next()) {
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	public int generateUID() {
@@ -46,17 +64,33 @@ public class UserDAO {
 		// try with resources
 		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(GET_ID)) {
 			pst.setString(1, userEmail);
+			System.out.println(pst);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next())
 				uid = rs.getInt(1);
 			rs.close();
-			return uid;
 		} catch (SQLException e) {
 			printSQLException(e);
 		}
 		return uid;
 	}
-
+	
+	// code to get user name from database to greet
+	public String getName(String userEmail) {
+		String userName = null;
+		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(GET_NAME)) {
+			pst.setString(1, userEmail);
+			System.out.println(pst);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next())
+				userName = rs.getString(1);
+			rs.close();
+		} catch (SQLException e) {
+			printSQLException(e);
+		}
+		return userName;
+	}
+	
 	// code to insert values into users database
 	public void insertUser(UserBean user) {
 		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(INSERT_NEW_USER)) {
@@ -128,6 +162,7 @@ public class UserDAO {
 	// code to delete a user from database
 	public boolean deleteAUser(String userEmail) {
 		int uid = getId(userEmail);
+		System.out.println(uid);
 		boolean rowDeleted = false;
 		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(DELETE_A_USER)) {
 			pst.setInt(1, uid);
