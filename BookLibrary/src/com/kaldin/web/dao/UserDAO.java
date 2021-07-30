@@ -23,39 +23,46 @@ public class UserDAO {
 
 	private static final String SELECT_A_USER = "select * from users where uid = ?;";
 	private static final String SELECT_ALL_USERS = "select * from users;";
-	private static final String INSERT_NEW_USER = "insert into users values(?, ?, ?, ?, ?);";
+	private static final String INSERT_NEW_USER = "insert into users(uname, upwd, uemail, umob) values(?, ?, ?, ?);";
 	private static final String DELETE_A_USER = "delete from users where uid = ?;";
 	private static final String GET_ID = "select uid from users where uemail = ?;";
 	private static final String GET_NAME = "select uname from users where uemail = ?;";
 	private static final String UPDATE_USER = "update users set uname = ?, upwd = ?, uemail = ?, umob = ? where uid = ?;";
-	private static final String CHECK_CREDS = "select * from users where uemail = ? and upwd = ?;";
+	private static final String CHECK_CREDS1 = "select * from users where uemail = ? and upwd = ?;";
+	private static final String CHECK_CREDS2 = "select * from users where uemail = ?;";
 	private GetConnection getCon;
 
 	public UserDAO() {
 		getCon = new GetConnection();
 		getCon.getConnection();
 	}
-	
+
 	// code to validate user credentials
-	public boolean check(String uemail, String upwd) {
-		try(Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(CHECK_CREDS)) {
+	public int check(String uemail, String upwd) {
+		int ret = 0;
+		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(CHECK_CREDS1)) {
 			pst.setString(1, uemail);
 			pst.setString(2, upwd);
 			ResultSet rs = pst.executeQuery();
-			if(rs.next()) {
-				return true;
+			if (rs.next()) {
+				ret = 2;
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException e) {
+			GetConnection.printSQLException(e);
 		}
-		return false;
-	}
-
-	public int generateUID() {
-		// To generate random unique user id
-		Random random = new Random();
-		String uid = String.format("%04d", random.nextInt(10000));
-		return Integer.parseInt(uid);
+		
+		if(ret == 0) {
+			try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(CHECK_CREDS2)) {
+				pst.setString(1, uemail);
+				ResultSet rs = pst.executeQuery();
+				if (rs.next()) {
+					ret = 1;
+				}
+			} catch (SQLException e) {
+				GetConnection.printSQLException(e);
+			}
+		}
+		return ret;
 	}
 
 	// code to get Id from database using uemail
@@ -64,54 +71,53 @@ public class UserDAO {
 		// try with resources
 		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(GET_ID)) {
 			pst.setString(1, userEmail);
-			System.out.println(pst);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next())
 				uid = rs.getInt(1);
 			rs.close();
 		} catch (SQLException e) {
-			printSQLException(e);
+			GetConnection.printSQLException(e);
 		}
 		return uid;
 	}
-	
+
 	// code to get user name from database to greet
 	public String getName(String userEmail) {
 		String userName = null;
 		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(GET_NAME)) {
 			pst.setString(1, userEmail);
-			System.out.println(pst);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next())
 				userName = rs.getString(1);
 			rs.close();
 		} catch (SQLException e) {
-			printSQLException(e);
+			GetConnection.printSQLException(e);
 		}
 		return userName;
 	}
-	
+
 	// code to insert values into users database
 	public void insertUser(UserBean user) {
 		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(INSERT_NEW_USER)) {
-			// inserting user id
-			pst.setInt(1, user.getuId());
-
 			// inserting user name
-			pst.setString(2, user.getuName());
+			pst.setString(1, user.getuName());
 
 			// inserting user password
-			pst.setString(3, user.getuPwd());
+			pst.setString(2, user.getuPwd());
 
 			// inserting user email id
-			pst.setString(4, user.getuEmail());
+			pst.setString(3, user.getuEmail());
 
 			// inserting user mobile number
-			pst.setLong(5, user.getuMob());
-
+			long mobile = user.getuMob();
+			if (mobile == -1) {
+				pst.setLong(4, -1L);
+			} else {
+				pst.setLong(4, mobile);
+			}
 			pst.executeUpdate();
 		} catch (SQLException e) {
-			printSQLException(e);
+			GetConnection.printSQLException(e);
 		}
 	}
 
@@ -133,7 +139,7 @@ public class UserDAO {
 				user = new UserBean(uid, name, pwd, email, mob);
 			}
 		} catch (SQLException e) {
-			printSQLException(e);
+			GetConnection.printSQLException(e);
 		}
 		return user;
 	}
@@ -154,7 +160,7 @@ public class UserDAO {
 				users.add(new UserBean(uid, name, pwd, email, mob));
 			}
 		} catch (SQLException e) {
-			printSQLException(e);
+			GetConnection.printSQLException(e);
 		}
 		return users;
 	}
@@ -162,13 +168,12 @@ public class UserDAO {
 	// code to delete a user from database
 	public boolean deleteAUser(String userEmail) {
 		int uid = getId(userEmail);
-		System.out.println(uid);
 		boolean rowDeleted = false;
 		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(DELETE_A_USER)) {
 			pst.setInt(1, uid);
 			rowDeleted = pst.executeUpdate() > 0;
 		} catch (SQLException e) {
-			printSQLException(e);
+			GetConnection.printSQLException(e);
 		}
 		return rowDeleted;
 	}
@@ -184,24 +189,8 @@ public class UserDAO {
 			pst.setInt(5, user.getuId());
 			rowUpdated = pst.executeUpdate() > 0;
 		} catch (SQLException e) {
-			printSQLException(e);
+			GetConnection.printSQLException(e);
 		}
 		return rowUpdated;
-	}
-
-	private void printSQLException(SQLException ex) {
-		for (Throwable e : ex) {
-			if (e instanceof SQLException) {
-				e.printStackTrace(System.err);
-				System.err.println("SQLState: " + ((SQLException) e).getSQLState());
-				System.err.println("Error Code: " + ((SQLException) e).getErrorCode());
-				System.err.println("Message: " + e.getMessage());
-				Throwable t = ex.getCause();
-				while (t != null) {
-					System.out.println("Cause: " + t);
-					t = t.getCause();
-				}
-			}
-		}
 	}
 }

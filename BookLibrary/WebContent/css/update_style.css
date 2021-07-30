@@ -5,12 +5,12 @@
 }
 
 .update {
-	width: 430px;
-	height: 450px;
+	width: 450px;
+	height: 550px;
 	background: #fff;
 	margin: 0;
 	padding: 20px;
-	top: 45%;
+ 	top: 46%; 
 	left: 50%;
 	color:black;
 	border-radius: 10px;
@@ -23,7 +23,7 @@
 	margin-top: 0px;
 	padding: 10px 0;
 	text-align: center;
-	font-size: 30px;
+	font-size: 27px;
 }
 
 .update input {
@@ -33,6 +33,16 @@
 }
 
 .update input[type="text"], .update input[type="password"] {
+	border: none;
+	background: transparent;
+	border-bottom: 1px solid #000;
+	outline: none;
+	height: 35px;
+	color: #000;
+	font-size: 15px;
+}
+
+.update input[type="number"], .update input[type="tel"] {
 	border: none;
 	background: transparent;
 	border-bottom: 1px solid #000;

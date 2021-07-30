@@ -12,23 +12,7 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
 <link href="css/update_style.css" rel="stylesheet" type="text/css" />
-<title>UpdateInfo</title>
-
-<script type="text/javascript">
-	function validate() {
-		if (document.getElementById('password').value == document
-				.getElementById('confirm_password').value) {
-			document.getElementById('sub').disabled = false;
-		} else {
-			document.getElementById('sub').disabled = true;
-			alert("Password Mismatched");
-		}
-	}
-
-	function success() {
-		alert('Information Updated successfully!!!');
-	}
-</script>
+<title>EditBook</title>
 </head>
 
 <body>
@@ -52,16 +36,17 @@
 
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item"><a class="nav-link" href="welcome.jsp">Home
-				</a></li>
+				<li class="nav-item"><a class="nav-link"
+					href="<%=request.getContextPath()%>/welcome.jsp">Home </a></li>
 				<li class="nav-item"><a
 					class="btn btn-outline-secondary my-2 my-sm-0"
 					href="./loginServlet/listBooks">My Books</a></li>
 			</ul>
 			<div class="form-inline my-2 my-lg-0">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active"><a class="nav-link" href="#">Edit
-							Profile<span class="sr-only">(current)</span>
+					<li class="nav-item"><a class="nav-link"
+						href="<%=request.getContextPath()%>/updateform.jsp">Edit
+							Profile<span class="sr-only"></span>
 					</a></li>
 				</ul>
 				<a href="<%=request.getContextPath()%>/logout"
@@ -71,45 +56,38 @@
 	</nav>
 	<div class="container">
 		<div class="update">
-			<h1>Update Profile</h1>
+			<h1>Edit Book</h1>
 			<form action="loginServlet" method="post">
 				<div class="form-group">
-					<label for="uname">New User Name</label> <input type="text"
-						class="form-control" name="uname" required
-						placeholder="${sessionScope.message}">
-				</div>
-
-				<div class="form-group">
-					<label for="uemail">Email address:</label> <input type="email"
-						name="uemail" readonly class="form-control-plaintext"
-						value="${sessionScope.session_user}">
-				</div>
-
-				<div class="form-group">
-					<label for="upwd">New Password:</label> <input type="password"
-						class="form-control" name="upwd" id="password" required>
-				</div>
-
-				<div class="form-group">
-					<label for="confirmupwd">Confirm New Password:</label> <input
-						type="password" class="form-control" name="confirmupwd"
-						id="confirm_password" required onchange='validate();'>
+					<label for="bid">Book ID</label> <input type="text"
+						class="form-control" name="bid" readonly
+						class="form-control-plaintext" value="${param.bid}">
 				</div>
 				<div class="form-group">
-					<label for="umob">New Mobile No.</label> <input type="tel"
-						class="form-control" name="umob">
+					<label for="bname">Book Name</label> <input type="text"
+						class="form-control" name="bname" placeholder="${param.bname}"
+						required>
 				</div>
-				<div class="position-absolute top-left">
+				<div class="form-group">
+					<label for="bauthor">Author Name</label> <input type="text"
+						class="form-control" name="bauthor" required>
+				</div>
+				<div class="form-group">
+					<label for="bcategory">Category</label> <input type="text"
+						class="form-control" name="bcategory" required>
+				</div>
+				<div class="form-group">
+					<label for="bprice">Price</label> <input type="number"
+						class="form-control" name="bprice">
+				</div>
+				<div class="form-group">
+					<label for="bpages">Total Pages</label> <input type="number"
+						class="form-control" name="bpages">
+				</div>
+				<div class="position-absolute">
 					<button type="submit" class="btn btn-success" id="sub"
-						style="border-radius: 10px;" value="Update" name="submit" disabled
-						onclick='success();'>Update User</button>
-				</div>
-			</form>
-			<form action="./loginServlet">
-				<div class="text-right">
-					<button type="submit" class="btn btn-danger"
-						style="border-radius: 10px;" value="Delete" name="submit">Delete
-						User</button>
+						style="border-radius: 10px; position: relative; left: 175px;"
+						value="EditBook" name="submit">Edit</button>
 				</div>
 			</form>
 		</div>

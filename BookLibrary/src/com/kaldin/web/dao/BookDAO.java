@@ -1,12 +1,12 @@
 package com.kaldin.web.dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import com.kaldin.web.model.BookBean;
 
@@ -20,11 +20,11 @@ import com.kaldin.web.model.BookBean;
 
 public class BookDAO {
 
-	private static final String SELECT_A_BOOK = "select * from books where bid = ?;";
-	private static final String SELECT_ALL_BOOKS = "select * from books;";
-	private static final String INSERT_NEW_BOOK = "insert into books values(?, ?, ?, ?, ?, ?);";
+	private static final String SELECT_ALL_BOOKS = "select * from books where uid = ?;";
+	private static final String VIEW_AUTHOR = "select imgpath from books where bid = ?";
+	private static final String EDIT_AUTHOR = "update books set imgpath = ? where bid = ?";
+	private static final String INSERT_NEW_BOOK = "insert into books(uid, bname, bauthor, bcategory, bprice, bpages, imgpath) values(?, ?, ?, ?, ?, ?, ?);";
 	private static final String DELETE_A_BOOK = "delete from books where bid = ?;";
-	private static final String GET_ID = "select bid from books where bname = ?;";
 	private static final String UPDATE_BOOK = "update books set bname = ?, bauthor = ?, bcategory = ?, bprice = ?, bpages = ? where bid = ?;";
 	private GetConnection getCon;
 
@@ -33,35 +33,11 @@ public class BookDAO {
 		getCon.getConnection();
 	}
 
-	public int generateBID() {
-		// To generate random unique book id
-		Random random = new Random();
-		String bid = String.format("%05d", random.nextInt(100000));
-		return Integer.parseInt(bid);
-	}
-
-	// code to get Id from database using book name
-	public int getId(String bookName) {
-		int bid = 0;
-		// try with resources
-		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(GET_ID)) {
-			pst.setString(1, bookName);
-			ResultSet rs = pst.executeQuery();
-			if (rs.next())
-				bid = rs.getInt(1);
-			rs.close();
-			return bid;
-		} catch (SQLException e) {
-			printSQLException(e);
-		}
-		return bid;
-	}
-
 	// code to insert values into BOOKs database
 	public void insertBook(BookBean book) {
 		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(INSERT_NEW_BOOK)) {
 			// inserting book's id
-			pst.setInt(1, generateBID());
+			pst.setInt(1, book.getuId());
 
 			// inserting book's name
 			pst.setString(2, book.getbName());
@@ -73,71 +49,85 @@ public class BookDAO {
 			pst.setString(4, book.getbCategory());
 
 			// inserting book's price
-			pst.setDouble(5, book.getbPrice());
+			double price = book.getbPrice();
+			if (price == -1) {
+				pst.setDouble(5, -1);
+			} else {
+				pst.setDouble(5, price);
+			}
 
 			// inserting book's total number of pages
-			pst.setInt(6, book.getbPageCounts());
-
+			int pages = book.getbPageCounts();
+			if (pages == -1) {
+				pst.setInt(6, -1);
+			} else {
+				pst.setInt(6, pages);
+			}
+			pst.setString(7, book.getImgName());
 			pst.executeUpdate();
 		} catch (SQLException e) {
-			printSQLException(e);
+			GetConnection.printSQLException(e);
 		}
-	}
-
-	// code to fetch values of a particular BOOK from database
-	public BookBean selectBook(String bookName) {
-		BookBean book = null;
-		int bid = getId(bookName);
-		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(SELECT_A_BOOK)) {
-			pst.setInt(1, bid);
-			ResultSet rs = pst.executeQuery();
-
-			// | bid | bname| bauthor | bcategory | bprice | bpages |
-			if (rs.next()) {
-				bid = rs.getInt(1);
-				String name = rs.getString(2);
-				String author = rs.getString(3);
-				String category = rs.getString(4);
-				double price = rs.getDouble(5);
-				int pages = rs.getInt(6);
-				book = new BookBean(bid, name, author, category, price, pages);
-			}
-		} catch (SQLException e) {
-			printSQLException(e);
-		}
-		return book;
 	}
 
 	// code to fetch all Books information
-	public List<BookBean> selectAllBooks() {
+	public List<BookBean> selectAllBooks(int userid) throws IOException {
 		List<BookBean> books = new ArrayList<>();
 		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(SELECT_ALL_BOOKS)) {
+			pst.setInt(1, userid);
 			ResultSet rs = pst.executeQuery();
-			// | bid | bname| bauthor | bcategory | bprice | bpages |
+			// | bid | bname| bauthor | bcategory | bprice | bpages | imgpath
 			while (rs.next()) {
 				int bid = rs.getInt(1);
-				String name = rs.getString(2);
-				String author = rs.getString(3);
-				String category = rs.getString(4);
-				double price = rs.getDouble(5);
-				int pages = rs.getInt(6);
-				books.add(new BookBean(bid, name, author, category, price, pages));
+				int uid = 0;
+				String name = rs.getString(3);
+				String author = rs.getString(4);
+				String category = rs.getString(5);
+				double price = rs.getDouble(6);
+				int pages = rs.getInt(7);
+				String imgName = rs.getString(8);
+				books.add(new BookBean(bid, uid, name, author, category, price, pages, imgName));
 			}
 		} catch (SQLException e) {
-			printSQLException(e);
+			GetConnection.printSQLException(e);
 		}
 		return books;
 	}
 
+	// code to fetch all Books information
+	public String viewAuthor(int bid) throws IOException {
+		String imagePath = null;
+		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(VIEW_AUTHOR)) {
+			pst.setInt(1, bid);
+			ResultSet rs = pst.executeQuery();
+			if (rs.next()) {
+				imagePath = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			GetConnection.printSQLException(e);
+		}
+		return imagePath;
+	}
+
+	// code to edit authors image
+	public void editAuthor(int bid, String imgpath) throws IOException {
+		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(EDIT_AUTHOR)) {
+			pst.setInt(2, bid);
+			pst.setString(1, imgpath);
+			pst.executeUpdate();
+		} catch (SQLException e) {
+			GetConnection.printSQLException(e);
+		}
+	}
+
 	// code to delete a Book from database
-	public boolean deleteABook(String bookName) {
-		int bid = getId(bookName);
+	public boolean deleteABook(int bid) {
 		boolean rowDeleted = false;
 		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(DELETE_A_BOOK)) {
 			pst.setInt(1, bid);
 			rowDeleted = pst.executeUpdate() > 0;
 		} catch (SQLException e) {
-			printSQLException(e);
+			GetConnection.printSQLException(e);
 		}
 		return rowDeleted;
 	}
@@ -150,27 +140,12 @@ public class BookDAO {
 			pst.setString(2, book.getbAuthor());
 			pst.setString(3, book.getbCategory());
 			pst.setDouble(4, book.getbPrice());
-			pst.setInt(5, book.getbId());
+			pst.setInt(5, book.getbPageCounts());
+			pst.setInt(6, book.getbId());
 			rowUpdated = pst.executeUpdate() > 0;
 		} catch (SQLException e) {
-			printSQLException(e);
+			GetConnection.printSQLException(e);
 		}
 		return rowUpdated;
-	}
-
-	private void printSQLException(SQLException ex) {
-		for (Throwable e : ex) {
-			if (e instanceof SQLException) {
-				e.printStackTrace(System.err);
-				System.err.println("SQLState: " + ((SQLException) e).getSQLState());
-				System.err.println("Error Code: " + ((SQLException) e).getErrorCode());
-				System.err.println("Message: " + e.getMessage());
-				Throwable t = ex.getCause();
-				while (t != null) {
-					System.out.println("Cause: " + t);
-					t = t.getCause();
-				}
-			}
-		}
 	}
 }

@@ -58,8 +58,8 @@
 						id="submit" name="submit" disabled onclick='success();'>
 				</div>
 			</form>
-			<a href="login.jsp" class="btn btn-block btn-danger"> Already
-				Register ? </a>
+			<a href="<%=request.getContextPath()%>/login.jsp"
+				class="btn btn-block btn-danger"> Already Register ? </a>
 		</div>
 	</div>
 </body>
