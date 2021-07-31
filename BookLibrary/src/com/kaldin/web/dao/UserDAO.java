@@ -25,6 +25,7 @@ public class UserDAO {
 	private static final String SELECT_ALL_USERS = "select * from users;";
 	private static final String INSERT_NEW_USER = "insert into users(uname, upwd, uemail, umob) values(?, ?, ?, ?);";
 	private static final String DELETE_A_USER = "delete from users where uid = ?;";
+	private static final String DELETE_A_USER_BOOKS = "delete from books where uid = ?;";
 	private static final String GET_ID = "select uid from users where uemail = ?;";
 	private static final String GET_NAME = "select uname from users where uemail = ?;";
 	private static final String UPDATE_USER = "update users set uname = ?, upwd = ?, uemail = ?, umob = ? where uid = ?;";
@@ -166,16 +167,17 @@ public class UserDAO {
 	}
 
 	// code to delete a user from database
-	public boolean deleteAUser(String userEmail) {
+	public void deleteAUser(String userEmail) {
 		int uid = getId(userEmail);
-		boolean rowDeleted = false;
-		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(DELETE_A_USER)) {
+		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(DELETE_A_USER);
+				PreparedStatement pst1 = con.prepareStatement(DELETE_A_USER_BOOKS)) {
+			pst1.setInt(1, uid);
 			pst.setInt(1, uid);
-			rowDeleted = pst.executeUpdate() > 0;
+			pst.executeUpdate();
+			pst1.executeUpdate();
 		} catch (SQLException e) {
 			GetConnection.printSQLException(e);
 		}
-		return rowDeleted;
 	}
 
 	// code to update user information

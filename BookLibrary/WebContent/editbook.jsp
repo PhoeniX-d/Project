@@ -23,7 +23,7 @@
 		response.setDateHeader("Expires", 0);
 
 		if (session.getAttribute("session_user") == null && session.getAttribute("session_pwd") == null)
-			response.sendRedirect("login.jsp");
+			response.sendRedirect(request.getContextPath() + "/login.jsp");
 	%>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<span class="navbar-brand mb-0 h1">${message}</span>

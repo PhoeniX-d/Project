@@ -1,6 +1,7 @@
 package com.kaldin.web.controller;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -85,6 +86,7 @@ public class BooksInfoServlet extends HttpServlet {
 		}
 	}
 
+	// this code will insert the book information into the database
 	private void insertBook(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
 		String bname = request.getParameter("bname");
@@ -94,6 +96,8 @@ public class BooksInfoServlet extends HttpServlet {
 		String bcategory = request.getParameter("bcategory");
 		String price = request.getParameter("bprice");
 		double bprice = -1;
+
+		// validate that if user has entered book price or not
 		if (!price.isEmpty()) {
 			try {
 				bprice = Double.parseDouble(price);
@@ -103,6 +107,8 @@ public class BooksInfoServlet extends HttpServlet {
 		}
 		String pages = request.getParameter("bpages");
 		int bpages = -1;
+
+		// validate that if user has entered book pages count or not
 		if (!pages.isEmpty()) {
 			try {
 				bpages = Integer.parseInt(pages);
@@ -110,6 +116,7 @@ public class BooksInfoServlet extends HttpServlet {
 				n.printStackTrace();
 			}
 		}
+
 		String imgName = getImagePath(request);
 		BookBean book = new BookBean(0, userid, bname, bauthor, bcategory, bprice, bpages, imgName);
 		bookDAO.insertBook(book);
@@ -126,12 +133,7 @@ public class BooksInfoServlet extends HttpServlet {
 
 	private void viewBook(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		int bid = 0;
-		try {
-			bid = Integer.parseInt(request.getParameter("bid"));
-		} catch (NumberFormatException n) {
-			n.printStackTrace();
-		}
+		int bid = getBookId(request);
 		String imgName = bookDAO.viewAuthor(bid);
 		String imgPath = getEncodedImage(imgName);
 		request.setAttribute("imgPath", imgPath);
@@ -140,13 +142,8 @@ public class BooksInfoServlet extends HttpServlet {
 
 	private void editBook(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		int userid = 0, bid = 0;
-		try {
-			userid = (Integer) request.getSession().getAttribute("session_uid");
-			bid = Integer.parseInt(request.getParameter("bid"));
-		} catch (NumberFormatException n) {
-			n.printStackTrace();
-		}
+		int userid = getUserId(request);
+		int bid = getBookId(request);
 		String bname = request.getParameter("bname");
 		String bauthor = request.getParameter("bauthor");
 		String bcategory = request.getParameter("bcategory");
@@ -159,12 +156,7 @@ public class BooksInfoServlet extends HttpServlet {
 
 	private void editAuthor(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		int bid = 0;
-		try {
-			bid = Integer.parseInt(request.getParameter("bid"));
-		} catch (NumberFormatException n) {
-			n.printStackTrace();
-		}
+		int bid = getBookId(request);
 		String imgName = getImagePath(request);
 		if (imgName != null) {
 			bookDAO.editAuthor(bid, imgName);
@@ -174,7 +166,16 @@ public class BooksInfoServlet extends HttpServlet {
 
 	private void deleteBook(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
-		int bid = Integer.parseInt(request.getParameter("bid"));
+		int bid = getBookId(request);
+		String imgPath = bookDAO.viewAuthor(bid);
+		File directory = new File(UPLOAD_DIR);
+		if (directory.exists()) {
+			for (File f : directory.listFiles()) {
+				if (f.getName().equals(imgPath)) {
+					f.delete();
+				}
+			}
+		}
 		bookDAO.deleteABook(bid);
 		response.sendRedirect("listBooks");
 	}
@@ -200,10 +201,14 @@ public class BooksInfoServlet extends HttpServlet {
 
 	private String getImagePath(HttpServletRequest request) throws IOException, ServletException {
 		Part part = request.getPart("bauthorimg");//
-		String actualFileName = extractFileName(part), fileName = null;
+		String actualFileName = part.getSubmittedFileName();
+		if (actualFileName.isEmpty()) {
+			return null;
+		}
+		String fileName = null;
 		if (actualFileName != null) {
-			fileName = (String) request.getSession().getAttribute("message") + getUserId(request)
-					+ extractFileName(part);// file name
+			fileName = (String) request.getSession().getAttribute("message") + getUserId(request) + getBookId(request)
+					+ actualFileName;// filename
 			String savePath = UPLOAD_DIR + fileName;
 			InputStream is = part.getInputStream();
 			Files.copy(is, Paths.get(savePath), StandardCopyOption.REPLACE_EXISTING);
@@ -211,25 +216,24 @@ public class BooksInfoServlet extends HttpServlet {
 		return fileName;
 	}
 
-	private String extractFileName(Part part) {// Get file name
-		String contentDisp = part.getHeader("content-disposition");
-		String[] items = contentDisp.split(";");
-		for (String s : items) {
-			if (s.trim().startsWith("filename")) {
-				return s.substring(s.indexOf("=") + 2, s.length() - 1);
-			}
-		}
-		return "";
-	}
-
 	// get user id from session object
 	private int getUserId(HttpServletRequest request) {
 		int userid = 0;
 		try {
 			userid = (Integer) request.getSession().getAttribute("session_uid");
-		} catch (NumberFormatException n) {
-			n.printStackTrace();
+		} catch (Exception n) {
 		}
 		return userid;
 	}
+
+	// get book id from session object
+	private int getBookId(HttpServletRequest request) {
+		int bid = 0;
+		try {
+			bid = Integer.parseInt((request.getParameter("bid")));
+		} catch (Exception n) {
+		}
+		return bid;
+	}
+
 }

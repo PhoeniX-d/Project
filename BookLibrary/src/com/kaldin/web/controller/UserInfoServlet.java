@@ -1,5 +1,6 @@
 package com.kaldin.web.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.kaldin.web.controller.BooksInfoServlet;
 import com.kaldin.web.dao.UserDAO;
 import com.kaldin.web.model.UserBean;
 
@@ -95,7 +97,15 @@ public class UserInfoServlet extends HttpServlet {
 		String upwd = request.getParameter("upwd");
 		String userEmail = request.getParameter("uemail");
 		int uid = userDAO.getId(userEmail);
-		long umob = Long.parseLong(request.getParameter("umob"));
+		String mob = request.getParameter("umob");
+		long umob = -1;
+		if (!mob.isEmpty()) {
+			try {
+				umob = Long.parseLong(mob);
+			} catch (NumberFormatException n) {
+				n.printStackTrace();
+			}
+		}
 		UserBean user = new UserBean(uid, uname, upwd, userEmail, umob);
 		userDAO.updateUser(user);
 		HttpSession session = request.getSession();
@@ -106,6 +116,17 @@ public class UserInfoServlet extends HttpServlet {
 	private void deleteUser(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
 		String userEmail = (String) request.getSession().getAttribute("session_user");
+		String uname = userDAO.getName(userEmail);
+		int uid = userDAO.getId(userEmail);
+		File directory = new File(BooksInfoServlet.UPLOAD_DIR);
+		if (directory.exists()) {
+			for (File f : directory.listFiles()) {
+				if (f.getName().startsWith(uname + uid)) {
+					System.out.println(f.getName());
+					f.delete();
+				}
+			}
+		}
 		userDAO.deleteAUser(userEmail);
 		context.getRequestDispatcher("/logout").forward(request, response);
 	}

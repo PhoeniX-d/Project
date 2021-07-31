@@ -39,6 +39,7 @@ public class LoginServlet extends HttpServlet {
 	private void doProcess(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String submitType = request.getParameter("submit");
+		// Buttons related redirection
 		if (submitType != null) {
 			if (submitType.equals("Login")) {
 				String uname = request.getParameter("username");
@@ -52,11 +53,10 @@ public class LoginServlet extends HttpServlet {
 					session.setAttribute("message", userdao.getName(uname));
 					request.setAttribute("message", userdao.getName(uname));
 					request.getRequestDispatcher("welcome.jsp").forward(request, response);
-				}else if(creds == USER) {
+				} else if (creds == USER) {
 					request.setAttribute("message", "Incorrect Password");
 					request.getRequestDispatcher("login.jsp").forward(request, response);
-				}	
-				else {
+				} else {
 					request.setAttribute("message", "User not found, Click Register To Add New User !!!");
 					request.getRequestDispatcher("login.jsp").forward(request, response);
 				}
@@ -75,7 +75,8 @@ public class LoginServlet extends HttpServlet {
 			} else if (submitType.equals("EditAuthor")) {
 				request.getRequestDispatcher("/books/editAuthor").forward(request, response);
 			}
-		} else {
+		} else // Link related redirection (only for books related tasks)
+		{
 			String path = request.getPathInfo();
 			request.getRequestDispatcher("/books" + path).forward(request, response);
 		}

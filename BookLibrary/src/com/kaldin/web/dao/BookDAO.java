@@ -32,7 +32,7 @@ public class BookDAO {
 		getCon = new GetConnection();
 		getCon.getConnection();
 	}
-
+	
 	// code to insert values into BOOKs database
 	public void insertBook(BookBean book) {
 		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(INSERT_NEW_BOOK)) {

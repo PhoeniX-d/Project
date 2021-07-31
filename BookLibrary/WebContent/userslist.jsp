@@ -46,6 +46,7 @@
 			<ul class="navbar-nav mr-auto"></ul>
 			<div class="form-inline my-2 my-lg-0">
 				<ul class="navbar-nav mr-auto"></ul>
+				<a href="registration.jsp" class="btn btn-outline-success">Register</a>
 				<a href="login.jsp" class="btn btn-outline-success my-2 my-sm-0">Login</a>
 			</div>
 		</div>
