@@ -20,19 +20,20 @@ import com.kaldin.web.model.BookBean;
 
 public class BookDAO {
 
+	private static final String SELECT_A_BOOKS = "select * from books where bid = ?;";
 	private static final String SELECT_ALL_BOOKS = "select * from books where uid = ?;";
 	private static final String VIEW_AUTHOR = "select imgpath from books where bid = ?";
 	private static final String EDIT_AUTHOR = "update books set imgpath = ? where bid = ?";
-	private static final String INSERT_NEW_BOOK = "insert into books(uid, bname, bauthor, bcategory, bprice, bpages, imgpath) values(?, ?, ?, ?, ?, ?, ?);";
+	private static final String INSERT_NEW_BOOK = "insert into books(uid, bname, bauthor, bcategory, bprice, bpages, imgpath, blang) values(?, ?, ?, ?, ?, ?, ?, ?);";
 	private static final String DELETE_A_BOOK = "delete from books where bid = ?;";
-	private static final String UPDATE_BOOK = "update books set bname = ?, bauthor = ?, bcategory = ?, bprice = ?, bpages = ? where bid = ?;";
+	private static final String UPDATE_BOOK = "update books set bname = ?, bauthor = ?, bcategory = ?, bprice = ?, bpages = ?, blang = ? where bid = ?;";
 	private GetConnection getCon;
 
 	public BookDAO() {
 		getCon = new GetConnection();
 		getCon.getConnection();
 	}
-	
+
 	// code to insert values into BOOKs database
 	public void insertBook(BookBean book) {
 		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(INSERT_NEW_BOOK)) {
@@ -64,10 +65,36 @@ public class BookDAO {
 				pst.setInt(6, pages);
 			}
 			pst.setString(7, book.getImgName());
+			pst.setString(8, book.getbLang());
 			pst.executeUpdate();
 		} catch (SQLException e) {
 			GetConnection.printSQLException(e);
 		}
+	}
+
+	// code to fetch book's information
+	public BookBean selectABooks(int bookid) throws IOException {
+		BookBean book = null;
+		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(SELECT_A_BOOKS)) {
+			pst.setInt(1, bookid);
+			ResultSet rs = pst.executeQuery();
+			// | bid | bname| bauthor | bcategory | bprice | bpages | imgpath | language
+			if (rs.next()) {
+				int bid = rs.getInt(1);
+				int uid = 0;
+				String name = rs.getString(3);
+				String author = rs.getString(4);
+				String category = rs.getString(5);
+				double price = rs.getDouble(6);
+				int pages = rs.getInt(7);
+				String imgName = "";
+				String lang = rs.getString(9);
+				book = new BookBean(bid, uid, name, author, category, price, pages, imgName, lang);
+			}
+		} catch (SQLException e) {
+			GetConnection.printSQLException(e);
+		}
+		return book;
 	}
 
 	// code to fetch all Books information
@@ -76,7 +103,7 @@ public class BookDAO {
 		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(SELECT_ALL_BOOKS)) {
 			pst.setInt(1, userid);
 			ResultSet rs = pst.executeQuery();
-			// | bid | bname| bauthor | bcategory | bprice | bpages | imgpath
+			// | bid | bname| bauthor | bcategory | bprice | bpages | imgpath | language
 			while (rs.next()) {
 				int bid = rs.getInt(1);
 				int uid = 0;
@@ -86,7 +113,8 @@ public class BookDAO {
 				double price = rs.getDouble(6);
 				int pages = rs.getInt(7);
 				String imgName = rs.getString(8);
-				books.add(new BookBean(bid, uid, name, author, category, price, pages, imgName));
+				String lang = rs.getString(9);
+				books.add(new BookBean(bid, uid, name, author, category, price, pages, imgName, lang));
 			}
 		} catch (SQLException e) {
 			GetConnection.printSQLException(e);
@@ -141,7 +169,8 @@ public class BookDAO {
 			pst.setString(3, book.getbCategory());
 			pst.setDouble(4, book.getbPrice());
 			pst.setInt(5, book.getbPageCounts());
-			pst.setInt(6, book.getbId());
+			pst.setInt(7, book.getbId());
+			pst.setString(6, book.getbLang());
 			rowUpdated = pst.executeUpdate() > 0;
 		} catch (SQLException e) {
 			GetConnection.printSQLException(e);

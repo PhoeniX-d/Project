@@ -36,12 +36,12 @@
 <body>
 	<%
 		response.setHeader("Cache-Control", "no-cache");
-		response.setHeader("Cache-Control", "no-store");
-		response.setHeader("Pragma", "no-cache");
-		response.setDateHeader("Expires", 0);
+	response.setHeader("Cache-Control", "no-store");
+	response.setHeader("Pragma", "no-cache");
+	response.setDateHeader("Expires", 0);
 
-		if (session.getAttribute("session_user") == null && session.getAttribute("session_pwd") == null)
-			response.sendRedirect("login.jsp");
+	if (session.getAttribute("session_user") == null && session.getAttribute("session_pwd") == null)
+		response.sendRedirect("login.jsp");
 	%>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<span class="navbar-brand mb-0 h1">${message}</span>
@@ -88,6 +88,7 @@
 						<th>Name</th>
 						<th>Author</th>
 						<th>Category</th>
+						<th>Language</th>
 						<th>Price</th>
 						<th>Pages</th>
 						<th>Action</th>
@@ -100,6 +101,7 @@
 							<td><c:out value="${book.bName}" /></td>
 							<td><c:out value="${book.bAuthor}" /></td>
 							<td><c:out value="${book.bCategory}" /></td>
+							<td><c:out value="${book.bLang}" /></td>
 							<c:set var="bPrice" value="${book.bPrice}" />
 							<c:choose>
 								<c:when test="${bPrice eq '-1'}">
@@ -118,9 +120,8 @@
 									<td><c:out value="${bPages}" /></td>
 								</c:otherwise>
 							</c:choose>
-							<td><a
-								href="<%=request.getContextPath()%>/editbook.jsp?bid=${book.bId}&bname=${book.bName}">Edit</a>
-								&nbsp;&nbsp;&nbsp;&nbsp; <a href="./deleteBook?bid=${book.bId}">Delete</a>&nbsp;&nbsp;&nbsp;&nbsp;
+							<td><a href="./editBookInfo?bid=${book.bId}">Edit </a>
+								&nbsp;&nbsp; <a href="./deleteBook?bid=${book.bId}">Delete</a>&nbsp;&nbsp;
 								<a
 								href="./viewAuthor?bid=${book.bId}&bname=${book.bName}&bauthor=${book.bAuthor}">View
 									Author</a></td>

@@ -44,8 +44,7 @@
 				</a></li>
 				<li class="nav-item"><a
 					class="btn btn-outline-secondary my-2 my-sm-0"
-					href="./loginServlet/listBooks">MyBooks</span>
-				</a></li>
+					href="./loginServlet/listBooks">MyBooks </a></li>
 			</ul>
 			<div class="form-inline my-2 my-lg-0">
 				<ul class="navbar-nav mr-auto">

@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -40,6 +41,7 @@ public class BooksInfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private BookDAO bookDAO;
 	private ServletContext context;
+	private Date date;
 	public static final String UPLOAD_DIR = "C:/Users/Dell/Desktop/Eclipse Workspaces/JEE_EclipseWorkspace/Assignments/authors/";
 
 	public BooksInfoServlet() {
@@ -77,6 +79,9 @@ public class BooksInfoServlet extends HttpServlet {
 			case "/editBook":
 				editBook(request, response);
 				break;
+			case "/editBookInfo":
+				editBookInfo(request, response);
+				break;
 			case "/listBooks":
 				listBooks(request, response);
 				break;
@@ -90,13 +95,13 @@ public class BooksInfoServlet extends HttpServlet {
 	private void insertBook(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
 		String bname = request.getParameter("bname");
+		String blang = request.getParameter("blang");
 		int userid = getUserId(request);
 		bname = request.getParameter("bname");
 		String bauthor = request.getParameter("bauthor");
 		String bcategory = request.getParameter("bcategory");
 		String price = request.getParameter("bprice");
 		double bprice = -1;
-
 		// validate that if user has entered book price or not
 		if (!price.isEmpty()) {
 			try {
@@ -118,7 +123,7 @@ public class BooksInfoServlet extends HttpServlet {
 		}
 
 		String imgName = getImagePath(request);
-		BookBean book = new BookBean(0, userid, bname, bauthor, bcategory, bprice, bpages, imgName);
+		BookBean book = new BookBean(0, userid, bname, bauthor, bcategory, bprice, bpages, imgName, blang);
 		bookDAO.insertBook(book);
 		response.sendRedirect("./loginServlet/listBooks");
 	}
@@ -147,11 +152,38 @@ public class BooksInfoServlet extends HttpServlet {
 		String bname = request.getParameter("bname");
 		String bauthor = request.getParameter("bauthor");
 		String bcategory = request.getParameter("bcategory");
-		double bprice = Double.parseDouble(request.getParameter("bprice"));
-		int bpages = Integer.parseInt(request.getParameter("bpages"));
-		BookBean book = new BookBean(bid, userid, bname, bauthor, bcategory, bprice, bpages, null);
+		String price = request.getParameter("bprice");
+		double bprice = -1;
+		// validate that if user has entered book price or not
+		if (!price.isEmpty()) {
+			try {
+				bprice = Double.parseDouble(price);
+			} catch (NumberFormatException n) {
+				n.printStackTrace();
+			}
+		}
+		String pages = request.getParameter("bpages");
+		int bpages = -1;
+
+		// validate that if user has entered book pages count or not
+		if (!pages.isEmpty()) {
+			try {
+				bpages = Integer.parseInt(pages);
+			} catch (NumberFormatException n) {
+				n.printStackTrace();
+			}
+		}
+		String blang = request.getParameter("blang");
+		BookBean book = new BookBean(bid, userid, bname, bauthor, bcategory, bprice, bpages, null, blang);
 		bookDAO.updateBook(book);
-		response.sendRedirect("./loginServlet/listBooks");
+		response.sendRedirect("./listBooks");
+	}
+
+	private void editBookInfo(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, IOException, ServletException {
+		BookBean book = bookDAO.selectABooks(getBookId(request));
+		request.setAttribute("book", book);
+		request.getRequestDispatcher("/editbook.jsp").forward(request, response);
 	}
 
 	private void editAuthor(HttpServletRequest request, HttpServletResponse response)
@@ -200,15 +232,15 @@ public class BooksInfoServlet extends HttpServlet {
 	}
 
 	private String getImagePath(HttpServletRequest request) throws IOException, ServletException {
-		Part part = request.getPart("bauthorimg");//
+		Part part = request.getPart("bauthorimg");
+		date = new Date();
 		String actualFileName = part.getSubmittedFileName();
 		if (actualFileName.isEmpty()) {
 			return null;
 		}
 		String fileName = null;
 		if (actualFileName != null) {
-			fileName = (String) request.getSession().getAttribute("message") + getUserId(request) + getBookId(request)
-					+ actualFileName;// filename
+			fileName = String.valueOf(date.getTime()) + actualFileName;// filename
 			String savePath = UPLOAD_DIR + fileName;
 			InputStream is = part.getInputStream();
 			Files.copy(is, Paths.get(savePath), StandardCopyOption.REPLACE_EXISTING);
@@ -226,7 +258,7 @@ public class BooksInfoServlet extends HttpServlet {
 		return userid;
 	}
 
-	// get book id from session object
+	// get book id from request parameter
 	private int getBookId(HttpServletRequest request) {
 		int bid = 0;
 		try {

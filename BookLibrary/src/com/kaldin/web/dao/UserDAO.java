@@ -21,7 +21,6 @@ import com.kaldin.web.model.UserBean;
 
 public class UserDAO {
 
-	private static final String SELECT_A_USER = "select * from users where uid = ?;";
 	private static final String SELECT_ALL_USERS = "select * from users;";
 	private static final String INSERT_NEW_USER = "insert into users(uname, upwd, uemail, umob) values(?, ?, ?, ?);";
 	private static final String DELETE_A_USER = "delete from users where uid = ?;";
@@ -51,8 +50,8 @@ public class UserDAO {
 		} catch (SQLException e) {
 			GetConnection.printSQLException(e);
 		}
-		
-		if(ret == 0) {
+
+		if (ret == 0) {
 			try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(CHECK_CREDS2)) {
 				pst.setString(1, uemail);
 				ResultSet rs = pst.executeQuery();
@@ -122,29 +121,6 @@ public class UserDAO {
 		}
 	}
 
-	// code to fetch values of a particular user from database
-	public UserBean selectUser(String userEmail) {
-		UserBean user = null;
-		int uid = getId(userEmail);
-		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(SELECT_A_USER)) {
-			pst.setInt(1, uid);
-			ResultSet rs = pst.executeQuery();
-
-			// uid | uname | upwd | uemail | umob
-			if (rs.next()) {
-				uid = rs.getInt(1);
-				String name = rs.getString(2);
-				String pwd = rs.getString(3);
-				String email = rs.getString(4);
-				long mob = rs.getLong(5);
-				user = new UserBean(uid, name, pwd, email, mob);
-			}
-		} catch (SQLException e) {
-			GetConnection.printSQLException(e);
-		}
-		return user;
-	}
-
 	// code to fetch all users information
 	public List<UserBean> selectAllUsers() {
 		List<UserBean> users = new ArrayList<>();
@@ -169,7 +145,8 @@ public class UserDAO {
 	// code to delete a user from database
 	public void deleteAUser(String userEmail) {
 		int uid = getId(userEmail);
-		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(DELETE_A_USER);
+		try (Connection con = getCon.getConnection();
+				PreparedStatement pst = con.prepareStatement(DELETE_A_USER);
 				PreparedStatement pst1 = con.prepareStatement(DELETE_A_USER_BOOKS)) {
 			pst1.setInt(1, uid);
 			pst.setInt(1, uid);

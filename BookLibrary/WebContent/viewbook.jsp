@@ -48,7 +48,7 @@
 			<div class="form-inline my-2 my-lg-0">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item"><a class="nav-link"
-						href="<%=request.getContextPath()%>/updateform.jsp">Edit
+						href="<%=request.getContextPath()%>/WEB-INF/jsp/updateform.jsp">Edit
 							Profile</a></li>
 				</ul>
 				<a href="<%=request.getContextPath()%>/logout"

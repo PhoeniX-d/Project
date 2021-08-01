@@ -34,12 +34,12 @@
 <body>
 	<%
 		response.setHeader("Cache-Control", "no-cache");
-		response.setHeader("Cache-Control", "no-store");
-		response.setHeader("Pragma", "no-cache");
-		response.setDateHeader("Expires", 0);
+	response.setHeader("Cache-Control", "no-store");
+	response.setHeader("Pragma", "no-cache");
+	response.setDateHeader("Expires", 0);
 
-		if (session.getAttribute("session_user") == null && session.getAttribute("session_pwd") == null)
-			response.sendRedirect("login.jsp");
+	if (session.getAttribute("session_user") == null && session.getAttribute("session_pwd") == null)
+		response.sendRedirect("login.jsp");
 	%>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<span class="navbar-brand mb-0 h1">${message}</span>
@@ -56,7 +56,7 @@
 				</a></li>
 				<li class="nav-item"><a
 					class="btn btn-outline-secondary my-2 my-sm-0"
-					href="./loginServlet/listBooks">My Books</a></li>
+					href="./loginServlet/listBooks">MyBooks</a></li>
 			</ul>
 			<div class="form-inline my-2 my-lg-0">
 				<ul class="navbar-nav mr-auto">
@@ -76,7 +76,7 @@
 				<div class="form-group">
 					<label for="uname">New User Name</label> <input type="text"
 						class="form-control" name="uname" required
-						placeholder="${sessionScope.message}">
+						value="${sessionScope.message}">
 				</div>
 
 				<div class="form-group">

@@ -3,18 +3,19 @@ package com.kaldin.web.model;
 public class BookBean {
 
 	// Book related fields
-	int bId;			// book id
-	int uId;			// user id
-	String bName;		// book name
-	String bAuthor;		// author name
-	String bCategory;	// book category
-	double bPrice;		// book price
-	int bPageCounts;	// books total pages
-	String imgName;		// name of image
+	int bId; // book id
+	int uId; // user id
+	String bName; // book name
+	String bAuthor; // author name
+	String bCategory; // book category
+	double bPrice; // book price
+	int bPageCounts; // books total pages
+	String imgName; // name of image
+	String bLang; // language of book
 
 	// parameterized constructors
 	public BookBean(int bId, int uId, String bName, String bAuthor, String bCategory, double bPrice, int bPageCounts,
-			String imgName) {
+			String imgName, String bLang) {
 		super();
 		this.bId = bId;
 		this.uId = uId;
@@ -24,6 +25,7 @@ public class BookBean {
 		this.bPrice = bPrice;
 		this.bPageCounts = bPageCounts;
 		this.imgName = imgName;
+		this.bLang = bLang;
 	}
 
 	public String getImgName() {
@@ -61,5 +63,9 @@ public class BookBean {
 
 	public int getbPageCounts() {
 		return bPageCounts;
+	}
+
+	public String getbLang() {
+		return bLang;
 	}
 }

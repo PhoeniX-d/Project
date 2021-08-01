@@ -40,7 +40,7 @@
 					href="<%=request.getContextPath()%>/welcome.jsp">Home </a></li>
 				<li class="nav-item"><a
 					class="btn btn-outline-secondary my-2 my-sm-0"
-					href="./loginServlet/listBooks">My Books</a></li>
+					href="./loginServlet/listBooks">MyBooks</a></li>
 			</ul>
 			<div class="form-inline my-2 my-lg-0">
 				<ul class="navbar-nav mr-auto">
@@ -77,6 +77,18 @@
 				<div class="form-group">
 					<label for="bpages">Total Pages</label> <input type="number"
 						class="form-control" name="bpages">
+				</div>
+				<div class="form-group">
+					<label for="blang">Select Language</label> <select name="blang"
+						class="form-select form-select-sm"
+						aria-label=".form-select-sm example">
+						<option selected>Select Language</option>
+						<option value="English">English</option>
+						<option value="Hindi">Hindi</option>
+						<option value="Marathi">Marathi</option>
+						<option value="German">German</option>
+						<option value="Spanish">Spanish</option>
+					</select>
 				</div>
 				<div>
 					<label for="bauthorimg">Author Image</label> <input id="bauthorimg"
