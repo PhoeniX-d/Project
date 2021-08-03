@@ -123,6 +123,9 @@ public class BooksInfoServlet extends HttpServlet {
 		}
 
 		String imgName = getImagePath(request);
+		if (blang == null || blang.isEmpty()) {
+			blang = "English";
+		}
 		BookBean book = new BookBean(0, userid, bname, bauthor, bcategory, bprice, bpages, imgName, blang);
 		bookDAO.insertBook(book);
 		response.sendRedirect("./loginServlet/listBooks");

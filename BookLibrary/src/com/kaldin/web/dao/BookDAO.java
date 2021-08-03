@@ -36,7 +36,8 @@ public class BookDAO {
 
 	// code to insert values into BOOKs database
 	public void insertBook(BookBean book) {
-		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(INSERT_NEW_BOOK)) {
+		Connection con = getCon.getConnection();
+		try (PreparedStatement pst = con.prepareStatement(INSERT_NEW_BOOK)) {
 			// inserting book's id
 			pst.setInt(1, book.getuId());
 
@@ -75,7 +76,8 @@ public class BookDAO {
 	// code to fetch book's information
 	public BookBean selectABooks(int bookid) throws IOException {
 		BookBean book = null;
-		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(SELECT_A_BOOKS)) {
+		Connection con = getCon.getConnection();
+		try (PreparedStatement pst = con.prepareStatement(SELECT_A_BOOKS)) {
 			pst.setInt(1, bookid);
 			ResultSet rs = pst.executeQuery();
 			// | bid | bname| bauthor | bcategory | bprice | bpages | imgpath | language
@@ -100,7 +102,8 @@ public class BookDAO {
 	// code to fetch all Books information
 	public List<BookBean> selectAllBooks(int userid) throws IOException {
 		List<BookBean> books = new ArrayList<>();
-		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(SELECT_ALL_BOOKS)) {
+		Connection con = getCon.getConnection();
+		try (PreparedStatement pst = con.prepareStatement(SELECT_ALL_BOOKS)) {
 			pst.setInt(1, userid);
 			ResultSet rs = pst.executeQuery();
 			// | bid | bname| bauthor | bcategory | bprice | bpages | imgpath | language
@@ -125,7 +128,8 @@ public class BookDAO {
 	// code to fetch all Books information
 	public String viewAuthor(int bid) throws IOException {
 		String imagePath = null;
-		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(VIEW_AUTHOR)) {
+		Connection con = getCon.getConnection();
+		try (PreparedStatement pst = con.prepareStatement(VIEW_AUTHOR)) {
 			pst.setInt(1, bid);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next()) {
@@ -139,7 +143,8 @@ public class BookDAO {
 
 	// code to edit authors image
 	public void editAuthor(int bid, String imgpath) throws IOException {
-		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(EDIT_AUTHOR)) {
+		Connection con = getCon.getConnection();
+		try (PreparedStatement pst = con.prepareStatement(EDIT_AUTHOR)) {
 			pst.setInt(2, bid);
 			pst.setString(1, imgpath);
 			pst.executeUpdate();
@@ -151,7 +156,8 @@ public class BookDAO {
 	// code to delete a Book from database
 	public boolean deleteABook(int bid) {
 		boolean rowDeleted = false;
-		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(DELETE_A_BOOK)) {
+		Connection con = getCon.getConnection();
+		try (PreparedStatement pst = con.prepareStatement(DELETE_A_BOOK)) {
 			pst.setInt(1, bid);
 			rowDeleted = pst.executeUpdate() > 0;
 		} catch (SQLException e) {
@@ -163,7 +169,8 @@ public class BookDAO {
 	// code to update Book information
 	public boolean updateBook(BookBean book) {
 		boolean rowUpdated = false;
-		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(UPDATE_BOOK)) {
+		Connection con = getCon.getConnection();
+		try (PreparedStatement pst = con.prepareStatement(UPDATE_BOOK)) {
 			pst.setString(1, book.getbName());
 			pst.setString(2, book.getbAuthor());
 			pst.setString(3, book.getbCategory());

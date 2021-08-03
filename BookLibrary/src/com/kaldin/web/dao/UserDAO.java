@@ -40,7 +40,8 @@ public class UserDAO {
 	// code to validate user credentials
 	public int check(String uemail, String upwd) {
 		int ret = 0;
-		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(CHECK_CREDS1)) {
+		Connection con = getCon.getConnection();
+		try (PreparedStatement pst = con.prepareStatement(CHECK_CREDS1)) {
 			pst.setString(1, uemail);
 			pst.setString(2, upwd);
 			ResultSet rs = pst.executeQuery();
@@ -52,7 +53,7 @@ public class UserDAO {
 		}
 
 		if (ret == 0) {
-			try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(CHECK_CREDS2)) {
+			try (PreparedStatement pst = con.prepareStatement(CHECK_CREDS2)) {
 				pst.setString(1, uemail);
 				ResultSet rs = pst.executeQuery();
 				if (rs.next()) {
@@ -68,8 +69,9 @@ public class UserDAO {
 	// code to get Id from database using uemail
 	public int getId(String userEmail) {
 		int uid = 0;
+		Connection con = getCon.getConnection();
 		// try with resources
-		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(GET_ID)) {
+		try (PreparedStatement pst = con.prepareStatement(GET_ID)) {
 			pst.setString(1, userEmail);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next())
@@ -84,7 +86,8 @@ public class UserDAO {
 	// code to get user name from database to greet
 	public String getName(String userEmail) {
 		String userName = null;
-		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(GET_NAME)) {
+		Connection con = getCon.getConnection();
+		try (PreparedStatement pst = con.prepareStatement(GET_NAME)) {
 			pst.setString(1, userEmail);
 			ResultSet rs = pst.executeQuery();
 			if (rs.next())
@@ -98,7 +101,8 @@ public class UserDAO {
 
 	// code to insert values into users database
 	public void insertUser(UserBean user) {
-		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(INSERT_NEW_USER)) {
+		Connection con = getCon.getConnection();
+		try (PreparedStatement pst = con.prepareStatement(INSERT_NEW_USER)) {
 			// inserting user name
 			pst.setString(1, user.getuName());
 
@@ -124,7 +128,8 @@ public class UserDAO {
 	// code to fetch all users information
 	public List<UserBean> selectAllUsers() {
 		List<UserBean> users = new ArrayList<>();
-		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(SELECT_ALL_USERS)) {
+		Connection con = getCon.getConnection();
+		try (PreparedStatement pst = con.prepareStatement(SELECT_ALL_USERS)) {
 			ResultSet rs = pst.executeQuery();
 
 			// uid | uname | upwd | uemail | umob
@@ -145,8 +150,8 @@ public class UserDAO {
 	// code to delete a user from database
 	public void deleteAUser(String userEmail) {
 		int uid = getId(userEmail);
-		try (Connection con = getCon.getConnection();
-				PreparedStatement pst = con.prepareStatement(DELETE_A_USER);
+		Connection con = getCon.getConnection();
+		try (PreparedStatement pst = con.prepareStatement(DELETE_A_USER);
 				PreparedStatement pst1 = con.prepareStatement(DELETE_A_USER_BOOKS)) {
 			pst1.setInt(1, uid);
 			pst.setInt(1, uid);
@@ -160,7 +165,9 @@ public class UserDAO {
 	// code to update user information
 	public boolean updateUser(UserBean user) {
 		boolean rowUpdated = false;
-		try (Connection con = getCon.getConnection(); PreparedStatement pst = con.prepareStatement(UPDATE_USER)) {
+		Connection con = getCon.getConnection();
+
+		try (PreparedStatement pst = con.prepareStatement(UPDATE_USER)) {
 			pst.setString(1, user.getuName());
 			pst.setString(2, user.getuPwd());
 			pst.setString(3, user.getuEmail());

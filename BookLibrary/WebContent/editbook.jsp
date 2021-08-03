@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!doctype html>
 <html lang="en">
 <head>
@@ -13,8 +14,8 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
 <link href="../css/update_style.css" rel="stylesheet" type="text/css" />
 <title>EditBook</title>
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 </head>
-
 <body>
 	<%
 		response.setHeader("Cache-Control", "no-cache");
@@ -44,7 +45,7 @@
 			<div class="form-inline my-2 my-lg-0">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item"><a class="nav-link"
-						href="<%=request.getContextPath()%>/WEB-INF/jsp/updateform.jsp">Edit
+						href="<%=request.getContextPath()%>updateform.jsp">Edit
 							Profile<span class="sr-only"></span>
 					</a></li>
 				</ul>
@@ -88,12 +89,12 @@
 					<label for="blang">Select Language</label> <select name="blang"
 						class="form-select form-select-sm"
 						aria-label=".form-select-sm example">
-						<option value="${book.bLang}">${book.bLang}</option>
-						<option value="English">English</option>
+						<option value="${book.bLang}" selected>${book.bLang}</option>
 						<option value="Hindi">Hindi</option>
 						<option value="Marathi">Marathi</option>
-						<option value="German">German</option>
 						<option value="Spanish">Spanish</option>
+						<option value="German">German</option>
+						<option value="English">English</option>
 					</select>
 				</div>
 				<div class="position-absolute">
@@ -105,4 +106,14 @@
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+	var code = {};
+	$("select[name='blang'] > option").each(function() {
+		if (code[this.text]) {
+			$(this).remove();
+		} else {
+			code[this.text] = this.value;
+		}
+	});
+</script>
 </html>

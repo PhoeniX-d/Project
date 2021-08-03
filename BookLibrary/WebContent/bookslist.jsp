@@ -16,18 +16,43 @@
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
 
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script type="text/javascript"
+	src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript"
+	src="//cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js">
+	
+</script>
 <script
+	src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.colVis.min.js"></script>
+
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js">
+	
+</script>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js">
+	
+</script>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js">
+	
+</script>
+<script type="text/javascript"
+	src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js">
+	
+</script>
+<script type="text/javascript"
+	src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js">
+	
+</script>
+<script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
 
-<script
+<script type="text/javascript"
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
 
-<script
-	src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-
-<script
+<script type="text/javascript"
 	src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
 
 <title>Books</title>
@@ -73,83 +98,119 @@
 			</div>
 		</div>
 	</nav>
-	<div class="row">
-		<div class="container">
-			<br>
-			<div class="container text-left">
-				<a href="<%=request.getContextPath()%>/addbook.jsp"
-					class="btn btn-success">Add New Book</a>
-			</div>
-			<br>
-			<table class="table table-bordered mydatatable" style="width: 100%">
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>Name</th>
-						<th>Author</th>
-						<th>Category</th>
-						<th>Language</th>
-						<th>Price</th>
-						<th>Pages</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="book" items="${listBooks}">
-						<tr>
-							<td><c:out value="${book.bId}" /></td>
-							<td><c:out value="${book.bName}" /></td>
-							<td><c:out value="${book.bAuthor}" /></td>
-							<td><c:out value="${book.bCategory}" /></td>
-							<td><c:out value="${book.bLang}" /></td>
-							<c:set var="bPrice" value="${book.bPrice}" />
-							<c:choose>
-								<c:when test="${bPrice eq '-1'}">
-									<td><c:out value="-" /></td>
-								</c:when>
-								<c:otherwise>
-									<td><c:out value="${bPrice}" /></td>
-								</c:otherwise>
-							</c:choose>
-							<c:set var="bPages" value="${book.bPageCounts}" />
-							<c:choose>
-								<c:when test="${bPages eq '-1'}">
-									<td><c:out value="-" /></td>
-								</c:when>
-								<c:otherwise>
-									<td><c:out value="${bPages}" /></td>
-								</c:otherwise>
-							</c:choose>
-							<td><a href="./editBookInfo?bid=${book.bId}">Edit </a>
-								&nbsp;&nbsp; <a href="./deleteBook?bid=${book.bId}">Delete</a>&nbsp;&nbsp;
-								<a
-								href="./viewAuthor?bid=${book.bId}&bname=${book.bName}&bauthor=${book.bAuthor}">View
-									Author</a></td>
-						</tr>
-					</c:forEach>
-				</tbody>
-				<tfoot>
-					<tr>
-						<th>ID</th>
-						<th>Name</th>
-						<th>Author</th>
-						<th>Category</th>
-						<th>Price</th>
-						<th>Pages</th>
-						<th>Action</th>
-					</tr>
-				</tfoot>
-			</table>
+	<div class="container">
+		<br>
+		<div class="container text-center">
+			<a href="<%=request.getContextPath()%>/addbook.jsp"
+				class="btn btn-success">Add New Book</a>
 		</div>
+		<br>
+		<table class="table table-bordered mydatatable" style="width: 100%">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Author</th>
+					<th>Category</th>
+					<th>Language</th>
+					<th>Price</th>
+					<th>Pages</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="book" items="${listBooks}">
+					<tr>
+						<td><c:out value="${book.bId}" /></td>
+						<td><c:out value="${book.bName}" /></td>
+						<td><c:out value="${book.bAuthor}" /></td>
+						<td><c:out value="${book.bCategory}" /></td>
+						<td><c:out value="${book.bLang}" /></td>
+						<c:set var="bPrice" value="${book.bPrice}" />
+						<c:choose>
+							<c:when test="${bPrice eq '-1'}">
+								<td><c:out value="-" /></td>
+							</c:when>
+							<c:otherwise>
+								<td><c:out value="${bPrice}" /></td>
+							</c:otherwise>
+						</c:choose>
+						<c:set var="bPages" value="${book.bPageCounts}" />
+						<c:choose>
+							<c:when test="${bPages eq '-1'}">
+								<td><c:out value="-" /></td>
+							</c:when>
+							<c:otherwise>
+								<td><c:out value="${bPages}" /></td>
+							</c:otherwise>
+						</c:choose>
+						<td><a href="./editBookInfo?bid=${book.bId}">Edit </a>
+							&nbsp;&nbsp; <a href="./deleteBook?bid=${book.bId}">Delete</a>&nbsp;&nbsp;
+							<a
+							href="./viewAuthor?bid=${book.bId}&bname=${book.bName}&bauthor=${book.bAuthor}">View
+								Author</a></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+			<tfoot style="display:">
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Author</th>
+					<th>Category</th>
+					<th>Language</th>
+					<th>Price</th>
+					<th>Pages</th>
+					<th>Action</th>
+				</tr>
+			</tfoot>
+		</table>
 	</div>
 	<script type="text/javascript">
-		$('.mydatatable').DataTable({
-			pagingType : 'full_numbers',
-			lengthMenu : [ [ 5, 10, 15, -1 ], [ 5, 10, 15, "All" ] ],
-			scrollY : 400,
-			scrollX : true,
-			scrollCollapse : true
-		});
+	$(document).ready(function() {
+    $('.mydatatable').DataTable( {
+    	"lengthMenu" : [ [ 5, 10, 15, -1 ],[ 5, 10, 15, "All" ] ],
+    	dom : "<'row'<'col-sm-3'l><'col-sm-5 text-center'B><'col-sm-4'f>>"
+			+ "<'row'<'col-sm-12'rt>>"
+			+ "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+			buttons : [ 
+					{
+					extend : 'excel',
+					text : 'Save as Excel',
+					exportOptions : {
+						columns : [ 0, 1, 2, 3, 4, 5, 6 ]
+					}
+				}, {
+					extend : 'pdf',
+					text : 'Save as PDF',
+					exportOptions : {
+						columns : [ 0, 1, 2, 3, 4, 5, 6 ]
+					}
+				}, ],
+    	scrollX : 400,
+    	scrollY : true,
+        initComplete: function () {
+            this.api().columns(4).every( function () {
+                var column = this;
+                	var select = $('<select><option value="">Language</option></select>')
+                    .appendTo( $(column.header()).empty() )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+ 
+                        column
+                            .search( val ? '^'+val+'$' : '', true, false )
+                            .draw();
+                    } );
+ 
+                column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+            } );
+        }
+    } );
+} );
 	</script>
 </body>
 
