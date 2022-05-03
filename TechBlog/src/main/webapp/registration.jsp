@@ -24,7 +24,7 @@
 <body>
 
 	<!-- Navbar -->
-	<%@include file="generic_navbar.html"%>
+	<%@include file="general_navbar.jsp"%>
 
 	<main
 		class="d-flex align-items-center primary-background banner-background"
@@ -111,7 +111,6 @@
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script>
 		$(document).ready(function() {
-			console.log("Registration Page Loaded...")
 			$('#regform').on('submit', function(event) {
 
 				event.preventDefault();

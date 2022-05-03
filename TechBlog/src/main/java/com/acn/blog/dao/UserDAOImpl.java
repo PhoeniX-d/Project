@@ -29,6 +29,8 @@ public class UserDAOImpl implements UserDAO {
 			userEntity.setMobileno(userBean.getMobileno());
 			if (userBean.getProfile() != null) {
 				userEntity.setProfile(userBean.getProfile());
+			} else {
+				userEntity.setProfile("default.png");
 			}
 
 			// begin
@@ -59,9 +61,34 @@ public class UserDAOImpl implements UserDAO {
 		return null;
 	}
 
-	public Boolean updateUser(UserBean bean) throws Exception {
+	public Boolean updateUser(UserBean userBean) throws Exception {
+		Boolean isUpdated = false;
+		EntityManager entityManager = null;
+		try {
+			EntityManagerFactory entityMangerFactory = BlogUtility.getEntityManagerFactory();
+			entityManager = entityMangerFactory.createEntityManager();
 
-		return null;
+			UserEntity userEntity = entityManager.find(UserEntity.class, userBean.getId());
+			if (userEntity != null) {
+				entityManager.getTransaction().begin();
+				userEntity.setEmail(userBean.getEmail());
+				userEntity.setName(userBean.getName());
+				userEntity.setPassword(userBean.getPassword());
+				userEntity.setMobileno(userBean.getMobileno());
+				userEntity.setProfile(userBean.getProfile());
+
+				entityManager.getTransaction().commit();
+				isUpdated = true;
+			}
+
+		} catch (Exception exception) {
+			throw exception;
+		} finally {
+			if (entityManager != null) {
+				entityManager.close();
+			}
+		}
+		return isUpdated;
 	}
 
 	public UserBean getUserByEmailAndPassword(String email, String password) throws Exception {
@@ -94,6 +121,37 @@ public class UserDAOImpl implements UserDAO {
 
 				}
 			} catch (NoResultException nre) {
+			}
+
+		} catch (Exception exception) {
+			throw exception;
+		} finally {
+			if (entityManager != null) {
+				entityManager.close();
+			}
+		}
+		return userBean;
+	}
+
+	@Override
+	public UserBean getUserById(Integer uid) throws Exception {
+		UserBean userBean = null;
+		EntityManager entityManager = null;
+		try {
+			EntityManagerFactory entityMangerFactory = BlogUtility.getEntityManagerFactory();
+			entityManager = entityMangerFactory.createEntityManager();
+
+			UserEntity userEntity = entityManager.find(UserEntity.class, uid);
+			if (userEntity != null) {
+				userBean = new UserBean();
+				userBean.setId(userEntity.getId());
+				userBean.setName(userEntity.getName());
+				userBean.setGender(userEntity.getGender());
+				userBean.setEmail(userEntity.getEmail());
+				userBean.setPassword(userEntity.getPassword());
+				userBean.setMobileno(userEntity.getMobileno());
+				userBean.setCreateDate(userEntity.getCreateDate());
+				userBean.setProfile(userEntity.getProfile());
 			}
 
 		} catch (Exception exception) {

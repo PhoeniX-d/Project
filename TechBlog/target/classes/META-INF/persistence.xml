@@ -6,6 +6,10 @@
 	<persistence-unit name="TechBlog">
 		<description>TechBlog</description>
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<class>com.acn.blog.entity.CategoryEntity</class>
+		<class>com.acn.blog.entity.CommentEntity</class>
+		<class>com.acn.blog.entity.LikeEntity</class>
+		<class>com.acn.blog.entity.PostEntity</class>
 		<class>com.acn.blog.entity.UserEntity</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver"

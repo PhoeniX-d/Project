@@ -1,5 +1,9 @@
 package com.acn.blog.utility;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -48,4 +52,29 @@ public class BlogUtility {
 		}
 	}
 
+	public static Boolean deleteFile(String path) {
+		Boolean isFileDeleted = false;
+		try {
+			File file = new File(path);
+			isFileDeleted = file.delete();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return isFileDeleted;
+	}
+
+	public static Boolean saveFile(InputStream is, String path) {
+		Boolean isFileSaved = false;
+		try {
+			byte[] data = new byte[is.available()];
+			is.read(data);
+			FileOutputStream fos = new FileOutputStream(path);
+			fos.write(data);
+			fos.flush();
+			fos.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return isFileSaved;
+	}
 }

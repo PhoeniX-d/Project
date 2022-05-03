@@ -7,7 +7,7 @@ import com.acn.blog.beans.UserBean;
 public interface UserService {
 
 	// INSERT
-	Integer insertUser(UserBean bean) throws Exception;
+	Integer insertUser(UserBean userBean) throws Exception;
 
 	// SELECT
 	List<UserBean> getAllUsers() throws Exception;
@@ -16,8 +16,11 @@ public interface UserService {
 	Boolean deleteUser(Integer userId) throws Exception;
 
 	// UPDATE
-	Boolean updateUser(UserBean bean) throws Exception;
+	Boolean updateUser(UserBean userBean) throws Exception;
 
 	// GET USER BY EMAIL & PASSWORD
 	UserBean getUserByEmailAndPassword(String email, String password) throws Exception;
+
+	// GET USER BY ID
+	UserBean getUserById(Integer uid) throws Exception;
 }

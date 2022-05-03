@@ -1,19 +1,26 @@
+<%@page import="java.text.DateFormat"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page
 	import="com.acn.blog.beans.*, com.acn.blog.service.*, com.acn.blog.utility.*, java.util.List, java.text.*"%>
-<%@ page isErrorPage="true" errorPage="errorpage.jsp"%>
+<%@ page errorPage="errorpage.jsp"%>
 <%
 	UserBean user = (UserBean) session.getAttribute("currentuser");
 	if (user == null) {
 		response.sendRedirect("login.jsp");
 	}
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%
+	Integer pid = Integer.parseInt(request.getParameter("pid"));
+	PostService postService = Factory.getPostService();
+	PostBean postBean = postService.getPostByPid(pid);
+	if (postBean != null) {
+%>
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>User Profile</title>
+<title><%=postBean.getTitle()%></title>
 <!-- CSS -->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
@@ -23,6 +30,10 @@
 <link href="css/mystyle.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script src="js/like.js" type="text/javascript"></script>
+<script src="js/comment.js" type="text/javascript"></script>
+
 <style>
 .banner-background {
 	clip-path: polygon(30% 0%, 70% 0%, 100% 0, 100% 90%, 74% 100%, 43% 92%, 0 100%, 0 0
@@ -37,84 +48,42 @@ body {
 </style>
 </head>
 <body>
-
 	<!-- Navbar -->
 	<nav class="navbar navbar-expand-lg navbar-dark primary-background">
-	<div class="container-fluid">
-		<a class="navbar-brand" href="index.jsp"><span
-			class="fa fa-graduation-cap"></span> Tech-Blog</a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-			data-bs-target="#navbarSupportedContent"
-			aria-controls="navbarSupportedContent" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-				<li class="nav-item"><a class="nav-link active"
-					aria-current="page" href="index.jsp"><span class="fa fa-home"></span>
-						Home</a></li>
-				<li class="nav-item"><a class="nav-link" aria-current="page"
-					href="#!" data-bs-toggle="modal" data-bs-target="#contact-modal"><span
-						class="fa fa-phone-square"></span> Contact Us</a></li>
-				<li class="nav-item"><a class="nav-link" href="#!"
-					data-bs-toggle="modal" data-bs-target="#addpost-modal"><span
-						class="fa fa-newspaper-o"></span> Add Post</a></li>
-			</ul>
-			<ul class="navbar-nav mr-right">
-				<!-- Link trigger modal -->
-				<li class="nav-item"><a class="nav-link active" aria-current="page"
-					href="#!" data-bs-toggle="modal" data-bs-target="#profile-modal"><span
-						class="fa fa-user-circle"></span> <%=user.getName()%></a></li>
-				<li class="nav-item"><a class="nav-link" aria-current="page"
-					href="LogoutServlet"><span class="fa fa-sign-out"></span>
-						Logout</a></li>
-			</ul>
+		<div class="container-fluid">
+			<a class="navbar-brand" href="index.jsp"><span
+				class="fa fa-graduation-cap"></span> Tech-Blog</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item"><a class="nav-link" aria-current="page"
+						href="profile.jsp"><span class="fa fa-home"></span> Home</a></li>
+					<li class="nav-item"><a class="nav-link" aria-current="page"
+						href="#!" data-bs-toggle="modal" data-bs-target="#contact-modal"><span
+							class="fa fa-phone-square"></span> Contact Us</a></li>
+					<li class="nav-item"><a class="nav-link" href="#!"
+						data-bs-toggle="modal" data-bs-target="#addpost-modal"><span
+							class="fa fa-newspaper-o"></span> Add Post</a></li>
+				</ul>
+				<ul class="navbar-nav mr-right">
+					<!-- Link trigger modal -->
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="#!" data-bs-toggle="modal"
+						data-bs-target="#profile-modal"><span
+							class="fa fa-user-circle"></span> <%=user.getName()%></a></li>
+					<li class="nav-item"><a class="nav-link" aria-current="page"
+						href="LogoutServlet"><span class="fa fa-sign-out"></span>
+							Logout</a></li>
+				</ul>
+			</div>
 		</div>
-	</div>
 	</nav>
 	<!-- End Of Navbar -->
-
-	<!-- Start of Main -->
-	<main style="padding:1%;">
-	<div class="conatiner-fluid">
-		<div class="row">
-			<!-- First column -->
-			<div class="col-md-2">
-				<!-- Categories -->
-				<div class="list-group">
-					<a href="#" onclick="getPosts(0, this)"
-						class="list-group-item list-group-item-action active cat-link"
-						aria-current="true"> All Categories </a>
-					<!-- Categories from DB -->
-					<%
-						CategoryService service = Factory.getCategoryService();
-						List<CategoryBean> categoryBeans = service.getAllCategories();
-						for (CategoryBean categoryBean : categoryBeans) {
-					%>
-					<a href="#" onclick="getPosts(<%=categoryBean.getCid()%>, this)"
-						class="list-group-item list-group-item-action cat-link"><%=categoryBean.getCname()%></a>
-					<%
-						}
-					%>
-				</div>
-			</div>
-
-			<!-- Second column -->
-			<div class="col-md-10">
-				<!-- Posts -->
-				<div class="container text-center" id="loader">
-					<i class="fa fa-refresh fa-4x fa-spin"></i>
-					<h3 class="mt-3">Loading...</h3>
-				</div>
-				<!-- Posts from DB -->
-				<div class="container-fluid" id="postcontainer"></div>
-			</div>
-		</div>
-	</div>
-	</main>
-	<!-- End of Main -->
-
 	<!-- Profile Modal -->
 	<div class="modal fade" id="profile-modal" tabindex="-1" s
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -127,6 +96,7 @@ body {
 				</div>
 				<div class="modal-body">
 					<div class="container text-center">
+						<%-- <%=request.getServletContext().getRealPath("/")%>profiles<%=File.separator + user.getProfile()%> --%>
 						<img src="profiles/<%=user.getProfile()%>" class="img-fluid"
 							style="border-radius: 50%; max-width: 150px;"><br />
 						<h5 class="modal-title">
@@ -242,6 +212,88 @@ body {
 	</div>
 	<!-- End of Profile Modal -->
 
+	<!-- Main Content Start -->
+	<div class="container" style="padding: 3.5%;">
+		<div class="row">
+			<div class="col-md-10 offset-md-1">
+				<div class="card border border-info border-3">
+					<div class="card-header primary-background text-white text-center">
+						<h6 class="display-6"><%=postBean.getTitle()%>
+						</h6>
+					</div>
+					<div class="card-body">
+						<div class="text-center">
+							<img src="blogpics/<%=postBean.getPic()%>" class="card-img-top"
+								class="img-fluid"
+								style="width: 100%; max-width: 250px; padding: 1%; border-radius: 25%;"
+								onerror="this.onerror=null; this.src='blogpics/default.png'">
+						</div>
+						<div class="row my-1"
+							style="font-weight: bold; font-style: italic;">
+							<div class="col-md-9">
+								<p>
+									<%
+										UserService userService = Factory.getUserService();
+											UserBean userBean = userService.getUserById(postBean.getUid());
+											LikeService likeService = Factory.getLikeService();
+											CommentService commentService = Factory.getCommentService();
+									%>
+									Post By,
+									<%=userBean.getName()%>
+								</p>
+							</div>
+							<div class="col-md-3">
+								<p class="text-end">
+									<%=DateFormat.getDateTimeInstance().format(postBean.getPostedDate())%></p>
+							</div>
+
+						</div>
+						<p class="post-content"><%=postBean.getContent()%></p>
+
+						<div class="post-code">
+							<p style="font-weight: bold; font-style: italic;">Code
+								Example</p>
+							<pre class="border border-info text-start" style="padding: 1%;"><%=postBean.getCode()%></pre>
+						</div>
+					</div>
+					<div class="card-footer text-end primary-background">
+						<a href="postdetails.jsp?pid=<%=pid%>"
+							class="btn btn-sm btn-outline-info text-white">Read More..</a> <a
+							href="#!" onClick="doLike(<%=pid%>, <%=user.getId()%>)"
+							class="btn btn-sm btn-outline-info text-white"><i
+							class="fa fa-thumbs-o-up"></i><span class="like-counter-<%=pid%>">
+								<%=likeService.countLikesOnPost(pid)%></span></a> <a href="#!"
+							class="btn btn-sm btn-outline-info  text-white" id="commentbtn"><i
+							class="fa fa-comments"></i><span class="comment-counter-<%=pid%>">
+								<%=commentService.countCommentsOnPost(pid)%></span></a>
+					</div>
+
+					<div class="container text-center" id="commentsloader">
+						<i class="fa fa-refresh fa-3x fa-spin mt-3"></i>
+						<h3 class="mt-2">Loading Comments...</h3>
+					</div>
+					<!-- Comments from DB -->
+					<div class="container-fluid" id="commentscontainer"></div>
+					<div class="container" style="padding: 1%;" id="commentsdiv">
+						<form id="commentform" method="POST" class="form-group">
+							<div class="form-floating">
+								<textarea class="form-control" id="comments" name="comments"
+									style="height: 100px;"></textarea>
+								<label for="comments">Add Comments</label>
+							</div>
+							<div class="container text-center my-2">
+								<button onclick="doComment(<%=pid%>,<%=user.getId()%>)"
+									type="submit" class="btn primary-background text-white "
+									id="submitcomments">submit</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Main Content End -->
+
 	<!-- Start of Add Post Modal -->
 	<!-- Modal -->
 	<div class="modal fade" id="addpost-modal" tabindex="-1"
@@ -260,9 +312,9 @@ body {
 							<select class="form-control" name="cid">
 								<option selected disabled>--- SELECT CATEGORY---</option>
 								<%
-									service = Factory.getCategoryService();
-									categoryBeans = service.getAllCategories();
-									for (CategoryBean categoryBean : categoryBeans) {
+									CategoryService service = Factory.getCategoryService();
+										List<CategoryBean> categoryBeans = service.getAllCategories();
+										for (CategoryBean categoryBean : categoryBeans) {
 								%>
 								<option value="<%=categoryBean.getCid()%>"><%=categoryBean.getCname()%></option>
 								<%
@@ -298,8 +350,7 @@ body {
 		</div>
 	</div>
 	<!-- End of Add Post Modal -->
-
-	<!-- Start of Contact Modal -->
+	!-- Start of Contact Modal -->
 	<div class="modal fade" id="contact-modal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -391,7 +442,7 @@ body {
 		});
 	</script>
 
-	<!-- Add Post JS -->
+	<!-- Now Add Post JS -->
 	<script type="text/javascript">
 		$(document).ready(function(e) {
 			// Forward Data via Ajax
@@ -489,6 +540,30 @@ body {
 			getPosts(0, allPostRefs);
 		})
 	</script>
-	<script src="js/like.js" type="text/javascript"></script>
+
+	<!-- Loading Comments Using Ajax -->
+	<script type="text/javascript">
+		function getComments(postId){
+			$("#commentsloader").show();
+			$("#commentscontainer").hide();
+			
+			$.ajax({
+				url: "loadcomments.jsp",
+				data: {pid:postId},
+				success: function(data, textStatus, jqXHR){
+					$("#commentsloader").hide();
+					$("#commentscontainer").show();
+					$("#commentscontainer").html(data);
+				}
+			})
+		}
+		
+		$(document).ready(function(f){
+			getComments(<%=postBean.getPid()%>);
+		})
+	</script>
 </body>
 </html>
+<%
+	}
+%>

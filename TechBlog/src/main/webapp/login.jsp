@@ -25,7 +25,7 @@
 
 <body>
 	<!-- Navbar -->
-	<%@include file="generic_navbar.html"%>
+	<%@include file="general_navbar.jsp"%>
 
 	<!-- Login Form  -->
 	<main
@@ -43,8 +43,7 @@
 						Message msg = (Message) session.getAttribute("msg");
 						if (msg != null) {
 					%>
-					<div class="alert <%=msg.getCssClass()%> text-center"
-						role="alert">
+					<div class="alert <%=msg.getCssClass()%> text-center" role="alert">
 						<%=msg.getContent()%>
 					</div>
 					<%
@@ -89,7 +88,5 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
 		integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
 		crossorigin="anonymous"></script>
-	<script src="js/myjs.js" type="text/javascript"></script>
-
 </body>
 </html>
