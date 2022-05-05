@@ -1,6 +1,3 @@
-/**
- * 
- */
 function doLike(pid, uid) {
 	const likeObject = {
 		postid : pid,
@@ -16,6 +13,10 @@ function doLike(pid, uid) {
 			if (data.trim() === 'success') {
 				let counter = $('.like-counter-' + pid).html();
 				counter++;
+				$('.like-counter-' + pid).html(" " + counter);
+			} else if (data.trim() === 'error') {
+				let counter = $('.like-counter-' + pid).html();
+				counter--;
 				$('.like-counter-' + pid).html(" " + counter);
 			}
 		},

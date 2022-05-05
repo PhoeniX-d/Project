@@ -2,6 +2,7 @@ package com.acn.blog.service;
 
 import com.acn.blog.beans.LikeBean;
 import com.acn.blog.dao.LikeDAO;
+import com.acn.blog.dao.LikeDAOImpl;
 import com.acn.blog.utility.Factory;
 
 public class LikeServiceImpl implements LikeService {
@@ -21,9 +22,9 @@ public class LikeServiceImpl implements LikeService {
 	}
 
 	@Override
-	public Boolean isPostLikedByUser(Integer pid, Integer uid) throws Exception {
+	public Boolean isPostAlreadyLikedByUser(Integer pid, Integer uid) throws Exception {
 		likeDao = Factory.getLikeDAO();
-		return likeDao.isPostLikedByUser(pid, uid);
+		return likeDao.isPostAlreadyLikedByUser(pid, uid);
 	}
 
 	@Override
@@ -31,5 +32,4 @@ public class LikeServiceImpl implements LikeService {
 		likeDao = Factory.getLikeDAO();
 		return likeDao.deleteLike(pid, uid);
 	}
-
 }

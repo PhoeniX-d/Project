@@ -7,7 +7,7 @@ public interface LikeDAO {
 
 	Integer countLikesOnPost(Integer pid) throws Exception;
 
-	Boolean isPostLikedByUser(Integer pid, Integer uid) throws Exception;
+	Boolean isPostAlreadyLikedByUser(Integer pid, Integer uid) throws Exception;
 
 	Boolean deleteLike(Integer pid, Integer uid) throws Exception;
 }

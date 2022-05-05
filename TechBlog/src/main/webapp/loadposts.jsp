@@ -42,16 +42,13 @@
 			<div class="card-footer text-end text-end primary-background">
 				<a href="postdetails.jsp?pid=<%=pid%>"
 					class="btn btn-sm btn-outline-info text-white">Read More..</a> <a
-					href="#!" onClick="doLike(<%=pid%>, <%=userBean.getId()%>)"
-					class="btn btn-sm btn-outline-info text-white"
-					data-toggle="tooltip" data-placement="bottom" title="Total Likes"><i
+					href="#" onClick="doLike(<%=pid%>, <%=userBean.getId()%>)"
+					class="btn btn-sm btn-outline-info text-white"> <i
 					class="fa fa-thumbs-o-up"></i><span class="like-counter-<%=pid%>">
-						<%=likeService.countLikesOnPost(pid)%>
-				</span></a>
+						<%=likeService.countLikesOnPost(pid)%></span>
+				</a>
 				<button type="button"
-					class="btn btn-sm btn-outline-info  text-white" id="commentbtn"
-					data-toggle="tooltip" data-placement="bottom"
-					title="Total Comments">
+					class="btn btn-sm btn-outline-info  text-white" id="commentbtn">
 					<i class="fa fa-comments"></i><span
 						class="comment-counter-<%=pid%>"> <%=commentService.countCommentsOnPost(pid)%></span>
 				</button>

@@ -35,6 +35,7 @@ body {
 	background-attachment: fixed;
 }
 </style>
+<script src="js/like.js" type="text/javascript"></script>
 </head>
 <body>
 
@@ -63,9 +64,10 @@ body {
 			</ul>
 			<ul class="navbar-nav mr-right">
 				<!-- Link trigger modal -->
-				<li class="nav-item"><a class="nav-link active" aria-current="page"
-					href="#!" data-bs-toggle="modal" data-bs-target="#profile-modal"><span
-						class="fa fa-user-circle"></span> <%=user.getName()%></a></li>
+				<li class="nav-item"><a class="nav-link active"
+					aria-current="page" href="#!" data-bs-toggle="modal"
+					data-bs-target="#profile-modal"><span class="fa fa-user-circle"></span>
+						<%=user.getName()%></a></li>
 				<li class="nav-item"><a class="nav-link" aria-current="page"
 					href="LogoutServlet"><span class="fa fa-sign-out"></span>
 						Logout</a></li>
@@ -161,7 +163,7 @@ body {
 									</tr>
 									<tr>
 										<th scope="row">Registered on</th>
-										<td>: <%=user.getCreateDate().toString()%></td>
+										<td>: <%=DateFormat.getDateInstance().format(user.getCreateDate())%></td>
 									</tr>
 								</tbody>
 							</table>
@@ -489,6 +491,5 @@ body {
 			getPosts(0, allPostRefs);
 		})
 	</script>
-	<script src="js/like.js" type="text/javascript"></script>
 </body>
 </html>

@@ -259,13 +259,13 @@ body {
 					<div class="card-footer text-end primary-background">
 						<a href="postdetails.jsp?pid=<%=pid%>"
 							class="btn btn-sm btn-outline-info text-white">Read More..</a> <a
-							href="#!" onClick="doLike(<%=pid%>, <%=user.getId()%>)"
+							href="#!" onClick="doLike(<%=pid%>, <%=user.getId()%>, this)"
 							class="btn btn-sm btn-outline-info text-white"><i
-							class="fa fa-thumbs-o-up"></i><span class="like-counter-<%=pid%>">
-								<%=likeService.countLikesOnPost(pid)%></span></a> <a href="#!"
-							class="btn btn-sm btn-outline-info  text-white" id="commentbtn"><i
-							class="fa fa-comments"></i><span class="comment-counter-<%=pid%>">
-								<%=commentService.countCommentsOnPost(pid)%></span></a>
+							class="fa fa-thumbs-o-up"></i><span class="like-counter">
+								<%=likeService.countLikesOnPost(pid)%>
+						</span></a> <a href="#!" class="btn btn-sm btn-outline-info  text-white"
+							id="commentbtn"><i class="fa fa-comments"></i><span
+							class="comment-counter-<%=pid%>"> <%=commentService.countCommentsOnPost(pid)%></span></a>
 					</div>
 
 					<div class="container text-center" id="commentsloader">

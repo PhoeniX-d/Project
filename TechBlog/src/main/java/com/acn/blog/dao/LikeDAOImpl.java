@@ -1,5 +1,7 @@
 package com.acn.blog.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
@@ -19,17 +21,15 @@ public class LikeDAOImpl implements LikeDAO {
 		try {
 			EntityManagerFactory entityManagerFactory = BlogUtility.getEntityManagerFactory();
 			entityManager = entityManagerFactory.createEntityManager();
-
+			Integer pid = likeBean.getPostId();
+			Integer uid = likeBean.getUserId();
 			LikeEntity likeEntity = new LikeEntity();
-			likeEntity.setPostId(likeBean.getPostId());
-			likeEntity.setUserId(likeBean.getUserId());
-
+			likeEntity.setPostId(pid);
+			likeEntity.setUserId(uid);
 			entityManager.getTransaction().begin();
 			entityManager.persist(likeEntity);
 			entityManager.getTransaction().commit();
-
 			likeId = likeEntity.getLikeId();
-
 		} catch (Exception exception) {
 			throw exception;
 		} finally {
@@ -65,9 +65,10 @@ public class LikeDAOImpl implements LikeDAO {
 	}
 
 	@Override
-	public Boolean isPostLikedByUser(Integer pid, Integer uid) throws Exception {
-		Boolean isPostLikedByUser = false;
+	public Boolean isPostAlreadyLikedByUser(Integer pid, Integer uid) throws Exception {
+		Boolean isPostAlreadyLikedByUser = true;
 		EntityManager entityManager = null;
+		List<LikeEntity> likeEntities = null;
 		try {
 			EntityManagerFactory entityManagerFactory = BlogUtility.getEntityManagerFactory();
 			entityManager = entityManagerFactory.createEntityManager();
@@ -76,9 +77,9 @@ public class LikeDAOImpl implements LikeDAO {
 			query.setParameter(1, pid);
 			query.setParameter(2, uid);
 			try {
-				LikeEntity likeEntity = query.getSingleResult();
-				if (likeEntity != null) {
-					isPostLikedByUser = true;
+				likeEntities = query.getResultList();
+				if (likeEntities.size() == 0) {
+					isPostAlreadyLikedByUser = false;
 				}
 			} catch (NoResultException nre) {
 			}
@@ -89,7 +90,7 @@ public class LikeDAOImpl implements LikeDAO {
 				entityManager.close();
 			}
 		}
-		return isPostLikedByUser;
+		return isPostAlreadyLikedByUser;
 	}
 
 	@Override
@@ -99,12 +100,13 @@ public class LikeDAOImpl implements LikeDAO {
 		try {
 			EntityManagerFactory entityManagerFactory = BlogUtility.getEntityManagerFactory();
 			entityManager = entityManagerFactory.createEntityManager();
-			TypedQuery<LikeEntity> query = entityManager
-					.createQuery("DELETE FROM LikeEntity l WHERE l.postId = ?1 AND l.userId = ?2", LikeEntity.class);
+			Query query = entityManager.createQuery("DELETE FROM LikeEntity l WHERE l.postId = ?1 AND l.userId = ?2");
 			query.setParameter(1, pid);
 			query.setParameter(2, uid);
 			try {
+				entityManager.getTransaction().begin();
 				Integer count = query.executeUpdate();
+				entityManager.getTransaction().commit();
 				if (count != 0)
 					isLikeDeleted = true;
 			} catch (NoResultException nre) {
@@ -118,5 +120,4 @@ public class LikeDAOImpl implements LikeDAO {
 		}
 		return isLikeDeleted;
 	}
-
 }

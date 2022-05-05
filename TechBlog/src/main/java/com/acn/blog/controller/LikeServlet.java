@@ -31,13 +31,16 @@ public class LikeServlet extends HttpServlet {
 			Integer uid = Integer.parseInt(request.getParameter("userid"));
 			Integer pid = Integer.parseInt(request.getParameter("postid"));
 			if (operation.equals("like")) {
-				LikeBean likeBean = new LikeBean();
-				likeBean.setPostId(pid);
-				likeBean.setUserId(uid);
-				Integer likeId = likeService.addLikes(likeBean);
-				if (likeId != null) {
-					out.print("success");
+				if (likeService.isPostAlreadyLikedByUser(pid, uid) != true) {
+					LikeBean likeBean = new LikeBean();
+					likeBean.setPostId(pid);
+					likeBean.setUserId(uid);
+					Integer likeId = likeService.addLikes(likeBean);
+					if (likeId != null) {
+						out.print("success");
+					}
 				} else {
+					likeService.deleteLike(pid, uid);
 					out.print("error");
 				}
 			}
